@@ -11,6 +11,7 @@ const App: React.FC = () => {
   const [data, setData] = useState<PriceListData>(INITIAL_PRICE_DATA);
   const [memo, setMemo] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isPrinting, setIsPrinting] = useState(false);
   const [showEditor, setShowEditor] = useState(true);
   const [showGuide, setShowGuide] = useState(false);
   const [savedLists, setSavedLists] = useState<PriceListData[]>([]);
@@ -95,6 +96,16 @@ const App: React.FC = () => {
       XLSX.utils.book_append_sheet(wb, ws, clinicData.clinic.name.substring(0, 31));
     });
     XLSX.writeFile(wb, `歯科医院データ_${new Date().toISOString().slice(0,10)}.xlsx`);
+  };
+
+  // Androidでの不具合回避用：わずかに遅延させて印刷をキックする
+  const handlePrint = () => {
+    setIsPrinting(true);
+    // 状態が反映されるのを少し待ってから実行
+    setTimeout(() => {
+      window.print();
+      setIsPrinting(false);
+    }, 150);
   };
 
   const renderPriceInputs = (catId: string, itemIdx: number, price: string, themeColor: string) => {
@@ -207,7 +218,6 @@ const App: React.FC = () => {
               <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 text-2xl font-bold transition-transform active:scale-90">×</button>
             </div>
             <div className="p-8 space-y-10">
-              {/* 導入の背景と目的をガイドの最初に追加 */}
               <section className="bg-blue-50 p-6 rounded-2xl border border-blue-100 space-y-3">
                 <h3 className="font-black text-blue-800 text-lg flex items-center gap-2">
                   <span className="text-2xl">🎯</span> 導入の背景と目的
@@ -276,6 +286,9 @@ const App: React.FC = () => {
                   <p className="text-sm text-gray-600 leading-relaxed">
                     スマホで<span className="font-bold text-orange-600">「PDF出力」</span>を行い、保存したPDFをそのまま医院様に送付するか、事務担当者に送って印刷を依頼してください。
                   </p>
+                  <div className="bg-orange-50 p-4 rounded-xl text-[11px] text-orange-900 font-bold border border-orange-200">
+                    💡 Android/iPhoneでボタンが反応しない場合は、LINE等のアプリ内からではなく「Chrome」や「Safari」などのブラウザアプリで直接このURLを開いてみてください。
+                  </div>
                 </div>
               </section>
             </div>
@@ -430,8 +443,12 @@ const App: React.FC = () => {
           <button onClick={() => setShowEditor(!showEditor)} className="px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black shadow-sm transform active:scale-95 transition-all">
             {showEditor ? '← パネル閉じる' : '編集パネルを開く'}
           </button>
-          <button onClick={() => window.print()} className="bg-orange-600 text-white px-10 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1">
-            PDF出力・印刷
+          <button 
+            onClick={handlePrint} 
+            disabled={isPrinting}
+            className={`bg-orange-600 text-white px-10 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70 cursor-not-allowed translate-y-1 border-b-0' : ''}`}
+          >
+            {isPrinting ? '準備中...' : 'PDF出力・印刷'}
           </button>
         </div>
         <div className="flex justify-center p-4 print:p-0 print:block">
