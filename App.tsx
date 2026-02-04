@@ -287,22 +287,24 @@ const App: React.FC = () => {
       )}
 
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen ${!showEditor ? 'hidden' : ''}`}>
-        <div className="mb-6 border-b-2 border-gray-300 pb-4 flex justify-between items-start">
+        <div className="mb-6 bg-white p-4 rounded-2xl shadow-sm border border-gray-200 flex justify-between items-center">
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz Logo" className="h-6 object-contain" />
-              <h1 className="text-[14px] font-black text-gray-800 italic leading-tight">
+            <div className="flex items-center gap-3">
+              <div className="bg-white p-1 rounded-lg border border-gray-100 shadow-inner">
+                <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz Logo" className="h-8 object-contain" />
+              </div>
+              <h1 className="text-[13px] font-black text-gray-800 italic leading-tight">
                 営業部用<br/>料金表 作成ツール
               </h1>
             </div>
-            <p className="text-[9px] text-gray-400 uppercase tracking-[0.2em] font-bold ml-8">Sales Support System</p>
+            <p className="text-[8px] text-gray-400 uppercase tracking-[0.2em] font-bold ml-12">Sales Support System</p>
           </div>
           <button 
             onClick={() => setShowGuide(true)} 
-            className="flex flex-col items-center gap-0.5 bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1.5 rounded-lg transition-all border border-blue-200 shadow-sm transform active:scale-95"
+            className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-full transition-all border border-blue-100 shadow-sm transform active:scale-90"
           >
             <span className="text-lg font-bold leading-none">?</span>
-            <span className="text-[8px] font-black">使い方</span>
+            <span className="text-[7px] font-black">Help</span>
           </button>
         </div>
 
@@ -315,7 +317,7 @@ const App: React.FC = () => {
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl border-2 border-indigo-800">
           <div className="flex justify-between items-center mb-3">
             <label className="text-[11px] font-black text-white uppercase tracking-widest block">AI アシスタント</label>
-            <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold">無料枠内</span>
+            <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold uppercase tracking-tighter">Gemini 2.5 Flash</span>
           </div>
           
           <textarea 
