@@ -6,7 +6,7 @@ import PriceListRenderer from './components/PriceListRenderer';
 import { processMemoWithAI } from './services/geminiService';
 import * as XLSX from 'xlsx';
 
-const STORAGE_KEY = 'DENTAL_PRICE_LIST_STORE_V2';
+const STORAGE_KEY = 'DENTAL_PRICE_LIST_STORE_V3';
 
 const App: React.FC = () => {
   const [data, setData] = useState<PriceListData>(INITIAL_PRICE_DATA);
@@ -71,13 +71,6 @@ const App: React.FC = () => {
       alert(`${data.clinic.name} のデータを新規保存しました。`);
     }
     setSavedLists(newSavedLists);
-  };
-
-  const handleLoadClinic = (clinicData: PriceListData) => {
-    if (confirm(`${clinicData.clinic.name} のデータを読み込みますか？`)) {
-      setData(JSON.parse(JSON.stringify(clinicData)));
-      setMobileViewMode('edit');
-    }
   };
 
   const handleExportExcel = () => {
@@ -188,168 +181,89 @@ const App: React.FC = () => {
 
   const reps = ["寺町", "小山", "竹内", "今井", "松井", "佐藤", "田中", "鈴木", "高橋", "渡辺", "伊藤", "山本", "中村", "小林", "加藤"];
 
-  const aiPlaceholderText = `【AIへの指示の例】
-・医院名を「マイ・スターズ歯科」にして
-・担当者を「寺町」に変更
-・発行日を「2024年10月1日」にして
-・ジルコニア全項目を500円値上げ
-・インプラントの全項目を10%OFFにして`;
-
   return (
-    <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {showGuide && (
         <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-white/20">
+          <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center z-10 rounded-t-3xl">
-              <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
-                <span className="text-2xl">📖</span> 使い方・PDF出力ガイド
-              </h2>
-              <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold hover:bg-gray-200">×</button>
+              <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">📖 ガイド</h2>
+              <button onClick={() => setShowGuide(false)} className="text-2xl font-bold">×</button>
             </div>
-            
-            <div className="p-8 space-y-10">
-              <section>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-xl">🤖</div>
-                  <h3 className="text-lg font-black text-indigo-700">AIに指示して一括編集</h3>
-                </div>
-                <p className="text-sm text-gray-600 leading-relaxed ml-4">
-                  左側の紫色のAIアシスタント枠に「医院名」や「値上げ額」をメモしてボタンを押すだけで、全ページを自動更新します。
-                </p>
-              </section>
-
-              <section>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-xl">🖨️</div>
-                  <h3 className="text-lg font-black text-orange-700">スマホでのPDF保存手順</h3>
-                </div>
-                <div className="ml-4 space-y-4">
-                  <p className="text-sm text-gray-600 leading-relaxed font-bold">
-                    仕上がりを確認したら、以下の手順でPDFを保存してください。
-                  </p>
-                  <ol className="text-xs text-gray-600 space-y-3 list-decimal ml-4 bg-orange-50 p-5 rounded-2xl border border-orange-100 shadow-sm font-bold">
-                    <li>画面右上の <span className="text-orange-700 font-black">「PDF出力・印刷」</span> ボタンをタップ</li>
-                    <li>印刷プレビューで <span className="text-orange-700 font-black">「PDF形式で保存」</span> を選択</li>
-                    <li>右上の青い丸ボタン <span className="text-blue-700 font-black">「PDF」</span> をクリック</li>
-                    <li>ダウンロードフォルダが表示される</li>
-                    <li>右下の <span className="text-orange-700 font-black">「保存」</span> ボタンを押す</li>
-                  </ol>
-                  <p className="text-[10px] text-gray-500 italic ml-4">※上記作業で、スマホの「ダウンロード」フォルダに保存されます。</p>
-                </div>
-              </section>
-
-              <section>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl">📄</div>
-                  <h3 className="text-lg font-black text-blue-700">ページ構成（全4ページ）</h3>
-                </div>
-                <div className="grid grid-cols-2 gap-4 ml-4">
-                   <div className="bg-gray-50 p-4 rounded-xl border border-blue-100">
-                     <p className="text-[10px] font-black mb-2 border-b border-blue-200 text-blue-800 pb-1">【1枚目】</p>
-                     <p className="text-[9.5px] font-bold text-gray-700">表：表紙・インプラント</p>
-                     <p className="text-[9.5px] font-bold text-gray-700">裏：保険技工物 料金表</p>
-                   </div>
-                   <div className="bg-gray-50 p-4 rounded-xl border border-blue-100">
-                     <p className="text-[10px] font-black mb-2 border-b border-blue-200 text-blue-800 pb-1">【2枚目】</p>
-                     <p className="text-[9.5px] font-bold text-gray-700">表：自費義歯 料金一覧</p>
-                     <p className="text-[9.5px] font-bold text-gray-700">裏：自費歯冠修復 料金一覧</p>
-                   </div>
-                </div>
+            <div className="p-8 space-y-6">
+              <section className="bg-orange-50 p-6 rounded-2xl border border-orange-100">
+                <h3 className="font-black text-orange-700 mb-3">スマホでのPDF保存手順</h3>
+                <ol className="text-sm text-gray-700 space-y-2 list-decimal ml-4 font-bold">
+                  <li>「PDF出力」ボタンをタップ</li>
+                  <li>プレビューで「PDF形式で保存」を選択</li>
+                  <li>右上の青い丸ボタン「PDF」をクリック</li>
+                  <li>ダウンロードフォルダが表示される</li>
+                  <li>右下の「保存」ボタンを押す</li>
+                </ol>
               </section>
             </div>
-
-            <div className="p-8 border-t bg-gray-50 rounded-b-3xl text-center">
-              <button onClick={() => setShowGuide(false)} className="w-full max-w-sm py-4 bg-gray-800 text-white rounded-xl font-black text-sm active:scale-95 shadow-xl hover:bg-gray-900 transition-all">内容を理解しました</button>
+            <div className="p-6 border-t text-center">
+              <button onClick={() => setShowGuide(false)} className="w-full py-4 bg-gray-800 text-white rounded-xl font-black">閉じる</button>
             </div>
           </div>
         </div>
       )}
 
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-[0_-4px_15px_rgba(0,0,0,0.1)] no-print">
-        <button onClick={() => setMobileViewMode('edit')} className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}>
-          <span className="text-xl">✏️</span><span>入力・編集</span>
-        </button>
-        <button onClick={() => setMobileViewMode('preview')} className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'preview' ? 'text-orange-600 bg-orange-50' : 'text-gray-400'}`}>
-          <span className="text-xl">📄</span><span>仕上がり確認</span>
-        </button>
+      {/* モバイル用ナビ */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-lg no-print">
+        <button onClick={() => setMobileViewMode('edit')} className={`flex-1 py-3 text-xs font-black ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}>✏️ 編集</button>
+        <button onClick={() => setMobileViewMode('preview')} className={`flex-1 py-3 text-xs font-black ${mobileViewMode === 'preview' ? 'text-orange-600 bg-orange-50' : 'text-gray-400'}`}>📄 確認</button>
       </div>
 
+      {/* サイドバー */}
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen md:block ${mobileViewMode === 'preview' ? 'hidden' : 'block'} pb-24 md:pb-6`}>
         <div className="mb-6 bg-white p-4 rounded-2xl shadow-sm border border-gray-200 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="bg-white p-1 rounded-lg border border-gray-100 shadow-inner">
-              <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz Logo" className="h-8 object-contain" />
-            </div>
-            <h1 className="text-[13px] font-black text-gray-800 italic leading-tight">営業部用<br/>料金表 作成ツール</h1>
-          </div>
-          <button onClick={() => setShowGuide(true)} className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 text-blue-600 rounded-full border border-blue-100 shadow-sm active:scale-90 hover:bg-blue-100 transition-all">
-            <span className="text-lg font-bold">?</span>
-          </button>
+          <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz" className="h-8 object-contain" />
+          <button onClick={() => setShowGuide(true)} className="w-8 h-8 bg-blue-50 text-blue-600 rounded-full font-bold">?</button>
         </div>
 
+        {/* 3つのボタンを横並び */}
         <div className="grid grid-cols-3 gap-2 mb-6">
-          <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-lg text-[9px] font-bold shadow-md active:scale-95 hover:bg-emerald-700 transition-colors">内容保存</button>
-          <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-lg text-[9px] font-bold shadow-md active:scale-95 hover:bg-gray-900 transition-colors">Excel出力</button>
-          <button onClick={handlePrint} className="bg-orange-600 text-white py-3 rounded-lg text-[9px] font-bold shadow-md active:scale-95 hover:bg-orange-700 transition-colors">PDF出力</button>
+          <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-lg text-[10px] font-black active:scale-95 shadow-md">内容保存</button>
+          <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-lg text-[10px] font-black active:scale-95 shadow-md">Excel出力</button>
+          <button onClick={handlePrint} className="bg-orange-600 text-white py-3 rounded-lg text-[10px] font-black active:scale-95 shadow-md">PDF出力</button>
         </div>
 
-        <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl">
-          <div className="flex justify-between items-center mb-2">
-            <label className="text-[10px] font-black text-indigo-100 tracking-widest uppercase">AI アシスタント</label>
-            <span className="text-[8px] bg-indigo-800 text-indigo-300 px-2 py-0.5 rounded font-bold">Gemini Flash</span>
-          </div>
-          <textarea className="w-full bg-white/10 text-white border-2 border-indigo-500 rounded-lg p-3 text-[11px] h-40 mb-3 outline-none placeholder-indigo-300 leading-relaxed scrollbar-hide" placeholder={aiPlaceholderText} value={memo} onChange={(e) => setMemo(e.target.value)} />
-          <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95 transition-all shadow-lg hover:bg-gray-100 ${isProcessing ? 'opacity-50' : ''}`}>
-            {isProcessing ? 'AI解析中...' : 'AIで一括書き換え'}
-          </button>
+        <div className="mb-8 bg-indigo-700 p-4 rounded-xl shadow-xl text-white">
+          <label className="text-[10px] font-black mb-2 block text-indigo-200 uppercase tracking-widest">AI アシスタント</label>
+          <textarea className="w-full bg-white/10 border-2 border-indigo-500 rounded-lg p-3 text-[11px] h-32 mb-3 outline-none placeholder-indigo-300" placeholder="医院名を〇〇に変更して... 等" value={memo} onChange={(e) => setMemo(e.target.value)} />
+          <button onClick={handleUpdateMemo} disabled={isProcessing} className="w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95">{isProcessing ? '処理中...' : 'AIで一括書き換え'}</button>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border-2 border-gray-200 shadow-md mb-8">
-          <h2 className="text-[10px] font-black text-gray-400 mb-4 tracking-widest uppercase border-b-2 border-gray-50 pb-1">基本情報</h2>
+        <div className="bg-white p-5 rounded-xl border-2 border-gray-200 shadow-sm mb-6">
+          <h2 className="text-[10px] font-black text-gray-400 mb-4 tracking-widest border-b pb-1 uppercase">基本情報</h2>
           <div className="space-y-4">
-            <div>
-               <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">歯科医院名</label>
-               <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 outline-none focus:ring-2 focus:ring-blue-500" placeholder="歯科医院名をご入力ください" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
-            </div>
+            <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-black border-gray-100 outline-none focus:ring-2 focus:ring-blue-500" placeholder="歯科医院名" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">担当者</label>
-                <select className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none appearance-none" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}>
-                  <option value="">選択</option>
-                  {reps.map(r => <option key={r} value={r}>{r}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">発行日</label>
-                <input type="date" className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none" value={data.clinic.publishDate} onChange={(e) => setData({...data, clinic: {...data.clinic, publishDate: e.target.value}})} />
-              </div>
+              <select className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}>
+                <option value="">担当者</option>
+                {reps.map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+              <input type="date" className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none" value={data.clinic.publishDate} onChange={(e) => setData({...data, clinic: {...data.clinic, publishDate: e.target.value}})} />
             </div>
           </div>
         </div>
 
-        {renderCategoryGroup("1. 保険技工物 料金表", insuranceCategories, "blue")}
-        {renderCategoryGroup("2. 自費歯冠修復料金一覧", privateCrownCategories, "green")}
+        {renderCategoryGroup("1. 保険技工物", insuranceCategories, "blue")}
+        {renderCategoryGroup("2. 自費歯冠修復", privateCrownCategories, "green")}
         {renderCategoryGroup("3. インプラント", implantCategories, "orange")}
-        {renderCategoryGroup("4. 自費義歯料金一覧", privateDentureCategories, "orange")}
+        {renderCategoryGroup("4. 自費義歯", privateDentureCategories, "orange")}
       </div>
 
-      <div className={`flex-1 relative bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-32 md:pb-0`}>
-        <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 border-gray-200 p-4 z-50 flex justify-between items-center shadow-lg">
-          <div className="flex gap-2">
-            <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black shadow-sm active:scale-95">← 入力に戻る</button>
-            <div className="hidden md:flex items-center px-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-              <span className="text-[10px] font-black text-gray-400">仕上がりプレビュー</span>
-            </div>
-          </div>
-          <button onClick={handlePrint} disabled={isPrinting} className={`bg-orange-600 text-white px-8 md:px-12 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70' : ''}`}>
-            {isPrinting ? 'PDF生成中...' : 'PDF保存・印刷'}
-          </button>
+      {/* プレビュー表示エリア */}
+      <div className={`flex-1 bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'}`}>
+        <div className="no-print sticky top-0 bg-white border-b-2 p-4 z-50 flex justify-between items-center shadow-md">
+           <span className="text-[10px] font-black text-gray-500 bg-gray-100 px-3 py-1 rounded-full">仕上がりプレビュー</span>
+           <button onClick={handlePrint} className="bg-orange-600 text-white px-6 py-2 rounded-full font-black text-xs active:scale-95">PDF保存・印刷</button>
         </div>
 
-        <div className="flex flex-col items-center justify-start p-4 md:p-8 print:p-0 print:block">
-          <div className="mobile-preview-container">
-            <PriceListRenderer data={data} />
-          </div>
+        <div className="mobile-preview-container">
+          <PriceListRenderer data={data} />
         </div>
       </div>
     </div>
