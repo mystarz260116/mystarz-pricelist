@@ -225,13 +225,13 @@ const App: React.FC = () => {
                 </div>
                 <div className="ml-4 space-y-4">
                   <p className="text-sm text-gray-600 leading-relaxed font-bold">
-                    右上の「PDF保存・印刷」ボタンを押した後、以下の設定を確認してください。
+                    右上の「PDF保存・印刷」ボタンを押した後、表示されるブラウザの印刷設定を確認してください。
                   </p>
-                  <ol className="text-xs text-gray-600 space-y-3 list-decimal ml-4 bg-orange-50 p-4 rounded-xl border border-orange-100">
-                    <li><span className="font-black">送信先：</span>「PDFに保存」を選択してください。</li>
-                    <li><span className="font-black">詳細設定：</span>「背景のグラフィック」に必ずチェックを入れてください。</li>
-                    <li><span className="font-black">印刷形式：</span>A4用紙2枚分が出力されます。</li>
-                    <li><span className="font-black">両面印刷：</span>「両面印刷（長辺とじ）」を選択すると、2枚の表裏で4ページ構成になります。</li>
+                  <ol className="text-xs text-gray-600 space-y-3 list-decimal ml-4 bg-orange-50 p-5 rounded-2xl border border-orange-100 shadow-sm">
+                    <li><span className="font-black text-orange-800">送信先：</span>「PDFに保存」を選択します。</li>
+                    <li><span className="font-black text-orange-800">背景のグラフィック：</span>詳細設定を開き、必ず<span className="underline decoration-orange-400 decoration-2">チェックを入れて</span>ください（これがないと色がつきません）。</li>
+                    <li><span className="font-black text-orange-800">用紙：</span>A4が2枚分出力されます。</li>
+                    <li><span className="font-black text-orange-800">両面印刷：</span>「両面印刷」を有効にし、「長辺とじ」を選択すると、2枚の表裏で4ページ構成の完璧な資料になります。</li>
                   </ol>
                 </div>
               </section>
@@ -242,22 +242,22 @@ const App: React.FC = () => {
                   <h3 className="text-lg font-black text-blue-700">ページ構成（全4ページ）</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-4 ml-4">
-                   <div className="bg-gray-50 p-3 rounded-lg border">
-                     <p className="text-[10px] font-black mb-1">【1枚目】</p>
-                     <p className="text-[9px]">表：表紙・インプラント</p>
-                     <p className="text-[9px]">裏：保険技工物 料金表</p>
+                   <div className="bg-gray-50 p-4 rounded-xl border border-blue-100">
+                     <p className="text-[10px] font-black mb-2 border-b border-blue-200 text-blue-800 pb-1">【1枚目】</p>
+                     <p className="text-[9.5px] font-bold text-gray-700">表：表紙・インプラント</p>
+                     <p className="text-[9.5px] font-bold text-gray-700">裏：保険技工物 料金表</p>
                    </div>
-                   <div className="bg-gray-50 p-3 rounded-lg border">
-                     <p className="text-[10px] font-black mb-1">【2枚目】</p>
-                     <p className="text-[9px]">表：自費義歯 料金一覧</p>
-                     <p className="text-[9px]">裏：自費歯冠修復 料金一覧</p>
+                   <div className="bg-gray-50 p-4 rounded-xl border border-blue-100">
+                     <p className="text-[10px] font-black mb-2 border-b border-blue-200 text-blue-800 pb-1">【2枚目】</p>
+                     <p className="text-[9.5px] font-bold text-gray-700">表：自費義歯 料金一覧</p>
+                     <p className="text-[9.5px] font-bold text-gray-700">裏：自費歯冠修復 料金一覧</p>
                    </div>
                 </div>
               </section>
             </div>
 
             <div className="p-8 border-t bg-gray-50 rounded-b-3xl text-center">
-              <button onClick={() => setShowGuide(false)} className="w-full max-w-sm py-4 bg-gray-800 text-white rounded-xl font-black text-sm active:scale-95 shadow-xl hover:bg-gray-900">内容を理解しました</button>
+              <button onClick={() => setShowGuide(false)} className="w-full max-w-sm py-4 bg-gray-800 text-white rounded-xl font-black text-sm active:scale-95 shadow-xl hover:bg-gray-900 transition-all">内容を理解しました</button>
             </div>
           </div>
         </div>
