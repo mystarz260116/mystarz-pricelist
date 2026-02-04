@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { PriceListData, PriceCategory } from './types';
 import { INITIAL_PRICE_DATA } from './constants';
@@ -16,7 +17,6 @@ const App: React.FC = () => {
   const [showGuide, setShowGuide] = useState(false);
   const [savedLists, setSavedLists] = useState<PriceListData[]>([]);
   const [mobileViewMode, setMobileViewMode] = useState<'edit' | 'preview'>('edit');
-  const [previewPage, setPreviewPage] = useState(0);
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -208,7 +208,7 @@ const App: React.FC = () => {
               <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold transition-transform active:scale-90">×</button>
             </div>
             <div className="p-8 space-y-6">
-              <p className="text-sm font-medium leading-relaxed italic text-gray-600">「先生、文字が小さくて見えないよ」と言われたら、プレビュー画面のページ番号ボタンを切り替えて、大きく表示させてください。</p>
+              <p className="text-sm font-medium leading-relaxed italic text-gray-600">「確認・出力」画面では、マウスや指で上下にスクロールすると、全4ページ分を順番に確認できます。</p>
             </div>
           </div>
         </div>
@@ -312,14 +312,13 @@ const App: React.FC = () => {
         </div>
       </div>
 
+      {/* 右メインエリア（プレビュー） */}
       <div className={`flex-1 relative bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-32 md:pb-0`}>
         <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 border-gray-200 p-4 z-50 flex justify-between items-center shadow-lg">
           <div className="flex gap-2">
             <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black shadow-sm active:scale-95">← 編集に戻る</button>
-            <div className="hidden md:flex gap-1">
-              {[0, 1, 2, 3].map(p => (
-                <button key={p} onClick={() => setPreviewPage(p)} className={`w-8 h-8 rounded-full text-[10px] font-bold border-2 transition-all ${previewPage === p ? 'bg-orange-600 text-white border-orange-700 shadow-lg' : 'bg-white text-gray-400 border-gray-200 hover:border-orange-200'}`}>{p+1}</button>
-              ))}
+            <div className="hidden md:flex items-center px-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+              <span className="text-[10px] font-black text-gray-400">プレビュー（全4ページ）</span>
             </div>
           </div>
           <button onClick={handlePrint} disabled={isPrinting} className={`bg-orange-600 text-white px-8 md:px-12 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70' : ''}`}>
@@ -327,19 +326,16 @@ const App: React.FC = () => {
           </button>
         </div>
 
-        <div className="md:hidden no-print flex justify-center gap-4 my-4">
-           {[0, 1, 2, 3].map(p => (
-             <button key={p} onClick={() => setPreviewPage(p)} className={`px-4 py-2 rounded-lg font-black text-xs transition-all ${previewPage === p ? 'bg-white text-orange-600 shadow-xl scale-110' : 'bg-gray-800 text-gray-500'}`}>P{p+1}</button>
-           ))}
-        </div>
-
         <div className="flex flex-col items-center justify-start p-4 md:p-8 print:p-0 print:block">
-          <div className={`mobile-preview-container page-index-${previewPage}`}>
+          <div className="mobile-preview-container flex flex-col items-center gap-8 md:gap-12">
             <PriceListRenderer data={data} />
           </div>
         </div>
         
-        <div className="md:hidden no-print text-center text-gray-500 text-[10px] font-bold py-8">- ページ {previewPage + 1} / 4 -<br/>( 上のボタンでページを切り替えて確認できます )</div>
+        <div className="no-print text-center text-gray-400 text-[10px] font-bold py-12 border-t border-white/10 mt-8">
+          - 料金表の終端です -<br/>
+          ( 下に何もない場合は、すべてのページが表示されています )
+        </div>
       </div>
     </div>
   );
