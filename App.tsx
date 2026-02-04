@@ -247,7 +247,7 @@ const App: React.FC = () => {
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl">
           <div className="flex justify-between items-center mb-2">
             <label className="text-[10px] font-black text-indigo-100 tracking-widest uppercase">AI アシスタント</label>
-            <span className="text-[8px] bg-indigo-800 text-indigo-300 px-2 py-0.5 rounded font-bold">Gemini Flash (高速・高コスパ)</span>
+            <span className="text-[8px] bg-indigo-800 text-indigo-300 px-2 py-0.5 rounded font-bold">Gemini Flash</span>
           </div>
           <textarea className="w-full bg-white/10 text-white border-2 border-indigo-500 rounded-lg p-3 text-[11px] h-48 mb-3 outline-none placeholder-indigo-300 leading-relaxed scrollbar-hide" placeholder={aiPlaceholderText} value={memo} onChange={(e) => setMemo(e.target.value)} />
           <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95 transition-all shadow-lg ${isProcessing ? 'opacity-50' : ''}`}>
