@@ -51,15 +51,15 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   const CompactTable = ({ category, className = "" }: { category?: PriceCategory, className?: string }) => {
     if (!category) return null;
     return (
-      <div className={`mb-1 ${className}`}>
-        <div className="bg-[#047857] text-white px-3 py-0.5 text-[12.5px] font-black rounded-t-sm shadow-sm flex justify-between items-center border-b border-[#065f46]">
+      <div className={`mb-0.5 ${className}`}>
+        <div className="bg-[#047857] text-white px-3 py-0.5 text-[12px] font-black rounded-t-sm shadow-sm flex justify-between items-center border-b border-[#065f46]">
           {renderHeader(category.title)}
         </div>
-        <div className="border-2 border-[#047857] bg-white overflow-hidden rounded-b-sm shadow-sm">
+        <div className="border-[1.5px] border-[#047857] bg-white overflow-hidden rounded-b-sm shadow-sm">
           {category.items.map((item, idx) => (
-            <div key={idx} className={`flex justify-between px-3 py-0.5 text-[11.2px] border-b border-[#f0fdf4] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#f0fdf4]'}`}>
-              <span className="flex-1 font-bold text-gray-800 truncate leading-tight">{sanitizeName(item.name)}</span>
-              <span className="w-32 text-right font-black text-[#064e3b] whitespace-nowrap leading-tight">¥ {item.price}</span>
+            <div key={idx} className={`flex justify-between px-3 py-0 border-b border-[#f0fdf4] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#f0fdf4]'}`}>
+              <span className="flex-1 font-bold text-gray-800 truncate text-[10.8px] leading-tight py-0.5">{sanitizeName(item.name)}</span>
+              <span className="w-32 text-right font-black text-[#064e3b] whitespace-nowrap text-[10.8px] leading-tight py-0.5">¥ {item.price}</span>
             </div>
           ))}
         </div>
@@ -75,50 +75,50 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col gap-0 items-center py-8 print:py-0 bg-gray-300 print:bg-white print:block min-h-screen print:min-h-0">
       
-      {/* PAGE 1: FRONT COVER (Implant included) */}
+      {/* PAGE 1: FRONT COVER */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-8 flex flex-col items-center">
-          <div className="w-full text-right text-[11px] text-gray-500 mb-1 font-black">発行日：{formattedDate}</div>
-          <div className="w-full text-center border-y-[3px] border-gray-800 py-4 mb-6">
-            <h1 className={`text-3xl font-black mb-1 ${!data.clinic.name ? 'text-gray-200 italic' : 'text-gray-800'}`}>
+          <div className="w-full text-right text-[10px] text-gray-500 mb-0 font-black">発行日：{formattedDate}</div>
+          <div className="w-full text-center border-y-[2px] border-gray-800 py-3 mb-4">
+            <h1 className={`text-2xl font-black mb-1 ${!data.clinic.name ? 'text-gray-200 italic' : 'text-gray-800'}`}>
               {data.clinic.name || '歯科医院名をご入力ください'} 様
             </h1>
-            <p className="text-xl font-black text-gray-700 tracking-[0.4em] mt-1">価格一覧表</p>
+            <p className="text-lg font-black text-gray-700 tracking-[0.4em] mt-0.5">価格一覧表</p>
           </div>
-          <div className="w-full flex justify-end mb-6">
-            <div className="border-2 border-gray-400 px-6 py-2 text-base bg-white shadow-sm font-bold">
-              営業担当: <span className="font-black underline underline-offset-4 px-4 text-lg">{data.clinic.representative || '　　　'}</span>
+          <div className="w-full flex justify-end mb-4">
+            <div className="border-2 border-gray-400 px-5 py-1.5 text-sm bg-white shadow-sm font-bold">
+              営業担当: <span className="font-black underline underline-offset-4 px-3 text-base">{data.clinic.representative || '　　　'}</span>
             </div>
           </div>
-          <div className="w-full flex-1 mb-2">
+          <div className="w-full flex-1 mb-1">
              {implantCat && (
-               <div className="mb-2">
-                 <div className="bg-[#ea580c] text-white px-5 py-2 text-lg font-black flex justify-between items-center rounded-t shadow-md">
+               <div className="mb-1">
+                 <div className="bg-[#ea580c] text-white px-5 py-1.5 text-base font-black flex justify-between items-center rounded-t shadow-md">
                    <span className="tracking-[0.2em]">{implantCat.title}</span>
                  </div>
-                 <div className="border-[3px] border-[#ea580c] bg-white overflow-hidden rounded-b shadow-lg">
+                 <div className="border-[2px] border-[#ea580c] bg-white overflow-hidden rounded-b shadow-lg">
                    {implantCat.items.map((item, idx) => (
-                     <div key={idx} className={`flex justify-between px-5 py-1 text-[12px] border-b border-[#fff7ed] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#fff7ed]'}`}>
-                       <span className="flex-1 font-bold text-gray-800 leading-tight">{sanitizeName(item.name)}</span>
-                       <span className="w-48 text-right font-black text-[#9a3412] leading-tight">¥ {item.price}</span>
+                     <div key={idx} className={`flex justify-between px-5 py-0.5 text-[11.5px] border-b border-[#fff7ed] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#fff7ed]'}`}>
+                       <span className="flex-1 font-bold text-gray-800 leading-tight py-0.5">{sanitizeName(item.name)}</span>
+                       <span className="w-48 text-right font-black text-[#9a3412] leading-tight py-0.5">¥ {item.price}</span>
                      </div>
                    ))}
                  </div>
                </div>
              )}
           </div>
-          <div className="w-full mt-auto border-t-2 border-gray-100 pt-4">
-             <div className="flex items-center justify-center gap-6 mb-4">
-               <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="Logo" className="h-10 object-contain" />
-               <div className="text-blue-900 font-black text-2xl tracking-tighter whitespace-nowrap">TEL 072-691-7107</div>
+          <div className="w-full mt-auto border-t-[1px] border-gray-100 pt-3">
+             <div className="flex items-center justify-center gap-5 mb-3">
+               <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="Logo" className="h-8 object-contain" />
+               <div className="text-blue-900 font-black text-xl tracking-tighter whitespace-nowrap">TEL 072-691-7107</div>
              </div>
-             <div className="text-center text-[11px] text-gray-700 font-bold mb-4 leading-snug">
-               〒569-0806　高槻市明田町4-38 太陽ファルマテック株式会社内<br/><span className="text-base font-black tracking-widest text-blue-900">FAX 072-691-7108</span>
+             <div className="text-center text-[10px] text-gray-700 font-bold mb-3 leading-snug">
+               〒569-0806　高槻市明田町4-38 太陽ファルマテック株式会社内<br/><span className="text-sm font-black tracking-widest text-blue-900">FAX 072-691-7108</span>
              </div>
-             <div className="w-full border-t-[2px] border-gray-800 pt-3 text-center">
-               <div className="text-xl font-black text-gray-800 tracking-[0.3em]">株式会社マイ・スターズ 大阪</div>
+             <div className="w-full border-t-[1.5px] border-gray-800 pt-2 text-center">
+               <div className="text-lg font-black text-gray-800 tracking-[0.3em]">株式会社マイ・スターズ 大阪</div>
              </div>
-             <div className="w-full bg-gray-800 text-white py-1 text-[10px] tracking-widest uppercase text-center mt-2 font-bold">MyStarz Dental Laboratory</div>
+             <div className="w-full bg-gray-800 text-white py-1 text-[9px] tracking-widest uppercase text-center mt-2 font-bold">MyStarz Dental Laboratory</div>
           </div>
         </div>
       </div>
@@ -429,17 +429,17 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 4: Private Crowns (Highly optimized vertical space) */}
+      {/* PAGE 4: Private Crowns */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-6 flex flex-col text-gray-800">
-          <h2 className="text-[#065f46] border-b-[4px] border-[#065f46] mb-2 font-black text-2xl italic tracking-[0.2em] pb-1 uppercase">自費歯冠修復料金一覧</h2>
+          <h2 className="text-[#065f46] border-b-[4px] border-[#065f46] mb-1.5 font-black text-2xl italic tracking-[0.2em] pb-0.5 uppercase">自費歯冠修復料金一覧</h2>
           
           <div className="flex flex-col flex-1 overflow-visible">
             <CompactTable category={zirconia} />
             <CompactTable category={emax} />
             <CompactTable category={mb} />
 
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <div className="w-1/2 flex flex-col">
                 <CompactTable category={hybrid} />
                 <CompactTable category={model} />
@@ -450,7 +450,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className="mt-auto pt-2 text-right text-[10px] text-gray-400 font-bold italic border-t border-gray-50">
+          <div className="mt-auto pt-1 text-right text-[9.5px] text-gray-400 font-bold italic border-t border-gray-50">
             ※材料代別の項目は、別途貴金属等の費用が発生します。
           </div>
         </div>
