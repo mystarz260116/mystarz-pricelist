@@ -79,7 +79,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col gap-0 items-center py-0 print:block w-full">
       
-      {/* PAGE 1: FRONT COVER & IMPLANT - フッター維持 */}
+      {/* PAGE 1: FRONT COVER & IMPLANT - 表紙のみフッターあり */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-12 flex flex-col h-full bg-white relative">
           <div className="w-full text-right text-[11px] text-gray-400 mb-6 font-black">発行日：{formattedDate}</div>
@@ -242,7 +242,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 3: 自費義歯 - フッター削除・再編 */}
+      {/* PAGE 3: 自費義歯 - 下部セクション再編 & フッター削除 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page px-10 py-8 flex flex-col text-gray-800 bg-white">
           <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-3 font-black text-2xl italic tracking-[0.2em] pb-1 uppercase">自費義歯料金一覧</h2>
@@ -350,12 +350,13 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          {/* シリコン裏装加工・その他セクションの再編 */}
+          {/* シリコン裏装・その他セクションの再編 (左右配置) */}
           <div className="mb-0">
             <div className="flex flex-row gap-6">
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">シリコン裏装</div>
                  <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] font-bold space-y-1 shadow-inner min-h-[110px]">
+                   {/* 基本加工料、完成料、リベース×2 */}
                    {privateGishiOthers?.items.slice(0, 4).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-0.5">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>
@@ -367,6 +368,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">その他</div>
                  <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] font-bold space-y-1 shadow-inner min-h-[110px]">
+                   {/* スポーツマウスガード、副模型 */}
                    {privateGishiOthers?.items.slice(4, 6).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-0.5">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>

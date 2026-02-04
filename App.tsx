@@ -267,7 +267,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* ヘルプガイドモーダル（指示通りのスマホ特化版） */}
+      {/* ヘルプガイドモーダル */}
       {showGuide && (
         <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 no-print" onClick={() => setShowGuide(false)}>
           <div className="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
@@ -279,20 +279,20 @@ const App: React.FC = () => {
             
             <div className="space-y-8">
               <section>
-                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">1. 基本的な作成手順</h3>
-                <div className="grid gap-4 text-sm">
-                   <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                     <p className="font-bold text-gray-800 mb-1">ステップ1：情報の入力</p>
-                     <p className="text-gray-600">左側の設定パネルで「歯科医院名」を入力し「担当者」を選択します。入力内容は即座に下記へ反映されます。</p>
-                     <p className="mt-2 p-2 bg-indigo-50 rounded-lg border border-indigo-100 text-[11px] font-bold text-indigo-800">
-                       💡 プレビュー（右側）へ反映（PC）<br/>
-                       💡 プレビュー（スクロールして下）へ反映（スマホ）
-                     </p>
-                   </div>
-                   <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                     <p className="font-bold text-gray-800 mb-1">ステップ2：価格の微調整</p>
-                     <p className="text-gray-600">各カテゴリーを展開し、金額を入力します。AIアシスタントに「全体を1割増しにして」のように指示することも可能です。</p>
-                   </div>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ1：情報の入力</h3>
+                <div className="text-sm">
+                  <p className="text-gray-600">設定パネルで「歯科医院名」を入力し「担当者」を選択します。入力内容は即座に下記へ反映されます。</p>
+                  <p className="mt-2 p-2 bg-indigo-50 rounded-lg border border-indigo-100 text-[11px] font-bold text-indigo-800">
+                    💡 プレビュー（右側）へ反映（PC）<br/>
+                    💡 プレビュー（スクロールして下）へ反映（スマホ）
+                  </p>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ2：価格の微調整</h3>
+                <div className="text-sm">
+                  <p className="text-gray-600">各カテゴリーを展開し、金額を入力します。AIアシスタントに「全体を1割増しにして」のように指示することも可能です。AIアシスタント操作がポンコツでうまくいかなかった場合は、各フォームから入力してください。</p>
                 </div>
               </section>
 
@@ -318,16 +318,6 @@ const App: React.FC = () => {
                     <p className="text-gray-700">
                       印刷が必要な場合は、保存したPDFをLINEWORKSなどで事務に送って依頼してください。
                     </p>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">2. 便利な機能</h3>
-                <div className="space-y-4 text-sm">
-                  <div className="flex gap-4">
-                    <div className="bg-emerald-100 text-emerald-700 w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black">保存</div>
-                    <div><p className="font-bold">内容保存機能</p><p className="text-gray-600">「内容保存」を押すとブラウザにデータが記憶されます。後日同じ医院のデータを呼び出すことができます。</p></div>
                   </div>
                 </div>
               </section>
