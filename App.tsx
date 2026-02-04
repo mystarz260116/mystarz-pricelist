@@ -204,11 +204,101 @@ const App: React.FC = () => {
         <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-white/20">
             <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center z-10 rounded-t-3xl">
-              <h2 className="text-xl font-black text-gray-800">使い方ガイド</h2>
-              <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold transition-transform active:scale-90">×</button>
+              <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
+                <span className="text-2xl">📖</span> 使い方ガイド
+              </h2>
+              <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold transition-transform active:scale-90 hover:bg-gray-200">×</button>
             </div>
-            <div className="p-8 space-y-6">
-              <p className="text-sm font-medium leading-relaxed italic text-gray-600">「確認・出力」画面では、マウスや指で上下にスクロールすると、全4ページ分を順番に確認できます。</p>
+            
+            <div className="p-8 space-y-10">
+              {/* AIアシスタント */}
+              <section className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-xl">🤖</div>
+                  <h3 className="text-lg font-black text-indigo-700">AIに丸投げして編集する</h3>
+                </div>
+                <div className="ml-4 space-y-3">
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    左側の紫色の枠に「メモ」を書いてボタンを押すだけで、AIが価格表を自動更新します。
+                  </p>
+                  <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-xl shadow-sm">
+                    <p className="text-[11px] font-black text-indigo-900 mb-2 uppercase tracking-wider">指示の出し方のコツ：</p>
+                    <ul className="text-[12px] text-indigo-800 space-y-2 font-bold">
+                      <li className="flex gap-2"><span>✅</span>「ジルコニアをすべて1,000円値上げして」</li>
+                      <li className="flex gap-2"><span>✅</span>「医院名をマイ・スターズ歯科にして。担当は小山」</li>
+                      <li className="flex gap-2"><span>✅</span>「CAD/CAMの材料費をすべて500円安くして」</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              {/* 直接編集 */}
+              <section>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl">✏️</div>
+                  <h3 className="text-lg font-black text-blue-700">細かい部分は手動で直す</h3>
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    各項目の右側にある価格の数字（例: 15,000）を直接クリックすると、キーボードで修正できます。「/」や「～」で区切られた金額も、それぞれ個別に変更可能です。
+                  </p>
+                </div>
+              </section>
+
+              {/* 印刷・保存 */}
+              <section>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-xl">🖨️</div>
+                  <h3 className="text-lg font-black text-orange-700">PDF保存・印刷（A4用紙2枚構成）</h3>
+                </div>
+                <div className="ml-4 space-y-4">
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    「PDF保存・印刷」ボタンを押すとプレビューが表示されます。送信先を「PDFに保存」に設定して保存してください。
+                  </p>
+                  <div className="bg-orange-50 border border-orange-200 p-5 rounded-2xl shadow-sm">
+                    <p className="text-xs text-orange-900 font-black mb-3 border-b border-orange-200 pb-2 flex items-center gap-2">
+                      <span>📄</span> 用紙2枚（両面印刷）の仕上がりイメージ
+                    </p>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white p-3 rounded-lg border border-orange-100 shadow-sm">
+                        <p className="text-[10px] font-black text-orange-800 mb-1">【1枚目】表・裏</p>
+                        <p className="text-[9px] text-gray-500 leading-tight">表紙・インプラント ／<br/>保険技工物 料金表</p>
+                      </div>
+                      <div className="bg-white p-3 rounded-lg border border-orange-100 shadow-sm">
+                        <p className="text-[10px] font-black text-orange-800 mb-1">【2枚目】表・裏</p>
+                        <p className="text-[9px] text-gray-500 leading-tight">自費義歯料金一覧 ／<br/>自費歯冠修復料金一覧</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* 保存機能 */}
+              <section>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-xl">💾</div>
+                  <h3 className="text-lg font-black text-emerald-700">医院ごとのデータを残す</h3>
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    「内容を保存」を押すと、作成したデータがブラウザに保存されます。次回、左下の「保存済み医院リスト」からクリックするだけで瞬時に呼び出せます。
+                  </p>
+                </div>
+              </section>
+
+              {/* 困ったときは */}
+              <div className="bg-gray-50 p-6 rounded-2xl border-2 border-dashed border-gray-200">
+                <p className="text-xs text-gray-500 font-black flex items-center gap-2 mb-2">
+                  <span>💡</span> 困ったときは...
+                </p>
+                <p className="text-[11px] text-gray-400 leading-relaxed">
+                  表示が崩れたり、AIの動きがおかしい場合は、ページを再読み込み（リフレッシュ）してください。保存済みのデータは消えませんのでご安心ください。
+                </p>
+              </div>
+            </div>
+
+            <div className="p-8 border-t bg-gray-50 rounded-b-3xl text-center">
+              <button onClick={() => setShowGuide(false)} className="w-full max-w-sm py-4 bg-gray-800 text-white rounded-xl font-black text-sm active:scale-95 transition-all shadow-xl hover:bg-gray-900">内容を理解しました！</button>
             </div>
           </div>
         </div>
@@ -234,14 +324,14 @@ const App: React.FC = () => {
               <h1 className="text-[13px] font-black text-gray-800 italic leading-tight">営業部用<br/>料金表 作成ツール</h1>
             </div>
           </div>
-          <button onClick={() => setShowGuide(true)} className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 text-blue-600 rounded-full border border-blue-100 shadow-sm active:scale-90">
+          <button onClick={() => setShowGuide(true)} className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 text-blue-600 rounded-full border border-blue-100 shadow-sm active:scale-90 hover:bg-blue-100 transition-all">
             <span className="text-lg font-bold">?</span>
           </button>
         </div>
 
         <div className="grid grid-cols-2 gap-2 mb-6">
-          <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95">内容を保存</button>
-          <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95">Excel出力</button>
+          <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95 hover:bg-emerald-700 transition-colors">内容を保存</button>
+          <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95 hover:bg-gray-900 transition-colors">Excel出力</button>
         </div>
 
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl">
@@ -250,7 +340,7 @@ const App: React.FC = () => {
             <span className="text-[8px] bg-indigo-800 text-indigo-300 px-2 py-0.5 rounded font-bold">Gemini Flash</span>
           </div>
           <textarea className="w-full bg-white/10 text-white border-2 border-indigo-500 rounded-lg p-3 text-[11px] h-48 mb-3 outline-none placeholder-indigo-300 leading-relaxed scrollbar-hide" placeholder={aiPlaceholderText} value={memo} onChange={(e) => setMemo(e.target.value)} />
-          <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95 transition-all shadow-lg ${isProcessing ? 'opacity-50' : ''}`}>
+          <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95 transition-all shadow-lg hover:bg-gray-100 ${isProcessing ? 'opacity-50' : ''}`}>
             {isProcessing ? 'AI解析中...' : 'AIで価格表を一括書き換え'}
           </button>
         </div>
