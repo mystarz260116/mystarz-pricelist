@@ -267,7 +267,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* ヘルプガイドモーダル（復元・強化版） */}
+      {/* ヘルプガイドモーダル（指示通りのスマホ特化版） */}
       {showGuide && (
         <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 no-print" onClick={() => setShowGuide(false)}>
           <div className="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
@@ -283,41 +283,51 @@ const App: React.FC = () => {
                 <div className="grid gap-4 text-sm">
                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
                      <p className="font-bold text-gray-800 mb-1">ステップ1：情報の入力</p>
-                     <p className="text-gray-600">左側の設定パネルで「歯科医院名」を入力し「担当者」を選択します。日付は自動で本日の日付が入りますが、変更も可能です。</p>
+                     <p className="text-gray-600">左側の設定パネルで「歯科医院名」を入力し「担当者」を選択します。入力内容は即座に下記へ反映されます。</p>
+                     <p className="mt-2 p-2 bg-indigo-50 rounded-lg border border-indigo-100 text-[11px] font-bold text-indigo-800">
+                       💡 プレビュー（右側）へ反映（PC）<br/>
+                       💡 プレビュー（スクロールして下）へ反映（スマホ）
+                     </p>
                    </div>
                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
                      <p className="font-bold text-gray-800 mb-1">ステップ2：価格の微調整</p>
-                     <p className="text-gray-600">各カテゴリーを展開し、手動で価格を書き換えます。入力した瞬間にプレビュー（右側）へ反映されます。</p>
+                     <p className="text-gray-600">各カテゴリーを展開し、金額を入力します。AIアシスタントに「全体を1割増しにして」のように指示することも可能です。</p>
                    </div>
                 </div>
               </section>
 
               <section className="bg-orange-50 p-6 rounded-3xl border-2 border-orange-200">
                 <h3 className="text-sm font-black text-orange-700 mb-4 flex items-center gap-2">
-                  <span>📄</span> 重要：PDF保存・印刷のコツ
+                  <span>📄</span> PDF保存のコツ
                 </h3>
-                <div className="space-y-3 text-[13px] leading-relaxed text-orange-900">
-                  <p className="font-bold">「PDF出力」ボタンを押した後のブラウザ印刷設定：</p>
-                  <ul className="list-disc ml-5 space-y-1 font-medium">
-                    <li><span className="font-black">送信先：</span>「PDFに保存」を選択してください。</li>
-                    <li><span className="font-black">カラー：</span>「カラー」を選択（赤字やロゴを反映するため）。</li>
-                    <li><span className="font-black">詳細設定内の「倍率」：</span>必ず<span className="bg-white px-1 border border-orange-300 rounded font-black">100</span>（または「ページに合わせる」）にしてください。</li>
-                    <li><span className="font-black">オプション：</span>「ヘッダーとフッター」のチェックを<span className="text-red-600 font-black underline">外してください</span>（余計な文字を消すため）。</li>
-                    <li><span className="font-black">オプション：</span>「背景のグラフィック」のチェックを<span className="font-black underline">入れてください</span>（表の色を出すため）。</li>
-                  </ul>
+                <div className="space-y-4 text-[13px] leading-relaxed text-orange-900">
+                  <div className="bg-white/60 p-4 rounded-xl space-y-2 font-bold">
+                    <p>① PDF出力・印刷ボタン</p>
+                    <p>② PDF形式で保存（送信先を確認）</p>
+                    <p>③ 右の青い丸「PDF」ボタンクリック</p>
+                    <p>④ ダウンロードフォルダが表示される</p>
+                    <p>⑤ 右下の保存ボタンを押す</p>
+                  </div>
+                  <div className="text-[12px] font-medium space-y-2">
+                    <p className="bg-white p-2 rounded-lg border border-orange-200">
+                      上記の作業で、スマホのダウンロードフォルダに保存されます。
+                    </p>
+                    <p className="text-red-700 font-black">
+                      ※スマホから直接印刷はできません。
+                    </p>
+                    <p className="text-gray-700">
+                      印刷が必要な場合は、保存したPDFをLINEWORKSなどで事務に送って依頼してください。
+                    </p>
+                  </div>
                 </div>
               </section>
 
               <section>
-                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">2. 高度な機能</h3>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">2. 便利な機能</h3>
                 <div className="space-y-4 text-sm">
                   <div className="flex gap-4">
-                    <div className="bg-indigo-100 text-indigo-700 w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black">AI</div>
-                    <div><p className="font-bold">AIアシスタント</p><p className="text-gray-600">「全ての自費を2,000円値上げして」や「〇〇医院に名前を変えて」など、文章で指示を送るとAIが一括で修正を行います。</p></div>
-                  </div>
-                  <div className="flex gap-4">
                     <div className="bg-emerald-100 text-emerald-700 w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black">保存</div>
-                    <div><p className="font-bold">内容保存機能</p><p className="text-gray-600">「内容保存」を押すと、現在ブラウザにデータが記憶されます。次回開いたときも同じデータから再開できます。</p></div>
+                    <div><p className="font-bold">内容保存機能</p><p className="text-gray-600">「内容保存」を押すとブラウザにデータが記憶されます。後日同じ医院のデータを呼び出すことができます。</p></div>
                   </div>
                 </div>
               </section>
