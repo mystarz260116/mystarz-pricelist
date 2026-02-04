@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { PriceListData, PriceCategory } from './types';
 import { INITIAL_PRICE_DATA } from './constants';
@@ -15,8 +16,9 @@ const App: React.FC = () => {
   const [showEditor, setShowEditor] = useState(true);
   const [showGuide, setShowGuide] = useState(false);
   const [savedLists, setSavedLists] = useState<PriceListData[]>([]);
-  // モバイル用の表示モード切り替え ('edit' or 'preview')
   const [mobileViewMode, setMobileViewMode] = useState<'edit' | 'preview'>('edit');
+  // スマホプレビュー時の現在のページ番号
+  const [previewPage, setPreviewPage] = useState(0);
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -77,7 +79,7 @@ const App: React.FC = () => {
   const handleLoadClinic = (clinicData: PriceListData) => {
     if (confirm(`${clinicData.clinic.name} のデータを読み込みますか？`)) {
       setData(JSON.parse(JSON.stringify(clinicData)));
-      setMobileViewMode('edit'); // 読み込み時は編集画面へ
+      setMobileViewMode('edit');
     }
   };
 
@@ -187,12 +189,6 @@ const App: React.FC = () => {
   const implantCategories = data.categories.filter(c => c.id === 'implant');
   const privateDentureCategories = data.categories.filter(c => ['private-gishi-basic', 'private-gishi-nonclasp', 'private-gishi-metal', 'private-gishi-options', 'private-gishi-others'].includes(c.id));
 
-  const samplePrompts = [
-    { label: "価格を特定変更", text: "KATANAを20000円、レイヤリングを28000円に変更して" },
-    { label: "一律値上げ", text: "保険冠の項目をすべて一律100円値上げして" },
-    { label: "医院/担当者変更", text: "担当者を寺町さんに変更して、発行日を明日に設定" }
-  ];
-
   return (
     <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden bg-gray-100">
       {/* 使い方ガイドモーダル */}
@@ -200,42 +196,28 @@ const App: React.FC = () => {
         <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-white/20">
             <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center z-10 rounded-t-3xl">
-              <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">使い方ガイド <span className="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-400 font-bold italic text-blue-500">Free Ver.</span></h2>
-              <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 text-2xl font-bold transition-transform active:scale-90">×</button>
+              <h2 className="text-xl font-black text-gray-800">使い方ガイド</h2>
+              <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold transition-transform active:scale-90">×</button>
             </div>
-            <div className="p-8 space-y-10">
-              <section className="bg-blue-50 p-6 rounded-2xl border border-blue-100 space-y-3">
-                <h3 className="font-black text-blue-800 text-lg flex items-center gap-2">🎯 導入の背景と目的</h3>
-                <p className="text-sm text-blue-900/80 leading-relaxed font-medium">事務・営業双方の負担を最小化することを目的としています。</p>
-              </section>
-              <section className="space-y-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold shadow-md">3</div>
-                  <h3 className="font-bold text-gray-800 text-lg">PDF出力と送付のステップ 📄</h3>
-                </div>
-                <div className="pl-11 space-y-4">
-                  <div className="bg-gray-50 border rounded-xl p-4 space-y-2 font-bold text-xs text-gray-700">
-                    <p className="text-orange-600">【最重要】設定を開き、「背景のグラフィック」にチェックを入れる ✅</p>
-                  </div>
-                </div>
-              </section>
+            <div className="p-8 space-y-6">
+              <p className="text-sm font-medium">スマホでのプレビュー確認は、下部のタブで「確認・出力」を選択してください。ページが大きく表示されます。</p>
             </div>
           </div>
         </div>
       )}
 
       {/* モバイル用タブ切り替え（最下部固定） */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-[0_-4px_10px_rgba(0,0,0,0.05)] no-print">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-[0_-4px_15px_rgba(0,0,0,0.1)] no-print">
         <button 
           onClick={() => setMobileViewMode('edit')}
-          className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-colors ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}
+          className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}
         >
           <span className="text-xl">✏️</span>
-          <span>編集する</span>
+          <span>編集</span>
         </button>
         <button 
           onClick={() => setMobileViewMode('preview')}
-          className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-colors ${mobileViewMode === 'preview' ? 'text-orange-600 bg-orange-50' : 'text-gray-400'}`}
+          className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'preview' ? 'text-orange-600 bg-orange-50' : 'text-gray-400'}`}
         >
           <span className="text-xl">📄</span>
           <span>確認・出力</span>
@@ -253,27 +235,26 @@ const App: React.FC = () => {
               <h1 className="text-[13px] font-black text-gray-800 italic leading-tight">営業部用<br/>料金表 作成ツール</h1>
             </div>
           </div>
-          <button onClick={() => setShowGuide(true)} className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-full transition-all border border-blue-100 shadow-sm transform active:scale-90">
-            <span className="text-lg font-bold leading-none">?</span>
-            <span className="text-[7px] font-black">Help</span>
+          <button onClick={() => setShowGuide(true)} className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 text-blue-600 rounded-full border border-blue-100 shadow-sm active:scale-90">
+            <span className="text-lg font-bold">?</span>
           </button>
         </div>
 
         <div className="grid grid-cols-2 gap-2 mb-6">
-          <button onClick={handleSaveClinic} className="bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-2 rounded-lg text-[11px] font-bold shadow-lg transition-all flex items-center justify-center gap-1.5 transform active:scale-95">編集内容を保存</button>
-          <button onClick={handleExportExcel} className="bg-gray-800 hover:bg-black text-white py-3 px-2 rounded-lg text-[11px] font-bold shadow-lg transition-all flex items-center justify-center gap-1.5 transform active:scale-95">Excel一括出力</button>
+          <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95">内容を保存</button>
+          <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95">Excel出力</button>
         </div>
 
         {/* AI アシスタント */}
-        <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl border-2 border-indigo-800">
+        <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl">
           <textarea 
-            className="w-full border-indigo-500 bg-white/10 text-white border-2 rounded-lg p-3 text-xs h-32 mb-3 focus:ring-2 focus:ring-white outline-none placeholder-indigo-200 shadow-inner" 
-            placeholder={"【AIへの指示例】\n・KATANAを20,000円にして\n・保険冠を一律100円値上げして"} 
+            className="w-full bg-white/10 text-white border-2 border-indigo-500 rounded-lg p-3 text-xs h-32 mb-3 outline-none placeholder-indigo-200" 
+            placeholder={"【AIへの指示】\n・KATANAを20,000円にして"} 
             value={memo} 
             onChange={(e) => setMemo(e.target.value)} 
           />
-          <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black shadow-lg transition-all transform active:scale-95 ${isProcessing ? 'bg-indigo-300 text-indigo-500 cursor-not-allowed' : 'bg-white text-indigo-800 hover:bg-indigo-50'}`}>
-            {isProcessing ? 'AI解析中...' : 'AIで一括書き換え'}
+          <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95 transition-all ${isProcessing ? 'opacity-50' : ''}`}>
+            {isProcessing ? '解析中...' : 'AIで一括書き換え'}
           </button>
         </div>
 
@@ -281,20 +262,20 @@ const App: React.FC = () => {
           <h2 className="text-[10px] font-black text-gray-400 mb-4 tracking-widest uppercase border-b-2 border-gray-50 pb-1">基本情報</h2>
           <div className="space-y-4">
             <div>
-               <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">歯科医院名</label>
-               <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500" placeholder="歯科医院名をご入力ください" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
+               <label className="block text-[10px] text-gray-500 font-bold mb-1">歯科医院名</label>
+               <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 outline-none focus:ring-2 focus:ring-blue-500" placeholder="歯科医院名をご入力ください" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">担当者</label>
-                <select className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}>
+                <label className="block text-[10px] text-gray-500 font-bold mb-1">担当者</label>
+                <select className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none appearance-none" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}>
                   <option value="">選択</option>
                   <option value="寺町">寺町</option><option value="小山">小山</option><option value="今井">今井</option><option value="松井">松井</option>
                 </select>
               </div>
               <div>
-                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">発行日</label>
-                <input type="date" className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500" value={data.clinic.publishDate} onChange={(e) => setData({...data, clinic: {...data.clinic, publishDate: e.target.value}})} />
+                <label className="block text-[10px] text-gray-500 font-bold mb-1">発行日</label>
+                <input type="date" className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none" value={data.clinic.publishDate} onChange={(e) => setData({...data, clinic: {...data.clinic, publishDate: e.target.value}})} />
               </div>
             </div>
           </div>
@@ -306,15 +287,15 @@ const App: React.FC = () => {
         {renderCategoryGroup("4. 自費義歯料金一覧", privateDentureCategories, "orange")}
 
         {/* 保存済みリスト */}
-        <div className="mt-12 pt-8 border-t-4 border-gray-300">
-          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase">保存済み医院リスト</h2>
-          <div className="max-h-60 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white shadow-inner">
+        <div className="mt-12 pt-8 border-t-2 border-gray-200 pb-12">
+          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase">保存履歴</h2>
+          <div className="max-h-60 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white">
             {savedLists.length === 0 ? <div className="p-8 text-center text-[10px] text-gray-400">履歴なし</div> : (
               <ul className="divide-y divide-gray-100">
                 {savedLists.map((list, i) => (
-                  <li key={i} className="p-3 hover:bg-emerald-50 cursor-pointer transition-colors" onClick={() => handleLoadClinic(list)}>
+                  <li key={i} className="p-3 hover:bg-emerald-50 cursor-pointer" onClick={() => handleLoadClinic(list)}>
                     <div className="text-[11px] font-black text-gray-700">{list.clinic.name}</div>
-                    <div className="text-[9px] text-gray-400">{list.clinic.publishDate} / {list.clinic.representative}</div>
+                    <div className="text-[9px] text-gray-400">{list.clinic.publishDate}</div>
                   </li>
                 ))}
               </ul>
@@ -324,20 +305,48 @@ const App: React.FC = () => {
       </div>
 
       {/* 右メインエリア（プレビュー） */}
-      <div className={`flex-1 relative bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-24 md:pb-0`}>
+      <div className={`flex-1 relative bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-32 md:pb-0`}>
         <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 border-gray-200 p-4 z-50 flex justify-between items-center shadow-lg">
-          <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black">← 戻って修正</button>
-          <div className="hidden md:block"></div>
+          <div className="flex gap-2">
+            <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black">← 編集に戻る</button>
+            <div className="hidden md:flex gap-1">
+              {[0, 1, 2, 3].map(p => (
+                <button key={p} onClick={() => setPreviewPage(p)} className={`w-8 h-8 rounded-full text-[10px] font-bold border-2 ${previewPage === p ? 'bg-orange-600 text-white border-orange-700' : 'bg-white text-gray-400 border-gray-200'}`}>{p+1}</button>
+              ))}
+            </div>
+          </div>
           <button 
             onClick={handlePrint} 
             disabled={isPrinting}
-            className={`bg-orange-600 text-white px-8 md:px-12 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70 cursor-not-allowed' : ''}`}
+            className={`bg-orange-600 text-white px-8 md:px-12 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70' : ''}`}
           >
-            {isPrinting ? '準備中...' : 'PDF出力・印刷'}
+            {isPrinting ? 'PDF生成中...' : 'PDF保存・印刷'}
           </button>
         </div>
-        <div className="flex justify-center p-4 print:p-0 print:block">
-          <PriceListRenderer data={data} />
+
+        {/* モバイル用ページ切り替え（プレビュー画面時のみ） */}
+        <div className="md:hidden no-print flex justify-center gap-4 my-4">
+           {[0, 1, 2, 3].map(p => (
+             <button 
+               key={p} 
+               onClick={() => setPreviewPage(p)}
+               className={`px-4 py-2 rounded-lg font-black text-xs transition-all ${previewPage === p ? 'bg-white text-orange-600 shadow-lg' : 'bg-gray-800 text-gray-500'}`}
+             >
+               P{p+1}
+             </button>
+           ))}
+        </div>
+
+        <div className="flex flex-col items-center justify-start p-4 md:p-8 print:p-0 print:block">
+          {/* PriceListRenderer自体を渡すが、CSSで制御 */}
+          <div className={`mobile-preview-container page-index-${previewPage}`}>
+            <PriceListRenderer data={data} />
+          </div>
+        </div>
+        
+        <div className="md:hidden no-print text-center text-gray-500 text-[10px] font-bold py-8">
+          - ページ {previewPage + 1} / 4 -<br/>
+          ( 左右にスワイプはできません。上のボタンで切り替えてください )
         </div>
       </div>
     </div>
