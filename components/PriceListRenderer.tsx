@@ -79,7 +79,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col gap-0 items-center py-0 print:block w-full">
       
-      {/* PAGE 1: FRONT COVER & IMPLANT */}
+      {/* PAGE 1: FRONT COVER & IMPLANT - フッター維持 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-12 flex flex-col h-full bg-white relative">
           <div className="w-full text-right text-[11px] text-gray-400 mb-6 font-black">発行日：{formattedDate}</div>
@@ -134,7 +134,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 2: 保険技工物 - 垂直方向を極限までコンパクトに調整 */}
+      {/* PAGE 2: 保険技工物 - フッター削除 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-6 flex flex-col text-gray-800 h-full">
           <h2 className="text-[#1e40af] border-b-[4px] border-[#1e40af] mb-3 font-black text-2xl italic pb-1 tracking-widest uppercase">保険技工物 料金表</h2>
@@ -239,13 +239,10 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                </div>
             </div>
           </div>
-          <div className="mt-auto pt-4 text-center">
-             <div className="text-xl font-black text-gray-800 italic">株式会社マイ・スターズ 大阪</div>
-          </div>
         </div>
       </div>
 
-      {/* PAGE 3: 自費義歯 - レイアウトを最適化（スペースの詰め） */}
+      {/* PAGE 3: 自費義歯 - フッター削除・再編 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page px-10 py-8 flex flex-col text-gray-800 bg-white">
           <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-3 font-black text-2xl italic tracking-[0.2em] pb-1 uppercase">自費義歯料金一覧</h2>
@@ -353,13 +350,13 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-4">
+          {/* シリコン裏装加工・その他セクションの再編 */}
+          <div className="mb-0">
             <div className="flex flex-row gap-6">
                <div className="w-1/2">
-                 <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">シリコン裏装加工・その他</div>
-                 <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] font-bold space-y-1 shadow-inner">
-                   {/* slice(0, 6) に修正することで全項目（スポーツマウスガード、副模型を含む）を表示 */}
-                   {privateGishiOthers?.items.slice(0, 6).map((item, idx) => (
+                 <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">シリコン裏装</div>
+                 <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] font-bold space-y-1 shadow-inner min-h-[110px]">
+                   {privateGishiOthers?.items.slice(0, 4).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-0.5">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>
                        <span className="text-orange-900 font-black whitespace-nowrap">¥{item.price}</span>
@@ -367,28 +364,23 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                    ))}
                  </div>
                </div>
-               <div className="w-1/2 flex flex-col">
-                 <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">その他・特記事項</div>
-                 <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[9px] flex flex-col min-h-[75px] shadow-inner flex-1">
-                   <div className="text-[#9a3412] font-bold italic leading-tight space-y-1">
-                     <p>※貴金属は材料代別途となります。</p>
-                     <p>※ALL on 4 等はお見積りさせて頂きます。</p>
-                   </div>
-                   <div className="mt-auto text-gray-500 font-bold border-t border-orange-50 pt-1 text-[8.5px]">
-                     ※再製作・修理についてはお気軽にご相談ください。
-                   </div>
+               <div className="w-1/2">
+                 <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">その他</div>
+                 <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] font-bold space-y-1 shadow-inner min-h-[110px]">
+                   {privateGishiOthers?.items.slice(4, 6).map((item, idx) => (
+                     <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-0.5">
+                       <span className="text-gray-700">{sanitizeName(item.name)}</span>
+                       <span className="text-orange-900 font-black whitespace-nowrap">¥{item.price}</span>
+                     </div>
+                   ))}
                  </div>
                </div>
             </div>
           </div>
-
-          <div className="mt-auto border-t-[3px] border-gray-800 pt-4 text-center">
-             <div className="text-xl font-black text-gray-800 italic">株式会社マイ・スターズ 大阪</div>
-          </div>
         </div>
       </div>
 
-      {/* PAGE 4: 自費歯冠修復 - 以前のまま維持 */}
+      {/* PAGE 4: 自費歯冠修復 - フッター削除 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-10 flex flex-col text-gray-800 h-full">
           <h2 className="text-[#065f46] border-b-[4px] border-[#065f46] mb-6 font-black text-2xl italic tracking-[0.2em] pb-2 uppercase">自費歯冠修復 料金一覧</h2>
@@ -406,9 +398,6 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                 <CompactTable category={fiber} />
               </div>
             </div>
-          </div>
-          <div className="mt-auto border-t-[3px] border-gray-800 pt-4 text-center">
-             <div className="text-xl font-black text-gray-800 italic">株式会社マイ・スターズ 大阪</div>
           </div>
         </div>
       </div>
