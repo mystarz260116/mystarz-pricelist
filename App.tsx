@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [memo, setMemo] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showEditor, setShowEditor] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
   const [savedLists, setSavedLists] = useState<PriceListData[]>([]);
 
   useEffect(() => {
@@ -187,12 +188,93 @@ const App: React.FC = () => {
   const implantCategories = data.categories.filter(c => c.id === 'implant');
   const privateDentureCategories = data.categories.filter(c => ['private-gishi-basic', 'private-gishi-nonclasp', 'private-gishi-metal', 'private-gishi-options', 'private-gishi-others'].includes(c.id));
 
+  const samplePrompts = [
+    { label: "価格を特定変更", text: "KATANAを20000円、レイヤリングを28000円に変更して" },
+    { label: "一律値上げ", text: "保険冠の項目をすべて一律100円値上げして" },
+    { label: "医院/担当者変更", text: "担当者を寺町さんに変更して、発行日を明日に設定" }
+  ];
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden">
+      {/* 使い方ガイドモーダル */}
+      {showGuide && (
+        <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center z-10">
+              <h2 className="text-xl font-black text-gray-800">使い方ガイド</h2>
+              <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 text-2xl font-bold">×</button>
+            </div>
+            <div className="p-8 space-y-10">
+              <section className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">1</div>
+                  <h3 className="font-bold text-gray-800 text-lg">金額の修正方法（手動）</h3>
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed pl-11">
+                  項目ごとの金額をクリックすると直接入力できます。<br/>
+                  <span className="font-bold text-blue-600">「3,000 ～ 8,000」</span>のような範囲表示や<br/>
+                  <span className="font-bold text-blue-600">「2,500 / １箇所」</span>のような単位付きも、数字の部分だけを書き換えるだけでOKです。
+                </p>
+              </section>
+
+              <section className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">2</div>
+                  <h3 className="font-bold text-gray-800 text-lg">AIメモで一括反映（おすすめ！）</h3>
+                </div>
+                <div className="bg-indigo-50 rounded-2xl p-6 pl-11 ml-11 border border-indigo-100">
+                  <p className="text-sm text-indigo-900 leading-relaxed mb-4">
+                    左パネルの青いボックスに指示を書くだけで、表全体をAIが自動で書き換えます。
+                  </p>
+                  <ul className="text-xs space-y-2 text-indigo-700 list-disc list-inside font-medium">
+                    <li>「ジルコニアの項目をすべて1,000円値上げして」</li>
+                    <li>「KATANAを21,000円に変更して」</li>
+                    <li>「担当者を○○に変更して」</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold">3</div>
+                  <h3 className="font-bold text-gray-800 text-lg">データの保存と管理</h3>
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed pl-11">
+                  <span className="font-bold text-emerald-700">「編集内容を保存」</span>を押すと、医院ごとのデータが保存されます。<br/>
+                  後で「保存済み医院リスト」から呼び出して、何度でも再編集が可能です。
+                </p>
+              </section>
+
+              <section className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold">4</div>
+                  <h3 className="font-bold text-gray-800 text-lg">PDF出力・印刷</h3>
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed pl-11">
+                  プレビュー上部の<span className="font-bold text-orange-700">「PDF印刷」</span>ボタンを押すと、A4縦（4ページ構成）の綺麗な料金表が出力されます。そのまま歯科医院様にお渡しいただけます。
+                </p>
+              </section>
+            </div>
+            <div className="p-6 bg-gray-50 text-center">
+              <button onClick={() => setShowGuide(false)} className="bg-gray-800 text-white px-12 py-3 rounded-full font-bold text-sm hover:bg-black transition-all">わかった！</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen ${!showEditor ? 'hidden' : ''}`}>
-        <div className="mb-6 border-b-2 border-gray-300 pb-4">
-          <h1 className="text-xl font-bold text-gray-800 mb-1 italic">料金表 作成依頼</h1>
-          <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Sales Support System</p>
+        <div className="mb-6 border-b-2 border-gray-300 pb-4 flex justify-between items-start">
+          <div>
+            <h1 className="text-xl font-bold text-gray-800 mb-1 italic">料金表 作成依頼</h1>
+            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Sales Support System</p>
+          </div>
+          <button 
+            onClick={() => setShowGuide(true)} 
+            className="flex flex-col items-center gap-0.5 bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1.5 rounded-lg transition-all border border-blue-200"
+          >
+            <span className="text-lg font-bold leading-none">?</span>
+            <span className="text-[8px] font-black">使い方</span>
+          </button>
         </div>
 
         <div className="grid grid-cols-2 gap-2 mb-6">
@@ -200,12 +282,36 @@ const App: React.FC = () => {
           <button onClick={handleExportExcel} className="bg-gray-800 hover:bg-black text-white py-3 px-2 rounded-lg text-[11px] font-bold shadow-lg transition-all flex items-center justify-center gap-1.5 transform active:scale-95">Excel一括出力</button>
         </div>
 
+        {/* AI メモセクション */}
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl border-2 border-indigo-800">
-          <label className="text-[11px] font-black text-white uppercase tracking-widest mb-3 block">AI メモ一括反映</label>
-          <textarea className="w-full border-indigo-500 bg-white/10 text-white border-2 rounded-lg p-3 text-xs h-20 mb-4 focus:ring-2 focus:ring-white outline-none placeholder-indigo-200" placeholder="例：KATANAを20000円に。など" value={memo} onChange={(e) => setMemo(e.target.value)} />
+          <div className="flex justify-between items-center mb-3">
+            <label className="text-[11px] font-black text-white uppercase tracking-widest block">AI メモ一括反映</label>
+            <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold">Gemini 2.5 Flash</span>
+          </div>
+          
+          <textarea 
+            className="w-full border-indigo-500 bg-white/10 text-white border-2 rounded-lg p-3 text-xs h-32 mb-3 focus:ring-2 focus:ring-white outline-none placeholder-indigo-200" 
+            placeholder={"【入力例】\n・KATANAを20,000円、レイヤリングを28,000円にして\n・保険冠をすべて一律で100円値上げして\n・担当者を寺町さんに変えて、発行日を2月10日にして\n・自費義歯の基本料を10%安くして"} 
+            value={memo} 
+            onChange={(e) => setMemo(e.target.value)} 
+          />
+          
+          <div className="flex flex-wrap gap-2 mb-4">
+            {samplePrompts.map((p, i) => (
+              <button 
+                key={i} 
+                onClick={() => setMemo(p.text)}
+                className="text-[9px] bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-1 rounded border border-indigo-400/50 transition-colors"
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+
           <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black shadow-lg transition-all transform active:scale-95 ${isProcessing ? 'bg-indigo-300 text-indigo-500' : 'bg-white text-indigo-800 hover:bg-indigo-50'}`}>
             {isProcessing ? '解析中...' : 'AIで一括書き換え'}
           </button>
+          <p className="text-[9px] text-indigo-200 mt-2 text-center font-medium">※会話するように指示するだけで価格表が更新されます。</p>
         </div>
 
         <div className="bg-white p-5 rounded-xl border-2 border-gray-200 shadow-md mb-8">
