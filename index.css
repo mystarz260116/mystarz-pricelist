@@ -8,7 +8,7 @@
   }
 }
 
-/* A4ページ表示用のスタイル */
+/* A4ページ表示用の基本スタイル */
 .a4-page {
   width: 210mm;
   height: 297mm;
@@ -17,4 +17,45 @@
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+/* レスポンシブ対応：スマホで見るときにA4を縮小してフィットさせる */
+.responsive-a4-wrapper {
+  width: 210mm;
+  height: 297mm;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 860px) { /* A4の幅約794px + 余白 */
+  .responsive-a4-wrapper {
+    /* 画面幅（左右1remずつの余白を引いたもの）に合わせて高さを算出 */
+    width: calc(100vw - 2rem);
+    height: calc((100vw - 2rem) * (297 / 210));
+    margin-bottom: 1rem;
+  }
+  .a4-page {
+    /* 210mmを画面幅に合わせてスケーリング */
+    transform: scale(calc((100vw - 2rem) / 210mm));
+    transform-origin: top left;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+}
+
+@media print {
+  .responsive-a4-wrapper {
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+  .a4-page {
+    transform: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    border: none !important;
+  }
 }

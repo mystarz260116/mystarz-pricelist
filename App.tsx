@@ -207,6 +207,16 @@ const App: React.FC = () => {
               <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 text-2xl font-bold transition-transform active:scale-90">×</button>
             </div>
             <div className="p-8 space-y-10">
+              {/* 導入の背景と目的をガイドの最初に追加 */}
+              <section className="bg-blue-50 p-6 rounded-2xl border border-blue-100 space-y-3">
+                <h3 className="font-black text-blue-800 text-lg flex items-center gap-2">
+                  <span className="text-2xl">🎯</span> 導入の背景と目的
+                </h3>
+                <p className="text-sm text-blue-900/80 leading-relaxed font-medium">
+                  手書きや転記によるミスを防ぎ、営業が現場で即座に正確な料金表を作成できる環境を整えることで、**「事務・営業双方の負担を最小化する」**ことを目的としています。
+                </p>
+              </section>
+
               <section className="space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shadow-md">1</div>
@@ -232,7 +242,12 @@ const App: React.FC = () => {
                     <li>「ジルコニアを全部2,000円値上げして」</li>
                     <li>「担当者を○○に変更して、日付は今日にして」</li>
                   </ul>
-                  <p className="mt-4 text-[10px] text-indigo-400 font-bold border-t border-indigo-200 pt-2 italic">※AI利用料は無料枠内（0円）ですので、安心して何度でもお使いください。</p>
+                  <div className="mt-4 border-t border-indigo-200 pt-3">
+                    <p className="text-[11px] text-indigo-800 font-bold mb-1">💡 コストについて</p>
+                    <p className="text-[10px] text-indigo-600 leading-relaxed">
+                      このAI（Gemini 2.5 Flash）は、Googleより**「1日1,500リクエストまで無料」**という非常に広い枠が提供されています。全社員が毎日使い込んでもコストは発生しませんので、遠慮なくご活用ください。
+                    </p>
+                  </div>
                 </div>
               </section>
 
@@ -243,11 +258,11 @@ const App: React.FC = () => {
                 </div>
                 <div className="pl-11 space-y-3">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    <span className="font-bold text-emerald-700 underline decoration-2">「編集内容を保存」</span>を押すと、このツールを動かしている<span className="font-bold">「あなた自身のスマホ」</span>の中にデータが記憶されます。
+                    <span className="font-bold text-emerald-700 underline decoration-2">「編集内容を保存」</span>を押すと、データは<span className="font-bold">「あなた自身のスマホ内」</span>にのみ記録されます。
                   </p>
                   <div className="bg-emerald-50 border-l-4 border-emerald-400 p-4 rounded-r-lg text-xs text-emerald-900 shadow-sm">
                     <p className="font-bold mb-1">✨ 事務に頼らなくてもOK！</p>
-                    <p>データは社内サーバーや事務のPCには送信されません。<span className="font-bold">あなただけの専用管理ツール</span>です。現場で即座に過去データを呼び出し、自分自身で修正して最新の料金表を提示できます。</p>
+                    <p>データはサーバーには送信されません。現場で即座に過去データを呼び出し、自分自身で修正して最新の料金表を提示できます。</p>
                   </div>
                 </div>
               </section>
@@ -259,23 +274,8 @@ const App: React.FC = () => {
                 </div>
                 <div className="pl-11 space-y-4">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    スマホから直接印刷するのは難しいため、以下の流れがスムーズです。
+                    スマホで<span className="font-bold text-orange-600">「PDF出力」</span>を行い、保存したPDFをそのまま医院様に送付するか、事務担当者に送って印刷を依頼してください。
                   </p>
-                  
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="bg-white border-2 border-orange-100 p-4 rounded-xl shadow-sm">
-                      <p className="text-xs font-black text-orange-600 mb-1">【方法A】事務に印刷を頼む</p>
-                      <p className="text-[11px] text-gray-600 leading-relaxed">
-                        スマホで<span className="font-bold">「PDF印刷」</span>ボタンを押し、プレビュー画面から「共有（保存）」を選択。保存したPDFを<span className="font-bold text-blue-600">LINE WORKS等で事務の担当者に送り</span>、「印刷お願いします！」と伝えるだけ。
-                      </p>
-                    </div>
-                    <div className="bg-white border-2 border-gray-100 p-4 rounded-xl shadow-sm">
-                      <p className="text-xs font-black text-gray-400 mb-1">【方法B】PCで自分で印刷する</p>
-                      <p className="text-[11px] text-gray-600 leading-relaxed">
-                        事務所のPCからこのURLを開き、スマホと同じ手順でデータを呼び出して、そのままプリンターから出力できます。
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </section>
             </div>
@@ -315,9 +315,12 @@ const App: React.FC = () => {
 
         {/* AI メモセクション */}
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl border-2 border-indigo-800">
-          <div className="flex justify-between items-center mb-3">
+          <div className="flex justify-between items-end mb-3">
             <label className="text-[11px] font-black text-white uppercase tracking-widest block">AI アシスタント</label>
-            <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold uppercase tracking-tighter">Gemini 2.5 Flash</span>
+            <div className="text-right">
+              <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold uppercase tracking-tighter block mb-0.5">Gemini 2.5 Flash</span>
+              <span className="text-[7px] text-indigo-200 font-bold block">Free: 1,500 req/day</span>
+            </div>
           </div>
           
           <textarea 
