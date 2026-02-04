@@ -291,7 +291,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
           </div>
 
           <div className="mb-2">
-            <div className="bg-[#ea580c] text-white px-3 py-0.5 text-[13px] font-black shadow-sm rounded-t">ノンクラスプ（エステ・TUM）</div>
+            <div className="bg-[#ea580c] text-white px-3 py-0.5 text-[13px] font-black shadow-sm rounded-t">{privateGishiNonclasp?.title}</div>
             <div className="flex flex-row gap-4 border-2 border-[#ea580c] bg-white p-1 rounded-b">
               <div className="w-1/2">
                 <table className="w-full text-[9.5px] border-collapse">
@@ -308,7 +308,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
               </div>
               <div className="w-1/2">
                 <table className="w-full text-[9.5px] border-collapse">
-                  <thead className="bg-[#fff7ed] text-[#9a3412] font-black border-b border-[#fed7aa]"><tr><th colSpan={2} className="px-2 py-1 text-left text-[11px]">TUM (熱可塑性樹脂)</th></tr></thead>
+                  <thead className="bg-[#fff7ed] text-[#9a3412] font-black border-b border-[#fed7aa]"><tr><th colSpan={2} className="px-2 py-1 text-left text-[11px]">TUM</th></tr></thead>
                   <tbody className="bg-white font-black">
                     {privateGishiNonclasp?.items.slice(6, 12).map((item, i) => (
                       <tr key={i} className={i % 2 !== 0 ? 'bg-[#fffbf0] text-[9px]' : ''}>
@@ -363,7 +363,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
           </div>
 
           <div className="mb-2">
-            <div className="bg-[#ea580c] text-white px-3 py-0.5 text-[13px] font-black shadow-sm rounded-t">自費オプション（鉤・バー等）</div>
+            <div className="bg-[#ea580c] text-white px-3 py-0.5 text-[13px] font-black shadow-sm rounded-t">{privateGishiOptions?.title}</div>
             <div className="border-2 border-[#ea580c] bg-white p-1 rounded-b">
               <div className="flex flex-row gap-4">
                 <div className="w-1/2">
@@ -372,8 +372,8 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                       <tr><th className="px-1 py-0.5 text-left">内容</th><th>Co</th><th>Ti</th><th>貴</th></tr>
                     </thead>
                     <tbody className="bg-white text-right font-black">
-                      {privateGishiOptions?.items.slice(0, 5).map((item, i) => (
-                        <tr key={i} className="border-b border-[#fff7ed]"><td className="text-left px-1 py-0.5">{sanitizeName(item.name)}</td><td>{parseMultiPrice(item.price, 0)}</td><td>{parseMultiPrice(item.price, 1)}</td><td>{parseMultiPrice(item.price, 2)}</td></tr>
+                      {privateGishiOptions?.items.slice(0, 6).map((item, i) => (
+                        <tr key={i} className="border-b border-[#fff7ed]"><td className="text-left px-1 py-0.5 truncate">{sanitizeName(item.name)}</td><td>{parseMultiPrice(item.price, 0)}</td><td>{parseMultiPrice(item.price, 1)}</td><td>{parseMultiPrice(item.price, 2)}</td></tr>
                       ))}
                     </tbody>
                   </table>
@@ -384,21 +384,17 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                       <tr><th className="px-1 py-0.5 text-left">内容</th><th>Co</th><th>Ti</th><th>貴</th></tr>
                     </thead>
                     <tbody className="bg-white text-right font-black">
-                      {privateGishiOptions?.items.slice(5, 9).map((item, i) => (
-                        <tr key={i} className="border-b border-[#fff7ed]"><td className="text-left px-1 py-0.5">{sanitizeName(item.name)}</td><td>{parseMultiPrice(item.price, 0)}</td><td>{parseMultiPrice(item.price, 1)}</td><td>{parseMultiPrice(item.price, 2)}</td></tr>
+                      {privateGishiOptions?.items.slice(6, 11).map((item, i) => (
+                        <tr key={i} className="border-b border-[#fff7ed]"><td className="text-left px-1 py-0.5 truncate">{sanitizeName(item.name)}</td><td>{parseMultiPrice(item.price, 0)}</td><td>{parseMultiPrice(item.price, 1)}</td><td>{parseMultiPrice(item.price, 2)}</td></tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-2 mt-1 px-1">
-                 <div className="bg-[#fff7ed] rounded flex justify-between items-center px-2 py-0.5 text-[9.5px] font-black">
-                   <span className="text-orange-900">{sanitizeName(privateGishiOptions?.items[9]?.name || '')}</span>
-                   <span className="text-orange-900">¥{privateGishiOptions?.items[9]?.price}</span>
-                 </div>
-                 <div className="bg-[#fff7ed] rounded flex justify-between items-center px-2 py-0.5 text-[9.5px] font-black">
-                   <span className="text-orange-900">自費：ロー着(Co/貴)</span>
-                   <span className="text-orange-900">¥6,000~/¥7,000~</span>
+              <div className="mt-1.5 px-1">
+                 <div className="bg-[#fff7ed] rounded flex justify-between items-center px-4 py-1.5 text-[10px] font-black border border-[#fed7aa]">
+                   <span className="text-orange-900">{sanitizeName(privateGishiOptions?.items[11]?.name || '')} <span className="ml-4">¥{privateGishiOptions?.items[11]?.price}</span></span>
+                   <span className="text-[#9a3412] italic">特殊鉤・その他　お問い合わせください</span>
                  </div>
               </div>
             </div>

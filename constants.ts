@@ -11,7 +11,7 @@ const getLocalDate = () => {
 
 export const INITIAL_PRICE_DATA: PriceListData = {
   clinic: {
-    name: "", // 初期値を空にする
+    name: "",
     representative: "",
     publishDate: getLocalDate(),
     expiryDate: ""
@@ -105,7 +105,7 @@ export const INITIAL_PRICE_DATA: PriceListData = {
     },
     {
       id: 'hoken-gishi-options',
-      title: '義歯オプション・その他',
+      title: '義歯オプション・修理等',
       color: 'blue',
       items: [
         { name: 'リベース', price: '3,000～8,000' },
@@ -239,9 +239,9 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: 'インプラント ロー着（1ヶ）', price: '8,000' },
         { name: '診断用WAXUP(１歯)', price: '1,000／歯' },
         { name: 'インプラント プロビジョナル', price: '3,000／歯' },
-        { name: 'サージカルテンプレート 1～4歯', price: '8,000' },
-        { name: 'サージカルテンプレート 5～10歯', price: '10,000' },
-        { name: 'サージカルテンプレート 11～14歯', price: '15,000' },
+        { name: 'サージカル or 診断用テンプレート（ステント） 1～4歯', price: '8,000' },
+        { name: 'サージカル or 診断用テンプレート（ステント） 5～10歯', price: '10,000' },
+        { name: 'サージカル or 診断用テンプレート（ステント） 11～14歯', price: '15,000' },
         { name: '造影埋込料 １ケ', price: '1,000' },
         { name: 'インプラントカスタムトレー', price: '3,000～' },
         { name: 'レジンバイト', price: '5,000' },
@@ -268,7 +268,7 @@ export const INITIAL_PRICE_DATA: PriceListData = {
     },
     {
       id: 'private-gishi-nonclasp',
-      title: 'ノンクラスプ (エステ・バイオ / TUM)',
+      title: 'ノンクラスプ（排列料、クラスプ、人工歯別）',
       color: 'orange',
       items: [
         { name: '【エステ・バイオ】 1類完成', price: '25,000' },
@@ -305,13 +305,14 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: '両翼レストクラスプ (Co/Ti/貴)', price: '2,700 / 5,000 / 3,600' },
         { name: '双子鉤 (Co/Ti/貴)', price: '4,200 / 8,000 / 5,500' },
         { name: 'レフト・フック・スパー (Co/Ti/貴)', price: '1,500 / 3,000 / 2,000' },
-        { name: 'メタルアップガイドP (Co/Ti/貴)', price: '800 / 1,600 / 1,100' },
+        { name: 'メタルアップガイドプレーン (Co/Ti/貴)', price: '800 / 1,600 / 1,100' },
         { name: 'メタルティース (Co/Ti/貴)', price: '5,300 / 10,000 / 6,900' },
+        { name: 'ロー着 (Co/Ti/貴)', price: '6,000 / ー / 8,500～' },
+        { name: 'レーザー溶接 (Co/Ti/貴)', price: '7,000～ / ー / 7,000～' },
         { name: 'コンビネーション (Co/Ti/貴)', price: '2,700 / 5,000 / 3,600' },
-        { name: 'RPI (Co/Ti/貴)', price: '5,300 / 10,000 / 6,900' },
+        { name: 'RPI(Iバーシステム) (Co/Ti/貴)', price: '5,300 / 10,000 / 6,900' },
         { name: '鋳造バー (Co/Ti/貴)', price: '8,400 / 16,800 / 11,000' },
         { name: '自費：トレー / 咬合床', price: '各 2,500' },
-        { name: '自費：ロー着 (Co/貴)', price: '6,000~ / 7,000~' },
       ]
     },
     {
