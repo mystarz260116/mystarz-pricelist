@@ -11,8 +11,8 @@ const getLocalDate = () => {
 
 export const INITIAL_PRICE_DATA: PriceListData = {
   clinic: {
-    name: "歯科医院名をご入力ください",
-    representative: "担当者名",
+    name: "", // 初期値を空にする
+    representative: "",
     publishDate: getLocalDate(),
     expiryDate: ""
   },

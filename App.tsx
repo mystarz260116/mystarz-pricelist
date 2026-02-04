@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { PriceListData, PriceCategory } from './types';
 import { INITIAL_PRICE_DATA } from './constants';
@@ -56,7 +57,7 @@ const App: React.FC = () => {
   };
 
   const handleSaveClinic = () => {
-    if (!data.clinic.name || data.clinic.name === "歯科医院名をご入力ください") {
+    if (!data.clinic.name) {
       alert("医院名を入力してください。");
       return;
     }
@@ -399,7 +400,13 @@ const App: React.FC = () => {
           <div className="space-y-4">
             <div>
                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">歯科医院名</label>
-               <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
+               <input 
+                 type="text" 
+                 className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500" 
+                 placeholder="歯科医院名をご入力ください"
+                 value={data.clinic.name} 
+                 onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} 
+               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { PriceListData, PriceCategory } from '../types';
 
@@ -87,7 +88,9 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         <div className="a4-page p-8 flex flex-col items-center">
           <div className="w-full text-right text-[10px] text-gray-400 mb-2 font-medium">発行日：{formattedDate}</div>
           <div className="w-full text-center border-y-2 border-gray-800 py-4 mb-6">
-            <h1 className="text-2xl font-bold text-gray-800 mb-1">{data.clinic.name} 様</h1>
+            <h1 className={`text-2xl font-bold mb-1 ${!data.clinic.name ? 'text-gray-200 italic' : 'text-gray-800'}`}>
+              {data.clinic.name || '歯科医院名をご入力ください'} 様
+            </h1>
             <p className="text-xl font-bold text-gray-700 tracking-[0.3em]">価格一覧表</p>
           </div>
           <div className="w-full flex justify-end mb-8">
