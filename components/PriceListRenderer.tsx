@@ -242,17 +242,17 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 3: 自費義歯料金一覧 - さらに垂直間隔を微調整 */}
+      {/* PAGE 3: 自費義歯料金一覧 - 極限まで詰め込み調整 */}
       <div className="responsive-a4-wrapper">
-        <div className="a4-page px-10 py-7 flex flex-col text-gray-800 bg-white overflow-hidden">
-          <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-2 font-black text-2xl italic tracking-[0.3em] pb-1 uppercase">自費義歯料金一覧</h2>
+        <div className="a4-page px-10 py-4 flex flex-col text-gray-800 bg-white overflow-hidden">
+          <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-1 font-black text-2xl italic tracking-[0.3em] pb-1 uppercase">自費義歯料金一覧</h2>
           
-          <div className="flex flex-row gap-4 mb-1.5">
+          <div className="flex flex-row gap-4 mb-1">
             <div className="w-1/2">
               <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black shadow-sm rounded-t">自費義歯排列料</div>
               <div className="border-[2px] border-[#ea580c] bg-white rounded-b overflow-hidden shadow-sm">
                 {privateGishiBasic?.items.slice(0, 5).map((item, i) => (
-                  <div key={i} className={`flex justify-between px-3 py-1 text-[10px] border-b border-[#fff7ed] last:border-0 font-bold ${i % 2 !== 0 ? 'bg-[#fff7ed]' : ''}`}>
+                  <div key={i} className={`flex justify-between px-3 py-0.5 text-[10px] border-b border-[#fff7ed] last:border-0 font-bold ${i % 2 !== 0 ? 'bg-[#fff7ed]' : ''}`}>
                     <span className="text-gray-700">{sanitizeName(item.name)}</span>
                     <span className="text-orange-900 font-black">¥{item.price}</span>
                   </div>
@@ -263,7 +263,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
               <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black shadow-sm rounded-t">自費義歯完成料</div>
               <div className="border-[2px] border-[#ea580c] bg-white rounded-b overflow-hidden shadow-sm">
                 {privateGishiBasic?.items.slice(5, 10).map((item, i) => (
-                  <div key={i} className={`flex justify-between px-3 py-1 text-[10px] border-b border-[#fff7ed] last:border-0 font-bold ${i % 2 !== 0 ? 'bg-[#fff7ed]' : ''}`}>
+                  <div key={i} className={`flex justify-between px-3 py-0.5 text-[10px] border-b border-[#fff7ed] last:border-0 font-bold ${i % 2 !== 0 ? 'bg-[#fff7ed]' : ''}`}>
                     <span className="text-gray-700">{sanitizeName(item.name)}</span>
                     <span className="text-orange-900 font-black">¥{item.price}</span>
                   </div>
@@ -272,22 +272,22 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-1.5">
+          <div className="mb-1">
             <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black shadow-sm rounded-t">{privateGishiNonclasp?.title}</div>
-            <div className="flex flex-row gap-2 border-[2px] border-[#ea580c] bg-white p-2.5 rounded-b shadow-sm">
+            <div className="flex flex-row gap-2 border-[2px] border-[#ea580c] bg-white px-2 py-1 rounded-b shadow-sm">
               <div className="w-1/2">
-                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 uppercase tracking-tighter bg-orange-50/50">エステショット / バイオプラスト</div>
+                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-0.5 px-1 uppercase tracking-tighter bg-orange-50/50">エステショット / バイオプラスト</div>
                 {privateGishiNonclasp?.items.slice(0, 6).map((item, i) => (
-                  <div key={i} className={`flex justify-between px-2 py-1 text-[10px] font-black border-b border-[#fff7ed] last:border-0 ${i % 2 !== 0 ? 'text-orange-700 italic pl-4' : 'text-gray-800'}`}>
+                  <div key={i} className={`flex justify-between px-2 py-0.5 text-[10px] font-black border-b border-[#fff7ed] last:border-0 ${i % 2 !== 0 ? 'text-orange-700 italic pl-4' : 'text-gray-800'}`}>
                     <span>{sanitizeName(item.name)}</span>
                     <span className="text-orange-900">¥{item.price}</span>
                   </div>
                 ))}
               </div>
-              <div className="w-1/2 border-l-2 border-orange-50 pl-2.5">
-                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 uppercase tracking-tighter bg-orange-50/50">TUM</div>
+              <div className="w-1/2 border-l-2 border-orange-50 pl-2">
+                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-0.5 px-1 uppercase tracking-tighter bg-orange-50/50">TUM</div>
                 {privateGishiNonclasp?.items.slice(6, 12).map((item, i) => (
-                  <div key={i} className={`flex justify-between px-2 py-1 text-[10px] font-black border-b border-[#fff7ed] last:border-0 ${i % 2 !== 0 ? 'text-orange-700 italic pl-4' : 'text-gray-800'}`}>
+                  <div key={i} className={`flex justify-between px-2 py-0.5 text-[10px] font-black border-b border-[#fff7ed] last:border-0 ${i % 2 !== 0 ? 'text-orange-700 italic pl-4' : 'text-gray-800'}`}>
                     <span>{sanitizeName(item.name)}</span>
                     <span className="text-orange-900">¥{item.price}</span>
                   </div>
@@ -296,17 +296,17 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-1.5">
+          <div className="mb-1">
             <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black shadow-sm rounded-t">金属床 (コバルト / チタン / 貴金属)</div>
             <div className="border-[2px] border-[#ea580c] bg-white rounded-b overflow-hidden shadow-sm">
                <table className="w-full text-[10px] border-collapse">
                   <thead className="bg-[#ffedd5] text-[#9a3412] font-black border-b border-[#fed7aa]">
-                    <tr><th className="px-4 py-1.5 text-left">内容</th><th className="w-20 text-center">コバルト</th><th className="w-20 text-center">チタン</th><th className="w-20 text-center">貴金属</th></tr>
+                    <tr><th className="px-4 py-1 text-left">内容</th><th className="w-20 text-center">コバルト</th><th className="w-20 text-center">チタン</th><th className="w-20 text-center">貴金属</th></tr>
                   </thead>
                   <tbody className="bg-white font-black text-right">
                     {privateGishiMetal?.items.map((item, i) => (
                       <tr key={i} className={i % 2 !== 0 ? "bg-[#fff7ed]" : "border-b border-[#ffedd5]"}>
-                        <td className="text-left px-4 py-1.5 text-orange-900">{sanitizeName(item.name)}</td>
+                        <td className="text-left px-4 py-1 text-orange-900">{sanitizeName(item.name)}</td>
                         <td className="px-2 text-gray-800">¥{parseMultiPrice(item.price, 0)}</td>
                         <td className="px-2 text-gray-800">¥{parseMultiPrice(item.price, 1)}</td>
                         <td className="px-2 text-gray-800">¥{parseMultiPrice(item.price, 2)}</td>
@@ -317,9 +317,9 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-1.5">
+          <div className="mb-1">
             <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black shadow-sm rounded-t">{privateGishiOptions?.title}</div>
-            <div className="border-[2px] border-[#ea580c] bg-white p-2.5 rounded-b shadow-sm">
+            <div className="border-[2px] border-[#ea580c] bg-white px-2 py-1 rounded-b shadow-sm">
               <div className="flex flex-row gap-4">
                 <div className="w-1/2">
                   <table className="w-full text-[9px] border-collapse font-black">
@@ -354,7 +354,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             <div className="flex flex-row gap-6">
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black shadow-sm rounded-t">シリコン裏装加工</div>
-                 <div className="border-[2px] border-[#ea580c] bg-white p-2.5 rounded-b text-[10px] space-y-1 font-black shadow-sm">
+                 <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] space-y-0.5 font-black shadow-sm">
                    {privateGishiOthers?.items.slice(0, 4).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-1">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>
@@ -365,14 +365,14 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                </div>
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black shadow-sm rounded-t">その他・特記事項</div>
-                 <div className="border-[2px] border-[#ea580c] bg-white p-2.5 rounded-b text-[10px] space-y-1 font-black shadow-sm flex flex-col min-h-[95px]">
+                 <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] space-y-0.5 font-black shadow-sm flex flex-col min-h-[90px]">
                    {privateGishiOthers?.items.slice(4).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-1">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>
                        <span className="text-orange-900 font-black whitespace-nowrap">¥{item.price}</span>
                      </div>
                    ))}
-                   <div className="mt-auto text-[8px] text-[#9a3412] italic pt-1.5 leading-tight border-t border-orange-50">
+                   <div className="mt-auto text-[8px] text-[#9a3412] italic pt-1 leading-tight border-t border-orange-50">
                      ※貴金属は材料代別途となります。<br/>
                      ※再製作・修理等についてはお気軽にご相談ください。
                    </div>

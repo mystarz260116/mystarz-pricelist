@@ -36,34 +36,35 @@
   print-color-adjust: exact !important;
 }
 
-/* スマホ表示時の改善 */
+/* スマホ表示時の改善：横幅ピッタリにフィットさせる */
 @media (max-width: 820px) {
   .mobile-preview-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem 0;
-    gap: 1rem;
+    padding: 0.5rem 0;
+    gap: 0.5rem;
+    overflow-x: hidden; /* 横ハミ出し防止 */
   }
 
   .responsive-a4-wrapper {
-    /* 画面幅（左右の余白を考慮）に基づいたスケーリング */
-    --scale-ratio: calc((100vw - 1.5rem) / 794);
-    width: calc(100vw - 1.5rem) !important;
+    /* 左右パディング(計1rem)を引いた幅にスケールさせる */
+    --scale-ratio: calc((100vw - 1rem) / 794);
+    width: calc(100vw - 1rem) !important;
     height: calc(1123px * var(--scale-ratio)) !important;
     margin-bottom: 0.5rem !important;
-    overflow: visible;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .a4-page {
-    /* 絶対配置を解除して順番に並ぶように修正 */
-    position: relative !important;
+    position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     transform-origin: top left !important;
     transform: scale(var(--scale-ratio)) !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 }
 
