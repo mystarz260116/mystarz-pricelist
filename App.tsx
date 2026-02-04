@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { PriceListData, PriceCategory } from './types';
 import { INITIAL_PRICE_DATA } from './constants';
@@ -16,6 +15,8 @@ const App: React.FC = () => {
   const [showEditor, setShowEditor] = useState(true);
   const [showGuide, setShowGuide] = useState(false);
   const [savedLists, setSavedLists] = useState<PriceListData[]>([]);
+  // モバイル用の表示モード切り替え ('edit' or 'preview')
+  const [mobileViewMode, setMobileViewMode] = useState<'edit' | 'preview'>('edit');
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -76,6 +77,7 @@ const App: React.FC = () => {
   const handleLoadClinic = (clinicData: PriceListData) => {
     if (confirm(`${clinicData.clinic.name} のデータを読み込みますか？`)) {
       setData(JSON.parse(JSON.stringify(clinicData)));
+      setMobileViewMode('edit'); // 読み込み時は編集画面へ
     }
   };
 
@@ -109,7 +111,6 @@ const App: React.FC = () => {
 
   const renderPriceInputs = (catId: string, itemIdx: number, price: string, themeColor: string) => {
     const segments = price.split(/(\s\/\s|～)/);
-    
     const inputFocusClasses: {[key: string]: string} = {
       blue: 'focus:ring-blue-500 border-blue-200',
       green: 'focus:ring-emerald-500 border-emerald-200',
@@ -126,17 +127,11 @@ const App: React.FC = () => {
       <div className="flex items-center gap-1 flex-wrap justify-end">
         {segments.map((seg, sIdx) => {
           if (seg === ' / ' || seg === '～') {
-            return (
-              <span key={sIdx} className="text-gray-400 font-black text-[11px] px-0.5">
-                {seg.trim()}
-              </span>
-            );
+            return <span key={sIdx} className="text-gray-400 font-black text-[11px] px-0.5">{seg.trim()}</span>;
           }
-
           const match = seg.match(/^([^0-9]*[\d,]+)(.*)$/);
           const value = match ? match[1] : seg;
           const suffix = match ? match[2] : "";
-
           return (
             <div key={sIdx} className="flex items-center gap-0.5">
               <input
@@ -145,11 +140,7 @@ const App: React.FC = () => {
                 value={value}
                 onChange={(e) => updateSegment(sIdx, e.target.value, suffix)}
               />
-              {suffix && (
-                <span className="text-[9px] text-gray-400 font-bold whitespace-nowrap bg-gray-100/50 px-1 rounded">
-                  {suffix}
-                </span>
-              )}
+              {suffix && <span className="text-[9px] text-gray-400 font-bold whitespace-nowrap bg-gray-100/50 px-1 rounded">{suffix}</span>}
             </div>
           );
         })}
@@ -179,9 +170,7 @@ const App: React.FC = () => {
               <div className="space-y-3">
                 {cat.items.map((item, idx) => (
                   <div key={idx} className="flex items-center gap-2 group">
-                    <span className="text-[10px] text-gray-600 flex-1 truncate group-hover:text-gray-900 transition-colors">
-                      {item.name}
-                    </span>
+                    <span className="text-[10px] text-gray-600 flex-1 truncate group-hover:text-gray-900 transition-colors">{item.name}</span>
                     {renderPriceInputs(cat.id, idx, item.price, themeColor)}
                   </div>
                 ))}
@@ -205,55 +194,20 @@ const App: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden">
+    <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden bg-gray-100">
       {/* 使い方ガイドモーダル */}
       {showGuide && (
         <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-white/20">
             <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center z-10 rounded-t-3xl">
-              <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
-                使い方ガイド <span className="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-400 font-bold italic text-blue-500">Free Ver.</span>
-              </h2>
+              <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">使い方ガイド <span className="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-400 font-bold italic text-blue-500">Free Ver.</span></h2>
               <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 text-2xl font-bold transition-transform active:scale-90">×</button>
             </div>
             <div className="p-8 space-y-10">
               <section className="bg-blue-50 p-6 rounded-2xl border border-blue-100 space-y-3">
-                <h3 className="font-black text-blue-800 text-lg flex items-center gap-2">
-                  <span className="text-2xl">🎯</span> 導入の背景と目的
-                </h3>
-                <p className="text-sm text-blue-900/80 leading-relaxed font-medium">
-                  手書きや転記によるミスを防ぎ、営業が現場で即座に正確な料金表を作成できる環境を整えることで、**「事務・営業双方の負担を最小化する」**ことを目的としています。
-                </p>
+                <h3 className="font-black text-blue-800 text-lg flex items-center gap-2">🎯 導入の背景と目的</h3>
+                <p className="text-sm text-blue-900/80 leading-relaxed font-medium">事務・営業双方の負担を最小化することを目的としています。</p>
               </section>
-
-              <section className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shadow-md">1</div>
-                  <h3 className="font-bold text-gray-800 text-lg">金額の修正方法（手動）</h3>
-                </div>
-                <p className="text-sm text-gray-600 leading-relaxed pl-11">
-                  項目ごとの金額をクリックすると直接入力できます。<br/>
-                  <span className="font-bold text-blue-600">「3,000 ～ 8,000」</span>や<br/>
-                  <span className="font-bold text-blue-600">「2,500 / １箇所」</span>のような単位付きも、数字の部分だけを書き換えるだけで自動で反映されます。
-                </p>
-              </section>
-
-              <section className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shadow-md">2</div>
-                  <h3 className="font-bold text-gray-800 text-lg">AIで一括書き換え 🤖</h3>
-                </div>
-                <div className="bg-indigo-50 rounded-2xl p-6 pl-11 ml-11 border border-indigo-100">
-                  <p className="text-sm text-indigo-900 leading-relaxed mb-4 font-bold">
-                    左パネルの青いボックスに「会話するように」指示を書くだけ！
-                  </p>
-                  <ul className="text-xs space-y-2 text-indigo-700 list-disc list-inside font-medium">
-                    <li>「ジルコニアを全部2,000円値上げして」</li>
-                    <li>「担当者を○○に変更して、日付は今日にして」</li>
-                  </ul>
-                </div>
-              </section>
-
               <section className="space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold shadow-md">3</div>
@@ -261,69 +215,45 @@ const App: React.FC = () => {
                 </div>
                 <div className="pl-11 space-y-4">
                   <div className="bg-gray-50 border rounded-xl p-4 space-y-2 font-bold text-xs text-gray-700">
-                    <div className="flex items-start gap-2">
-                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5 whitespace-nowrap">STEP 1</span>
-                      <p>「PDF出力・印刷」ボタンを押す</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5 whitespace-nowrap">STEP 2</span>
-                      <p className="text-orange-600">【最重要】設定（または詳細設定）を開き、「背景のグラフィック」にチェックを入れる ✅</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5 whitespace-nowrap">STEP 3</span>
-                      <p>プリンター選択から「PDF形式で保存」を選択して保存</p>
-                    </div>
-                  </div>
-                  
-                  <p className="text-[10px] text-gray-500 italic bg-gray-100 p-2 rounded">
-                    ※「背景のグラフィック」にチェックを入れないと、表の背景色やインプラントのオレンジ色が表示されません。
-                  </p>
-
-                  <div className="bg-red-50 p-6 rounded-2xl border-2 border-red-100 shadow-sm space-y-3">
-                    <h4 className="font-black text-red-600 flex items-center gap-2 text-sm uppercase">
-                      ⚠️ ボタンが反応しない・動かない場合
-                    </h4>
-                    <p className="text-xs text-red-900 leading-relaxed font-bold">
-                      LINEやメールのリンクから直接開くと、ブラウザの制限で印刷機能が動かないことがあります。
-                    </p>
-                    <div className="grid grid-cols-2 gap-2 mt-2">
-                       <div className="bg-white p-2 rounded-lg border border-red-200 text-center">
-                         <p className="text-[9px] text-gray-400 font-bold mb-1">iPhoneの方</p>
-                         <p className="text-[10px] text-blue-600 font-black italic underline">Safari</p>
-                       </div>
-                       <div className="bg-white p-2 rounded-lg border border-red-200 text-center">
-                         <p className="text-[9px] text-gray-400 font-bold mb-1">Androidの方</p>
-                         <p className="text-[10px] text-emerald-600 font-black italic underline">Chrome</p>
-                       </div>
-                    </div>
+                    <p className="text-orange-600">【最重要】設定を開き、「背景のグラフィック」にチェックを入れる ✅</p>
                   </div>
                 </div>
               </section>
-            </div>
-            <div className="p-6 bg-gray-50 text-center rounded-b-3xl">
-              <button onClick={() => setShowGuide(false)} className="bg-gray-800 text-white px-12 py-3 rounded-full font-bold text-sm hover:bg-black transition-all shadow-xl active:scale-95">理解しました！</button>
             </div>
           </div>
         </div>
       )}
 
-      <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen ${!showEditor ? 'hidden' : ''}`}>
+      {/* モバイル用タブ切り替え（最下部固定） */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-[0_-4px_10px_rgba(0,0,0,0.05)] no-print">
+        <button 
+          onClick={() => setMobileViewMode('edit')}
+          className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-colors ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}
+        >
+          <span className="text-xl">✏️</span>
+          <span>編集する</span>
+        </button>
+        <button 
+          onClick={() => setMobileViewMode('preview')}
+          className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-colors ${mobileViewMode === 'preview' ? 'text-orange-600 bg-orange-50' : 'text-gray-400'}`}
+        >
+          <span className="text-xl">📄</span>
+          <span>確認・出力</span>
+        </button>
+      </div>
+
+      {/* 左サイドバー（編集パネル） */}
+      <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen md:block ${mobileViewMode === 'preview' ? 'hidden' : 'block'} pb-24 md:pb-6`}>
         <div className="mb-6 bg-white p-4 rounded-2xl shadow-sm border border-gray-200 flex justify-between items-center">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-3">
               <div className="bg-white p-1 rounded-lg border border-gray-100 shadow-inner">
                 <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz Logo" className="h-8 object-contain" />
               </div>
-              <h1 className="text-[13px] font-black text-gray-800 italic leading-tight">
-                営業部用<br/>料金表 作成ツール
-              </h1>
+              <h1 className="text-[13px] font-black text-gray-800 italic leading-tight">営業部用<br/>料金表 作成ツール</h1>
             </div>
-            <p className="text-[8px] text-gray-400 uppercase tracking-[0.2em] font-bold ml-12">Sales Support System</p>
           </div>
-          <button 
-            onClick={() => setShowGuide(true)} 
-            className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-full transition-all border border-blue-100 shadow-sm transform active:scale-90"
-          >
+          <button onClick={() => setShowGuide(true)} className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-full transition-all border border-blue-100 shadow-sm transform active:scale-90">
             <span className="text-lg font-bold leading-none">?</span>
             <span className="text-[7px] font-black">Help</span>
           </button>
@@ -334,38 +264,17 @@ const App: React.FC = () => {
           <button onClick={handleExportExcel} className="bg-gray-800 hover:bg-black text-white py-3 px-2 rounded-lg text-[11px] font-bold shadow-lg transition-all flex items-center justify-center gap-1.5 transform active:scale-95">Excel一括出力</button>
         </div>
 
+        {/* AI アシスタント */}
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl border-2 border-indigo-800">
-          <div className="flex justify-between items-end mb-3">
-            <label className="text-[11px] font-black text-white uppercase tracking-widest block">AI アシスタント</label>
-            <div className="text-right">
-              <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold uppercase tracking-tighter block mb-0.5">Gemini 2.5 Flash</span>
-              <span className="text-[7px] text-indigo-200 font-bold block">Free: 1,500 req/day</span>
-            </div>
-          </div>
-          
           <textarea 
             className="w-full border-indigo-500 bg-white/10 text-white border-2 rounded-lg p-3 text-xs h-32 mb-3 focus:ring-2 focus:ring-white outline-none placeholder-indigo-200 shadow-inner" 
-            placeholder={"【入力例】\n・KATANAを20,000円、レイヤリングを28,000円にして\n・保険冠をすべて一律で100円値上げして\n・担当者を寺町さんに変えて、発行日を2月10日にして"} 
+            placeholder={"【AIへの指示例】\n・KATANAを20,000円にして\n・保険冠を一律100円値上げして"} 
             value={memo} 
             onChange={(e) => setMemo(e.target.value)} 
           />
-          
-          <div className="flex flex-wrap gap-2 mb-4">
-            {samplePrompts.map((p, i) => (
-              <button 
-                key={i} 
-                onClick={() => setMemo(p.text)}
-                className="text-[9px] bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-1 rounded border border-indigo-400/50 transition-colors shadow-sm"
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-
           <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black shadow-lg transition-all transform active:scale-95 ${isProcessing ? 'bg-indigo-300 text-indigo-500 cursor-not-allowed' : 'bg-white text-indigo-800 hover:bg-indigo-50'}`}>
             {isProcessing ? 'AI解析中...' : 'AIで一括書き換え'}
           </button>
-          <p className="text-[9px] text-indigo-200 mt-2 text-center font-medium">※会話するように指示するだけで価格表が更新されます。</p>
         </div>
 
         <div className="bg-white p-5 rounded-xl border-2 border-gray-200 shadow-md mb-8">
@@ -373,44 +282,14 @@ const App: React.FC = () => {
           <div className="space-y-4">
             <div>
                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">歯科医院名</label>
-               <input 
-                 type="text" 
-                 className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500" 
-                 placeholder="歯科医院名をご入力ください"
-                 value={data.clinic.name} 
-                 onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} 
-               />
+               <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500" placeholder="歯科医院名をご入力ください" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">担当者</label>
-                <select 
-                  className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
-                  value={data.clinic.representative}
-                  onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}
-                >
-                  <option value="">担当者を選択</option>
-                  <optgroup label="北浜営業">
-                    <option value="寺町">寺町</option>
-                    <option value="小山">小山</option>
-                    <option value="竹内">竹内</option>
-                    <option value="中澤">中澤</option>
-                    <option value="枡田">枡田</option>
-                    <option value="藤丸">藤丸</option>
-                    <option value="中西">中西</option>
-                    <option value="片山">片山</option>
-                    <option value="山本">山本</option>
-                  </optgroup>
-                  <optgroup label="高槻営業">
-                    <option value="今井">今井</option>
-                    <option value="阪本">阪本</option>
-                    <option value="熊懐">熊懐</option>
-                    <option value="川合">川合</option>
-                    <option value="山田">山田</option>
-                    <option value="松井">松井</option>
-                    <option value="平">平</option>
-                    <option value="宮川">宮川</option>
-                  </optgroup>
+                <select className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}>
+                  <option value="">選択</option>
+                  <option value="寺町">寺町</option><option value="小山">小山</option><option value="今井">今井</option><option value="松井">松井</option>
                 </select>
               </div>
               <div>
@@ -426,40 +305,33 @@ const App: React.FC = () => {
         {renderCategoryGroup("3. インプラント", implantCategories, "orange")}
         {renderCategoryGroup("4. 自費義歯料金一覧", privateDentureCategories, "orange")}
 
+        {/* 保存済みリスト */}
         <div className="mt-12 pt-8 border-t-4 border-gray-300">
-          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase flex items-center gap-2">
-            保存済み医院リスト <span className="text-[8px] bg-gray-200 text-gray-500 px-2 py-0.5 rounded font-black tracking-normal">端末内保存</span>
-          </h2>
+          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase">保存済み医院リスト</h2>
           <div className="max-h-60 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white shadow-inner">
-            {savedLists.length === 0 ? (
-              <div className="p-8 text-center text-[10px] text-gray-400">履歴なし</div>
-            ) : (
+            {savedLists.length === 0 ? <div className="p-8 text-center text-[10px] text-gray-400">履歴なし</div> : (
               <ul className="divide-y divide-gray-100">
                 {savedLists.map((list, i) => (
                   <li key={i} className="p-3 hover:bg-emerald-50 cursor-pointer transition-colors" onClick={() => handleLoadClinic(list)}>
                     <div className="text-[11px] font-black text-gray-700">{list.clinic.name}</div>
-                    <div className="text-[9px] text-gray-400 flex justify-between">
-                      <span>{list.clinic.publishDate} / {list.clinic.representative}</span>
-                      <span className="text-[8px] text-emerald-600 font-bold">読込可</span>
-                    </div>
+                    <div className="text-[9px] text-gray-400">{list.clinic.publishDate} / {list.clinic.representative}</div>
                   </li>
                 ))}
               </ul>
             )}
           </div>
-          <p className="text-[9px] text-gray-400 mt-2 italic px-1">※履歴は現在使用中のブラウザにのみ表示されます。</p>
         </div>
       </div>
 
-      <div className={`flex-1 relative bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto`}>
+      {/* 右メインエリア（プレビュー） */}
+      <div className={`flex-1 relative bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-24 md:pb-0`}>
         <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 border-gray-200 p-4 z-50 flex justify-between items-center shadow-lg">
-          <button onClick={() => setShowEditor(!showEditor)} className="px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black shadow-sm transform active:scale-95 transition-all">
-            {showEditor ? '← パネル閉じる' : '編集パネルを開く'}
-          </button>
+          <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black">← 戻って修正</button>
+          <div className="hidden md:block"></div>
           <button 
             onClick={handlePrint} 
             disabled={isPrinting}
-            className={`bg-orange-600 text-white px-10 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70 cursor-not-allowed translate-y-1 border-b-0' : ''}`}
+            className={`bg-orange-600 text-white px-8 md:px-12 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70 cursor-not-allowed' : ''}`}
           >
             {isPrinting ? '準備中...' : 'PDF出力・印刷'}
           </button>
