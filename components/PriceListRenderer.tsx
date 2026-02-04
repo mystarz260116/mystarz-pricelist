@@ -353,13 +353,13 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          {/* シリコン裏装・その他セクションを上に移動して空きスペースを削減 */}
           <div className="mb-4">
             <div className="flex flex-row gap-6">
                <div className="w-1/2">
-                 <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">シリコン裏装加工</div>
+                 <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">シリコン裏装加工・その他</div>
                  <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] font-bold space-y-1 shadow-inner">
-                   {privateGishiOthers?.items.slice(0, 4).map((item, idx) => (
+                   {/* slice(0, 6) に修正することで全項目（スポーツマウスガード、副模型を含む）を表示 */}
+                   {privateGishiOthers?.items.slice(0, 6).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-0.5">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>
                        <span className="text-orange-900 font-black whitespace-nowrap">¥{item.price}</span>
@@ -367,9 +367,9 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                    ))}
                  </div>
                </div>
-               <div className="w-1/2">
+               <div className="w-1/2 flex flex-col">
                  <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">その他・特記事項</div>
-                 <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[9px] flex flex-col min-h-[75px] shadow-inner">
+                 <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[9px] flex flex-col min-h-[75px] shadow-inner flex-1">
                    <div className="text-[#9a3412] font-bold italic leading-tight space-y-1">
                      <p>※貴金属は材料代別途となります。</p>
                      <p>※ALL on 4 等はお見積りさせて頂きます。</p>

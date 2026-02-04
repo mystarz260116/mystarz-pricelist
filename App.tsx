@@ -205,7 +205,10 @@ const App: React.FC = () => {
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen md:block ${mobileViewMode === 'preview' ? 'hidden' : 'block'} pb-24 md:pb-6`}>
         <div className="mb-6 flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
           <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz" className="h-8 object-contain" />
-          <button onClick={() => setShowGuide(true)} className="bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md hover:bg-black transition-all">？</button>
+          <button onClick={() => setShowGuide(true)} className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-xl text-[11px] font-black shadow-lg hover:bg-indigo-700 transition-all active:scale-95">
+            <span className="text-base">?</span>
+            <span>使い方ガイド</span>
+          </button>
         </div>
 
         <div className="grid grid-cols-3 gap-2 mb-6">
@@ -264,34 +267,63 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* ヘルプガイドモーダル */}
+      {/* ヘルプガイドモーダル（復元・強化版） */}
       {showGuide && (
         <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 no-print" onClick={() => setShowGuide(false)}>
-          <div className="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative" onClick={e => e.stopPropagation()}>
-            <button className="absolute top-6 right-6 text-gray-400 hover:text-black font-black text-xl" onClick={() => setShowGuide(false)}>×</button>
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-6 right-6 text-gray-400 hover:text-black font-black text-2xl" onClick={() => setShowGuide(false)}>×</button>
             <div className="flex items-center gap-3 mb-6">
-              <div className="bg-indigo-600 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black">?</div>
-              <h2 className="text-xl font-black">使い方ガイド</h2>
+              <div className="bg-indigo-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg">?</div>
+              <h2 className="text-2xl font-black">MyStarz 料金表作成ツール 使い方</h2>
             </div>
-            <div className="space-y-6 text-sm">
-              <div className="flex gap-4">
-                <div className="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black">1</div>
-                <div><p className="font-bold mb-1">基本情報の入力</p><p className="text-gray-600 leading-relaxed">医院名や担当者を選択してください。入力内容は即座にプレビューに反映されます。</p></div>
-              </div>
-              <div className="flex gap-4">
-                <div className="bg-emerald-100 text-emerald-700 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black">2</div>
-                <div><p className="font-bold mb-1">価格の個別修正</p><p className="text-gray-600 leading-relaxed">左側の各カテゴリー内にある入力欄から、手動で金額を変更できます。</p></div>
-              </div>
-              <div className="flex gap-4">
-                <div className="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black">3</div>
-                <div><p className="font-bold mb-1">AIで一括書き換え</p><p className="text-gray-600 leading-relaxed">「全ての自費を10%値上げして」などの指示を送ると、AIが自動で全項目を更新します。</p></div>
-              </div>
-              <div className="flex gap-4">
-                <div className="bg-orange-100 text-orange-700 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black">4</div>
-                <div><p className="font-bold mb-1">PDF出力・保存</p><p className="text-gray-600 leading-relaxed">「PDF出力」を押すと印刷画面が開きます。「送信先」を「PDFに保存」にすることで、そのまま送信可能なPDFファイルを作成できます。</p></div>
-              </div>
+            
+            <div className="space-y-8">
+              <section>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">1. 基本的な作成手順</h3>
+                <div className="grid gap-4 text-sm">
+                   <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                     <p className="font-bold text-gray-800 mb-1">ステップ1：情報の入力</p>
+                     <p className="text-gray-600">左側の設定パネルで「歯科医院名」を入力し「担当者」を選択します。日付は自動で本日の日付が入りますが、変更も可能です。</p>
+                   </div>
+                   <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                     <p className="font-bold text-gray-800 mb-1">ステップ2：価格の微調整</p>
+                     <p className="text-gray-600">各カテゴリーを展開し、手動で価格を書き換えます。入力した瞬間にプレビュー（右側）へ反映されます。</p>
+                   </div>
+                </div>
+              </section>
+
+              <section className="bg-orange-50 p-6 rounded-3xl border-2 border-orange-200">
+                <h3 className="text-sm font-black text-orange-700 mb-4 flex items-center gap-2">
+                  <span>📄</span> 重要：PDF保存・印刷のコツ
+                </h3>
+                <div className="space-y-3 text-[13px] leading-relaxed text-orange-900">
+                  <p className="font-bold">「PDF出力」ボタンを押した後のブラウザ印刷設定：</p>
+                  <ul className="list-disc ml-5 space-y-1 font-medium">
+                    <li><span className="font-black">送信先：</span>「PDFに保存」を選択してください。</li>
+                    <li><span className="font-black">カラー：</span>「カラー」を選択（赤字やロゴを反映するため）。</li>
+                    <li><span className="font-black">詳細設定内の「倍率」：</span>必ず<span className="bg-white px-1 border border-orange-300 rounded font-black">100</span>（または「ページに合わせる」）にしてください。</li>
+                    <li><span className="font-black">オプション：</span>「ヘッダーとフッター」のチェックを<span className="text-red-600 font-black underline">外してください</span>（余計な文字を消すため）。</li>
+                    <li><span className="font-black">オプション：</span>「背景のグラフィック」のチェックを<span className="font-black underline">入れてください</span>（表の色を出すため）。</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">2. 高度な機能</h3>
+                <div className="space-y-4 text-sm">
+                  <div className="flex gap-4">
+                    <div className="bg-indigo-100 text-indigo-700 w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black">AI</div>
+                    <div><p className="font-bold">AIアシスタント</p><p className="text-gray-600">「全ての自費を2,000円値上げして」や「〇〇医院に名前を変えて」など、文章で指示を送るとAIが一括で修正を行います。</p></div>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="bg-emerald-100 text-emerald-700 w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black">保存</div>
+                    <div><p className="font-bold">内容保存機能</p><p className="text-gray-600">「内容保存」を押すと、現在ブラウザにデータが記憶されます。次回開いたときも同じデータから再開できます。</p></div>
+                  </div>
+                </div>
+              </section>
             </div>
-            <button className="w-full mt-8 py-4 bg-gray-900 text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl" onClick={() => setShowGuide(false)}>閉じる</button>
+
+            <button className="w-full mt-10 py-4 bg-gray-900 text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl active:scale-95" onClick={() => setShowGuide(false)}>理解しました</button>
           </div>
         </div>
       )}
