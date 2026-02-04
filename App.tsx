@@ -99,11 +99,11 @@ const App: React.FC = () => {
 
   const handlePrint = () => {
     setIsPrinting(true);
-    // DOMの更新を待ってから印刷ダイアログを表示
+    // DOMの状態を確定させるために少し待機してから実行
     setTimeout(() => {
       window.print();
       setTimeout(() => setIsPrinting(false), 1000);
-    }, 300);
+    }, 500);
   };
 
   const renderPriceInputs = (catId: string, itemIdx: number, price: string, themeColor: string) => {
@@ -184,7 +184,7 @@ const App: React.FC = () => {
   const implantCategories = data.categories.filter(c => c.id === 'implant');
   const privateDentureCategories = data.categories.filter(c => ['private-gishi-basic', 'private-gishi-nonclasp', 'private-gishi-metal', 'private-gishi-options', 'private-gishi-others'].includes(c.id));
 
-  // 正確な営業マンリスト（北浜・高槻）
+  // 正確な営業マンリスト
   const reps = [
     "寺町", "小山", "竹内", "中澤", "枡田", "藤丸", "中西", "片山", "山本",
     "今井", "阪本", "熊懐", "川合", "山田", "松井", "平", "宮川"
@@ -278,6 +278,10 @@ const App: React.FC = () => {
               <h2 className="text-2xl font-black">MyStarz 料金表作成ツール 使い方</h2>
             </div>
             
+            <p className="mb-6 p-4 bg-orange-50 border-2 border-orange-200 rounded-2xl text-[12px] font-bold text-orange-900 leading-relaxed italic">
+              ＜PCでの作成を想定しています。スマホでもできますが、小さいため、見づらいです・できるだけ拠点のPCでおつくり下さい。＞
+            </p>
+
             <div className="space-y-8">
               <section>
                 <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ1：情報の入力</h3>
@@ -297,13 +301,20 @@ const App: React.FC = () => {
                 </div>
               </section>
 
+              <section>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ3：作成データの保存</h3>
+                <div className="text-sm">
+                  <p className="text-gray-600">PDFを作成、保存する前に、内容保存ボタンを押して必ず作成データを保存してください。</p>
+                </div>
+              </section>
+
               <section className="bg-orange-50 p-6 rounded-3xl border-2 border-orange-200">
                 <h3 className="text-sm font-black text-orange-700 mb-4 flex items-center gap-2">
                   <span>📄</span> PDF保存のコツ
                 </h3>
                 <div className="space-y-4 text-[13px] leading-relaxed text-orange-900">
                   <div className="bg-white/60 p-4 rounded-xl space-y-2 font-bold">
-                    <p>① PDF出力・印刷ボタン</p>
+                    <p>① PDF保存・印刷ボタン</p>
                     <p>② PDF形式で保存（送信先を確認）</p>
                     <p>③ 右の青い丸「PDF」ボタンクリック</p>
                     <p>④ ダウンロードフォルダが表示される</p>
