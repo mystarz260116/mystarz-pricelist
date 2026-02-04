@@ -221,18 +221,20 @@ const App: React.FC = () => {
               <section>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-xl">🖨️</div>
-                  <h3 className="text-lg font-black text-orange-700">正式なPDFを作成する手順</h3>
+                  <h3 className="text-lg font-black text-orange-700">スマホでのPDF保存手順</h3>
                 </div>
                 <div className="ml-4 space-y-4">
                   <p className="text-sm text-gray-600 leading-relaxed font-bold">
-                    右上の「PDF保存・印刷」ボタンを押した後、表示されるブラウザの印刷設定を確認してください。
+                    仕上がりを確認したら、以下の手順でPDFを保存してください。
                   </p>
-                  <ol className="text-xs text-gray-600 space-y-3 list-decimal ml-4 bg-orange-50 p-5 rounded-2xl border border-orange-100 shadow-sm">
-                    <li><span className="font-black text-orange-800">送信先：</span>「PDFに保存」を選択します。</li>
-                    <li><span className="font-black text-orange-800">背景のグラフィック：</span>詳細設定を開き、必ず<span className="underline decoration-orange-400 decoration-2">チェックを入れて</span>ください（これがないと色がつきません）。</li>
-                    <li><span className="font-black text-orange-800">用紙：</span>A4が2枚分出力されます。</li>
-                    <li><span className="font-black text-orange-800">両面印刷：</span>「両面印刷」を有効にし、「長辺とじ」を選択すると、2枚の表裏で4ページ構成の完璧な資料になります。</li>
+                  <ol className="text-xs text-gray-600 space-y-3 list-decimal ml-4 bg-orange-50 p-5 rounded-2xl border border-orange-100 shadow-sm font-bold">
+                    <li>画面右上の <span className="text-orange-700 font-black">「PDF出力・印刷」</span> ボタンをタップ</li>
+                    <li>印刷プレビューで <span className="text-orange-700 font-black">「PDF形式で保存」</span> を選択</li>
+                    <li>右上の青い丸ボタン <span className="text-blue-700 font-black">「PDF」</span> をクリック</li>
+                    <li>ダウンロードフォルダが表示される</li>
+                    <li>右下の <span className="text-orange-700 font-black">「保存」</span> ボタンを押す</li>
                   </ol>
+                  <p className="text-[10px] text-gray-500 italic ml-4">※上記作業で、スマホの「ダウンロード」フォルダに保存されます。</p>
                 </div>
               </section>
 
