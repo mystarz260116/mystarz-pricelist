@@ -191,64 +191,67 @@ const App: React.FC = () => {
   const aiPlaceholderText = `【AIへの指示の例】
 ・医院名を「マイ・スターズ歯科」にして
 ・担当者を「寺町」に変更
-・ジルコニア全項目を500円値上げ`;
+・発行日を「2024年10月1日」にして
+・ジルコニア全項目を500円値上げ
+・インプラントの全項目を10%OFFにして`;
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden bg-gray-100">
-      {/* 使い方ガイドモーダル */}
       {showGuide && (
         <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-white/20">
             <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center z-10 rounded-t-3xl">
               <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
-                <span className="text-2xl">📖</span> 使い方ガイド
+                <span className="text-2xl">📖</span> 使い方・PDF出力ガイド
               </h2>
               <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold hover:bg-gray-200">×</button>
             </div>
             
             <div className="p-8 space-y-10">
-              <section className="relative">
+              <section>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-xl">🤖</div>
                   <h3 className="text-lg font-black text-indigo-700">AIに指示して一括編集</h3>
                 </div>
-                <div className="ml-4 space-y-3">
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    左側の紫色の枠に「医院名」や「変更したい価格」をメモしてボタンを押すだけで、AIが表を自動更新します。
-                  </p>
-                </div>
+                <p className="text-sm text-gray-600 leading-relaxed ml-4">
+                  左側の紫色のAIアシスタント枠に「医院名」や「値上げ額」をメモしてボタンを押すだけで、全ページを自動更新します。
+                </p>
               </section>
 
               <section>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-xl">🖨️</div>
-                  <h3 className="text-lg font-black text-orange-700">A4用紙2枚（両面印刷）の構成</h3>
+                  <h3 className="text-lg font-black text-orange-700">正式なPDFを作成する手順</h3>
                 </div>
                 <div className="ml-4 space-y-4">
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    この資料は「A4用紙2枚」の構成です。印刷時に「両面印刷（長辺とじ）」を選択して出力してください。
+                  <p className="text-sm text-gray-600 leading-relaxed font-bold">
+                    右上の「PDF保存・印刷」ボタンを押した後、以下の設定を確認してください。
                   </p>
-                  <div className="bg-orange-50 border border-orange-200 p-5 rounded-2xl shadow-sm">
-                    <p className="text-xs text-orange-900 font-black mb-4 border-b border-orange-200 pb-2 flex items-center gap-2 uppercase tracking-widest">
-                      📄 仕上がりイメージ（2枚 両面印刷）
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
-                        <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【1枚目】表・裏</p>
-                        <ul className="text-[10px] text-gray-500 space-y-1 font-bold">
-                          <li>(表) 表紙・インプラント</li>
-                          <li>(裏) 保険技工物 料金表</li>
-                        </ul>
-                      </div>
-                      <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
-                        <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【2枚目】表・裏</p>
-                        <ul className="text-[10px] text-gray-500 space-y-1 font-bold">
-                          <li>(表) 自費義歯 料金一覧</li>
-                          <li>(裏) 自費歯冠修復 料金一覧</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                  <ol className="text-xs text-gray-600 space-y-3 list-decimal ml-4 bg-orange-50 p-4 rounded-xl border border-orange-100">
+                    <li><span className="font-black">送信先：</span>「PDFに保存」を選択してください。</li>
+                    <li><span className="font-black">詳細設定：</span>「背景のグラフィック」に必ずチェックを入れてください。</li>
+                    <li><span className="font-black">印刷形式：</span>A4用紙2枚分が出力されます。</li>
+                    <li><span className="font-black">両面印刷：</span>「両面印刷（長辺とじ）」を選択すると、2枚の表裏で4ページ構成になります。</li>
+                  </ol>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl">📄</div>
+                  <h3 className="text-lg font-black text-blue-700">ページ構成（全4ページ）</h3>
+                </div>
+                <div className="grid grid-cols-2 gap-4 ml-4">
+                   <div className="bg-gray-50 p-3 rounded-lg border">
+                     <p className="text-[10px] font-black mb-1">【1枚目】</p>
+                     <p className="text-[9px]">表：表紙・インプラント</p>
+                     <p className="text-[9px]">裏：保険技工物 料金表</p>
+                   </div>
+                   <div className="bg-gray-50 p-3 rounded-lg border">
+                     <p className="text-[10px] font-black mb-1">【2枚目】</p>
+                     <p className="text-[9px]">表：自費義歯 料金一覧</p>
+                     <p className="text-[9px]">裏：自費歯冠修復 料金一覧</p>
+                   </div>
                 </div>
               </section>
             </div>
@@ -260,7 +263,6 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* モバイル用タブ切り替え（最下部固定） */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-[0_-4px_15px_rgba(0,0,0,0.1)] no-print">
         <button onClick={() => setMobileViewMode('edit')} className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}>
           <span className="text-xl">✏️</span><span>入力・編集</span>
@@ -272,13 +274,11 @@ const App: React.FC = () => {
 
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen md:block ${mobileViewMode === 'preview' ? 'hidden' : 'block'} pb-24 md:pb-6`}>
         <div className="mb-6 bg-white p-4 rounded-2xl shadow-sm border border-gray-200 flex justify-between items-center">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-3">
-              <div className="bg-white p-1 rounded-lg border border-gray-100 shadow-inner">
-                <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz Logo" className="h-8 object-contain" />
-              </div>
-              <h1 className="text-[13px] font-black text-gray-800 italic leading-tight">営業部用<br/>料金表 作成ツール</h1>
+          <div className="flex items-center gap-3">
+            <div className="bg-white p-1 rounded-lg border border-gray-100 shadow-inner">
+              <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz Logo" className="h-8 object-contain" />
             </div>
+            <h1 className="text-[13px] font-black text-gray-800 italic leading-tight">営業部用<br/>料金表 作成ツール</h1>
           </div>
           <button onClick={() => setShowGuide(true)} className="w-10 h-10 flex flex-col items-center justify-center bg-blue-50 text-blue-600 rounded-full border border-blue-100 shadow-sm active:scale-90 hover:bg-blue-100 transition-all">
             <span className="text-lg font-bold">?</span>
@@ -328,31 +328,6 @@ const App: React.FC = () => {
         {renderCategoryGroup("2. 自費歯冠修復料金一覧", privateCrownCategories, "green")}
         {renderCategoryGroup("3. インプラント", implantCategories, "orange")}
         {renderCategoryGroup("4. 自費義歯料金一覧", privateDentureCategories, "orange")}
-
-        <div className="mt-12 pt-8 border-t-2 border-gray-200 pb-12">
-          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase">保存済み医院リスト</h2>
-          <div className="max-h-80 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white shadow-inner">
-            {savedLists.length === 0 ? <div className="p-8 text-center text-[10px] text-gray-400 font-bold">履歴がありません</div> : (
-              <ul className="divide-y divide-gray-100">
-                {savedLists.map((list, i) => (
-                  <li key={i} className="group p-3 hover:bg-emerald-50 cursor-pointer transition-all flex justify-between items-center" onClick={() => handleLoadClinic(list)}>
-                    <div className="flex-1 min-w-0 pr-2">
-                      <div className="text-[11px] font-black text-gray-700 truncate group-hover:text-emerald-800">{list.clinic.name}</div>
-                      <div className="text-[9px] text-gray-400 mt-0.5 flex items-center gap-2">
-                        <span className="font-bold">{list.clinic.publishDate.replace(/-/g, '/')}</span>
-                        <span className="opacity-30">|</span>
-                        <span>担当: {list.clinic.representative || '未設定'}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <button className="text-[9px] bg-emerald-600 text-white px-3 py-2 rounded font-black shadow-sm transform group-active:scale-95">読み込み</button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
       </div>
 
       <div className={`flex-1 relative bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-32 md:pb-0`}>
