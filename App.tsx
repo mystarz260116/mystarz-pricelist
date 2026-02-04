@@ -13,7 +13,6 @@ const App: React.FC = () => {
   const [memo, setMemo] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
-  const [showEditor, setShowEditor] = useState(true);
   const [showGuide, setShowGuide] = useState(false);
   const [savedLists, setSavedLists] = useState<PriceListData[]>([]);
   const [mobileViewMode, setMobileViewMode] = useState<'edit' | 'preview'>('edit');
@@ -187,11 +186,11 @@ const App: React.FC = () => {
   const implantCategories = data.categories.filter(c => c.id === 'implant');
   const privateDentureCategories = data.categories.filter(c => ['private-gishi-basic', 'private-gishi-nonclasp', 'private-gishi-metal', 'private-gishi-options', 'private-gishi-others'].includes(c.id));
 
-  const aiPlaceholderText = `【AIへの具体的な指示の見本】
-・KATANAを20,000円、レイヤリングを28,000円に変更して
-・保険冠の項目をすべて一律で200円値上げして
-・担当者を「小山」に変更し、発行日を2月20日に設定して
-・医院名を「ひまわり歯科クリニック」にして`;
+  const aiPlaceholderText = `【AIへの指示の例】
+・医院名を「マイ・スターズ歯科」にして
+・担当者を「寺町」に変更
+・ジルコニア全項目を500円値上げ
+・CAD/CAMの材料費を100円安くして`;
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden bg-gray-100">
@@ -215,7 +214,7 @@ const App: React.FC = () => {
                 </div>
                 <div className="ml-4 space-y-3">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    左側の紫色の枠に「医院名」や「変更したい価格」を箇条書きでメモしてボタンを押すだけで、AIが表を自動更新します。
+                    左側の紫色の枠に「変更したい内容」をメモしてボタンを押すだけで、AIが表を自動更新します。
                   </p>
                   <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-xl shadow-sm text-[12px] text-indigo-800 space-y-2 font-bold leading-relaxed">
                     <p className="font-black text-indigo-900 mb-1 tracking-wider text-[11px]">指示のコツ：</p>
@@ -228,36 +227,32 @@ const App: React.FC = () => {
               <section>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-xl">🖨️</div>
-                  <h3 className="text-lg font-black text-orange-700">A4用紙2枚（両面印刷）で作成</h3>
+                  <h3 className="text-lg font-black text-orange-700">A4用紙2枚（両面印刷）の構成</h3>
                 </div>
                 <div className="ml-4 space-y-4">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    このツールは「A4用紙2枚」の構成になっています。印刷設定で「両面印刷」を選ぶことで、手に取りやすい資料になります。
+                    この資料は「A4用紙2枚」の構成です。印刷時に「両面印刷（長辺とじ）」を選択して出力してください。
                   </p>
                   <div className="bg-orange-50 border border-orange-200 p-5 rounded-2xl shadow-sm">
                     <p className="text-xs text-orange-900 font-black mb-4 border-b border-orange-200 pb-2 flex items-center gap-2 uppercase tracking-widest">
-                      📄 仕上がりイメージ（2枚 両面印刷時）
+                      📄 仕上がりイメージ（2枚 両面印刷）
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
-                        <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【1枚目】</p>
+                        <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【1枚目】表・裏</p>
                         <ul className="text-[10px] text-gray-500 space-y-1 font-bold">
                           <li className="flex justify-between"><span>(表) 表紙・インプラント</span></li>
-                          <li className="flex justify-between"><span>(裏) 保険技工物</span></li>
+                          <li className="flex justify-between"><span>(裏) 保険技工物 料金表</span></li>
                         </ul>
                       </div>
                       <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
-                        <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【2枚目】</p>
+                        <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【2枚目】表・裏</p>
                         <ul className="text-[10px] text-gray-500 space-y-1 font-bold">
-                          <li className="flex justify-between"><span>(表) 自費義歯</span></li>
-                          <li className="flex justify-between"><span>(裏) 自費歯冠修復</span></li>
+                          <li className="flex justify-between"><span>(表) 自費義歯 料金一覧</span></li>
+                          <li className="flex justify-between"><span>(裏) 自費歯冠修復 料金一覧</span></li>
                         </ul>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-2 text-[11px] text-gray-400 italic bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <span className="text-orange-500 font-black">※</span>
-                    <span>「PDF保存・印刷」ボタンからプレビューを確認し、プリンター設定で「両面印刷（長辺とじ）」を選択してください。</span>
                   </div>
                 </div>
               </section>
@@ -270,7 +265,7 @@ const App: React.FC = () => {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    「内容を保存」ボタンを押すと、入力したデータがこのブラウザに記憶されます。左下の「保存済み医院リスト」からいつでも呼び出して編集を再開できます。
+                    「内容を保存」ボタンを押すと、入力したデータがこのブラウザに記憶されます。左下の「保存済み医院リスト」からいつでも呼び出し可能です。
                   </p>
                 </div>
               </section>
@@ -336,7 +331,16 @@ const App: React.FC = () => {
                 <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">担当者</label>
                 <select className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none appearance-none" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}>
                   <option value="">選択</option>
-                  <option value="寺町">寺町</option><option value="小山">小山</option><option value="竹内">竹内</option><option value="今井">今井</option><option value="松井">松井</option>
+                  <option value="寺町">寺町</option>
+                  <option value="小山">小山</option>
+                  <option value="竹内">竹内</option>
+                  <option value="今井">今井</option>
+                  <option value="松井">松井</option>
+                  <option value="佐藤">佐藤</option>
+                  <option value="田中">田中</option>
+                  <option value="鈴木">鈴木</option>
+                  <option value="高橋">高橋</option>
+                  <option value="渡辺">渡辺</option>
                 </select>
               </div>
               <div>
@@ -386,7 +390,7 @@ const App: React.FC = () => {
           <div className="flex gap-2">
             <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black shadow-sm active:scale-95">← 入力に戻る</button>
             <div className="hidden md:flex items-center px-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-              <span className="text-[10px] font-black text-gray-400">プレビュー（全4ページ）</span>
+              <span className="text-[10px] font-black text-gray-400">仕上がりプレビュー</span>
             </div>
           </div>
           <button onClick={handlePrint} disabled={isPrinting} className={`bg-orange-600 text-white px-8 md:px-12 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70' : ''}`}>
@@ -401,7 +405,7 @@ const App: React.FC = () => {
         </div>
         
         <div className="no-print text-center text-gray-400 text-[10px] font-bold py-12 border-t border-white/10 mt-8">
-          - ここまで -
+          - プレビューの終端 -
         </div>
       </div>
     </div>

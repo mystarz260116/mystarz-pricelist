@@ -77,55 +77,60 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   };
 
   return (
-    <div className="flex flex-col gap-0 items-center py-4 md:py-8 print:py-0 print:block w-full">
+    <div className="flex flex-col gap-0 items-center py-0 print:block w-full">
       
-      {/* PAGE 1: FRONT COVER */}
+      {/* PAGE 1: FRONT COVER & IMPLANT */}
       <div className="responsive-a4-wrapper">
-        <div className="a4-page p-10 flex flex-col items-center">
+        <div className="a4-page p-10 flex flex-col">
           <div className="w-full text-right text-[11px] text-gray-400 mb-1 font-black">発行日：{formattedDate}</div>
-          <div className="w-full text-center border-y-[3px] border-gray-800 py-6 mb-8">
+          <div className="w-full text-center border-y-[3px] border-gray-800 py-6 mb-6">
             <h1 className={`text-3xl font-black mb-1 ${!data.clinic.name ? 'text-gray-200 italic' : 'text-gray-800'}`}>
               {data.clinic.name || '歯科医院名をご入力ください'} 様
             </h1>
             <p className="text-xl font-black text-gray-700 tracking-[0.5em] mt-1">価格一覧表</p>
           </div>
-          <div className="w-full flex justify-end mb-8">
-            <div className="border-2 border-gray-400 px-6 py-2.5 text-base bg-white shadow-sm font-bold">
+          <div className="w-full flex justify-end mb-6">
+            <div className="border-2 border-gray-400 px-6 py-2 text-base bg-white shadow-sm font-bold">
               営業担当: <span className="font-black underline underline-offset-4 px-4 text-xl">{data.clinic.representative || '　　　'}</span>
             </div>
           </div>
-          <div className="w-full flex-1">
+          <div className="w-full flex-1 overflow-hidden">
              {implantCat && (
                <div className="mb-4">
-                 <div className="bg-[#ea580c] text-white px-6 py-2.5 text-lg font-black flex justify-between items-center rounded-t shadow-md">
+                 <div className="bg-[#ea580c] text-white px-6 py-2 text-[16px] font-black flex justify-between items-center rounded-t shadow-md">
                    <span className="tracking-[0.3em]">{implantCat.title}</span>
                  </div>
                  <div className="border-[3px] border-[#ea580c] bg-white overflow-hidden rounded-b shadow-lg">
-                   {implantCat.items.map((item, idx) => (
-                     <div key={idx} className={`flex justify-between px-6 py-1.5 text-[12.5px] border-b border-[#fff7ed] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#fff7ed]'}`}>
+                   {implantCat.items.slice(0, 15).map((item, idx) => (
+                     <div key={idx} className={`flex justify-between px-6 py-1 text-[12px] border-b border-[#fff7ed] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#fff7ed]'}`}>
                        <span className="flex-1 font-bold text-gray-800 leading-tight">{sanitizeName(item.name)}</span>
-                       <span className="w-48 text-right font-black text-[#9a3412] leading-tight">¥ {item.price}</span>
+                       <span className="w-40 text-right font-black text-[#9a3412] leading-tight">¥ {item.price}</span>
                      </div>
                    ))}
                  </div>
-                 <div className="mt-2 text-right text-[10.5px] text-[#9a3412] font-black italic px-2">
-                   ※その他、ALL on 4、インプラントブリッジ等はお見積りさせて頂きます。お問い合わせください。
+                 <div className="mt-2 text-right text-[10px] text-[#9a3412] font-black italic px-2 leading-tight">
+                   ※その他、ALL on 4、インプラントブリッジ等はお見積りさせて頂きます。<br/>
+                   ※本表は主要項目の抜粋です。
                  </div>
                </div>
              )}
           </div>
-          <div className="w-full mt-auto border-t-2 border-gray-100 pt-6">
-             <div className="flex items-center justify-center gap-6 mb-4">
-               <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="Logo" className="h-10 object-contain" />
-               <div className="text-blue-900 font-black text-2xl tracking-tighter whitespace-nowrap">TEL 072-691-7107</div>
+          
+          {/* フッターエリア (A4ページ下部に収まるようマージン調整) */}
+          <div className="w-full mt-4 border-t-2 border-gray-100 pt-4">
+             <div className="flex items-center justify-center gap-6 mb-2">
+               <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="Logo" className="h-8 object-contain" />
+               <div className="text-blue-900 font-black text-xl tracking-tighter whitespace-nowrap">TEL 072-691-7107</div>
              </div>
-             <div className="text-center text-[11px] text-gray-700 font-bold mb-4 leading-relaxed">
-               〒569-0806　高槻市明田町4-38 太陽ファルマテック株式会社内<br/><span className="text-lg font-black tracking-widest text-blue-900">FAX 072-691-7108</span>
+             <div className="text-center text-[10px] text-gray-700 font-bold mb-3 leading-relaxed">
+               〒569-0806　高槻市明田町4-38 太陽ファルマテック株式会社内<br/><span className="text-base font-black tracking-widest text-blue-900">FAX 072-691-7108</span>
              </div>
-             <div className="w-full border-t-[2.5px] border-gray-800 pt-4 text-center">
-               <div className="text-2xl font-black text-gray-800 tracking-[0.4em]">株式会社マイ・スターズ 大阪</div>
+             <div className="w-full border-t-[2.5px] border-gray-800 pt-3 text-center">
+               <div className="text-xl font-black text-gray-800 tracking-[0.4em]">株式会社マイ・スターズ 大阪</div>
              </div>
-             <div className="w-full bg-gray-800 text-white py-1.5 text-[10px] tracking-widest uppercase text-center mt-3 font-bold">MyStarz Dental Laboratory</div>
+             <div className="w-full bg-gray-800 text-white py-1.5 text-[9px] tracking-widest uppercase text-center mt-2 font-bold">
+               MyStarz Dental Laboratory
+             </div>
           </div>
         </div>
       </div>
@@ -390,7 +395,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                 </div>
               </div>
               <div className="mt-1.5 px-1">
-                 <div className="bg-[#fff7ed] rounded flex justify-between items-center px-4 py-1.5 text-[10px] font-black border border-[#fed7aa]">
+                 <div className="bg-[#fff7ed] rounded flex justify-between items-center px-4 py-1 text-[10px] font-black border border-[#fed7aa]">
                    <span className="text-orange-900">{sanitizeName(privateGishiOptions?.items[11]?.name || '')} <span className="ml-4">¥{privateGishiOptions?.items[11]?.price}</span></span>
                    <span className="text-[#9a3412] italic">特殊鉤・その他　お問い合わせください</span>
                  </div>

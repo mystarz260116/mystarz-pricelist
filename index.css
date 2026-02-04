@@ -21,8 +21,8 @@
   height: var(--a4-base-height);
   margin-bottom: 2rem;
   flex-shrink: 0;
-  transform-origin: top center;
   background: white;
+  display: block;
 }
 
 .a4-page {
@@ -31,7 +31,7 @@
   background: white;
   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
   position: relative;
-  overflow: visible;
+  overflow: hidden; /* 見切れ防止のためページ内でのはみ出しを禁止 */
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
@@ -43,43 +43,26 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0;
+    padding: 1rem 0;
+    gap: 1.5rem;
   }
 
-  .mobile-preview-container .responsive-a4-wrapper {
-    /* 親要素の幅100%に合わせてスケーリング */
-    width: 100% !important;
-    --current-width: 100%;
-    /* CSS変数を使用してスケール率を算出（親の幅 / A4基本幅） */
-    /* 実際にはJSを使わずとも、コンテナ幅を基準にページを収める */
-    height: auto !important;
-    min-height: 200px; /* プレースホルダー */
-    aspect-ratio: 794 / 1123;
-    margin-bottom: 24px !important;
-    display: block !important;
+  .responsive-a4-wrapper {
+    /* 画面幅に基づいたスケール計算 */
+    --scale-factor: calc((100vw - 2rem) / 794);
+    width: calc(100vw - 2rem) !important;
+    height: calc(1123px * var(--scale-factor)) !important;
+    margin-bottom: 0;
+    overflow: visible;
   }
 
-  /* aspect-ratioを使い、中身をスケールさせる */
-  .mobile-preview-container .a4-page {
+  .a4-page {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
-    width: var(--a4-base-width) !important;
-    height: var(--a4-base-height) !important;
     transform-origin: top left !important;
-    /* スケール率は コンテナ幅 / 794px */
-    transform: scale(calc(100vw / 850)); /* 余裕を持たせた固定スケールではなく動的にしたいがCSSのみでは限界があるため調整 */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  }
-  
-  /* 正確なスケーリングのためのコンテナ調整 */
-  .responsive-a4-wrapper {
-    --scale: calc((100vw - 2rem) / 794);
-    width: calc(100vw - 2rem) !important;
-    height: calc(1123px * var(--scale)) !important;
-  }
-  .responsive-a4-wrapper .a4-page {
-    transform: scale(var(--scale)) !important;
+    transform: scale(var(--scale-factor)) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   }
 }
 
