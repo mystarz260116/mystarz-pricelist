@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dental Price Guide Automator</title>
+    <title>歯科医院 料金表作成ツール | MyStarz</title>
     <style>
         /* 印刷設定 */
         @page {
@@ -39,6 +38,7 @@
                 page-break-after: always;
                 page-break-inside: avoid;
                 border: none !important;
+                position: relative;
             }
         }
 
@@ -47,17 +47,19 @@
             width: 210mm;
             height: 297mm;
             background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
             margin-bottom: 2rem;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+        
         body {
             font-family: 'Noto Sans JP', sans-serif;
             background-color: #f3f4f6;
+            margin: 0;
         }
     </style>
 <script type="importmap">
