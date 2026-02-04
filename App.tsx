@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { PriceListData, PriceCategory } from './types';
 import { INITIAL_PRICE_DATA } from './constants';
@@ -17,7 +16,6 @@ const App: React.FC = () => {
   const [showGuide, setShowGuide] = useState(false);
   const [savedLists, setSavedLists] = useState<PriceListData[]>([]);
   const [mobileViewMode, setMobileViewMode] = useState<'edit' | 'preview'>('edit');
-  // スマホプレビュー時の現在のページ番号
   const [previewPage, setPreviewPage] = useState(0);
 
   useEffect(() => {
@@ -189,6 +187,16 @@ const App: React.FC = () => {
   const implantCategories = data.categories.filter(c => c.id === 'implant');
   const privateDentureCategories = data.categories.filter(c => ['private-gishi-basic', 'private-gishi-nonclasp', 'private-gishi-metal', 'private-gishi-options', 'private-gishi-others'].includes(c.id));
 
+  const aiPlaceholderText = `【AIへの具体的な指示の見本】
+・KATANAを20,000円、レイヤリングを28,000円に変更して
+・保険冠の項目をすべて一律で200円値上げして
+・ジルコニア全般を現在の価格から5%値上げして
+・担当者を「小山」に変更し、発行日を2月20日に設定して
+・医院名を「ひまわり歯科クリニック」にして
+・自費義歯のすべての項目名の末尾に「(材料代別)」と追記して
+・CAD/CAM冠の価格をすべて一律5,500円に書き換えて
+・ジルアドバンスド以外の項目をすべて500円引きにして`;
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden bg-gray-100">
       {/* 使い方ガイドモーダル */}
@@ -200,7 +208,7 @@ const App: React.FC = () => {
               <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold transition-transform active:scale-90">×</button>
             </div>
             <div className="p-8 space-y-6">
-              <p className="text-sm font-medium">スマホでのプレビュー確認は、下部のタブで「確認・出力」を選択してください。ページが大きく表示されます。</p>
+              <p className="text-sm font-medium leading-relaxed italic text-gray-600">「先生、文字が小さくて見えないよ」と言われたら、プレビュー画面のページ番号ボタンを切り替えて、大きく表示させてください。</p>
             </div>
           </div>
         </div>
@@ -208,23 +216,14 @@ const App: React.FC = () => {
 
       {/* モバイル用タブ切り替え（最下部固定） */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-[0_-4px_15px_rgba(0,0,0,0.1)] no-print">
-        <button 
-          onClick={() => setMobileViewMode('edit')}
-          className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}
-        >
-          <span className="text-xl">✏️</span>
-          <span>編集</span>
+        <button onClick={() => setMobileViewMode('edit')} className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}>
+          <span className="text-xl">✏️</span><span>編集</span>
         </button>
-        <button 
-          onClick={() => setMobileViewMode('preview')}
-          className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'preview' ? 'text-orange-600 bg-orange-50' : 'text-gray-400'}`}
-        >
-          <span className="text-xl">📄</span>
-          <span>確認・出力</span>
+        <button onClick={() => setMobileViewMode('preview')} className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'preview' ? 'text-orange-600 bg-orange-50' : 'text-gray-400'}`}>
+          <span className="text-xl">📄</span><span>確認・出力</span>
         </button>
       </div>
 
-      {/* 左サイドバー（編集パネル） */}
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen md:block ${mobileViewMode === 'preview' ? 'hidden' : 'block'} pb-24 md:pb-6`}>
         <div className="mb-6 bg-white p-4 rounded-2xl shadow-sm border border-gray-200 flex justify-between items-center">
           <div className="flex flex-col gap-1">
@@ -245,16 +244,14 @@ const App: React.FC = () => {
           <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95">Excel出力</button>
         </div>
 
-        {/* AI アシスタント */}
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl">
-          <textarea 
-            className="w-full bg-white/10 text-white border-2 border-indigo-500 rounded-lg p-3 text-xs h-32 mb-3 outline-none placeholder-indigo-200" 
-            placeholder={"【AIへの指示】\n・KATANAを20,000円にして"} 
-            value={memo} 
-            onChange={(e) => setMemo(e.target.value)} 
-          />
-          <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95 transition-all ${isProcessing ? 'opacity-50' : ''}`}>
-            {isProcessing ? '解析中...' : 'AIで一括書き換え'}
+          <div className="flex justify-between items-center mb-2">
+            <label className="text-[10px] font-black text-indigo-100 tracking-widest uppercase">AI アシスタント</label>
+            <span className="text-[8px] bg-indigo-800 text-indigo-300 px-2 py-0.5 rounded font-bold">Gemini 3 Flash</span>
+          </div>
+          <textarea className="w-full bg-white/10 text-white border-2 border-indigo-500 rounded-lg p-3 text-[11px] h-48 mb-3 outline-none placeholder-indigo-300 leading-relaxed scrollbar-hide" placeholder={aiPlaceholderText} value={memo} onChange={(e) => setMemo(e.target.value)} />
+          <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95 transition-all shadow-lg ${isProcessing ? 'opacity-50' : ''}`}>
+            {isProcessing ? 'AI解析中...' : 'AIで価格表を一括書き換え'}
           </button>
         </div>
 
@@ -262,19 +259,19 @@ const App: React.FC = () => {
           <h2 className="text-[10px] font-black text-gray-400 mb-4 tracking-widest uppercase border-b-2 border-gray-50 pb-1">基本情報</h2>
           <div className="space-y-4">
             <div>
-               <label className="block text-[10px] text-gray-500 font-bold mb-1">歯科医院名</label>
+               <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">歯科医院名</label>
                <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 outline-none focus:ring-2 focus:ring-blue-500" placeholder="歯科医院名をご入力ください" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] text-gray-500 font-bold mb-1">担当者</label>
+                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">担当者</label>
                 <select className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none appearance-none" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}>
                   <option value="">選択</option>
-                  <option value="寺町">寺町</option><option value="小山">小山</option><option value="今井">今井</option><option value="松井">松井</option>
+                  <option value="寺町">寺町</option><option value="小山">小山</option><option value="竹内">竹内</option><option value="今井">今井</option><option value="松井">松井</option>
                 </select>
               </div>
               <div>
-                <label className="block text-[10px] text-gray-500 font-bold mb-1">発行日</label>
+                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">発行日</label>
                 <input type="date" className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none" value={data.clinic.publishDate} onChange={(e) => setData({...data, clinic: {...data.clinic, publishDate: e.target.value}})} />
               </div>
             </div>
@@ -286,16 +283,27 @@ const App: React.FC = () => {
         {renderCategoryGroup("3. インプラント", implantCategories, "orange")}
         {renderCategoryGroup("4. 自費義歯料金一覧", privateDentureCategories, "orange")}
 
-        {/* 保存済みリスト */}
         <div className="mt-12 pt-8 border-t-2 border-gray-200 pb-12">
-          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase">保存履歴</h2>
-          <div className="max-h-60 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white">
-            {savedLists.length === 0 ? <div className="p-8 text-center text-[10px] text-gray-400">履歴なし</div> : (
+          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase flex items-center justify-between">
+            保存済み医院リスト
+            <span className="text-[8px] bg-gray-100 px-2 py-0.5 rounded text-gray-400 font-bold">端末内保存</span>
+          </h2>
+          <div className="max-h-80 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white shadow-inner">
+            {savedLists.length === 0 ? <div className="p-8 text-center text-[10px] text-gray-400 font-bold">履歴がありません</div> : (
               <ul className="divide-y divide-gray-100">
                 {savedLists.map((list, i) => (
-                  <li key={i} className="p-3 hover:bg-emerald-50 cursor-pointer" onClick={() => handleLoadClinic(list)}>
-                    <div className="text-[11px] font-black text-gray-700">{list.clinic.name}</div>
-                    <div className="text-[9px] text-gray-400">{list.clinic.publishDate}</div>
+                  <li key={i} className="group p-3 hover:bg-emerald-50 cursor-pointer transition-all flex justify-between items-center" onClick={() => handleLoadClinic(list)}>
+                    <div className="flex-1 min-w-0 pr-2">
+                      <div className="text-[11px] font-black text-gray-700 truncate group-hover:text-emerald-800">{list.clinic.name}</div>
+                      <div className="text-[9px] text-gray-400 mt-0.5 flex items-center gap-2">
+                        <span className="font-bold">{list.clinic.publishDate.replace(/-/g, '/')}</span>
+                        <span className="opacity-30">|</span>
+                        <span>担当: {list.clinic.representative || '未設定'}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <button className="text-[9px] bg-emerald-600 text-white px-3 py-2 rounded font-black whitespace-nowrap shadow-sm group-hover:bg-emerald-500 transform group-active:scale-95 transition-all">編集読み込み</button>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -304,50 +312,34 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* 右メインエリア（プレビュー） */}
       <div className={`flex-1 relative bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-32 md:pb-0`}>
         <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 border-gray-200 p-4 z-50 flex justify-between items-center shadow-lg">
           <div className="flex gap-2">
-            <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black">← 編集に戻る</button>
+            <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black shadow-sm active:scale-95">← 編集に戻る</button>
             <div className="hidden md:flex gap-1">
               {[0, 1, 2, 3].map(p => (
-                <button key={p} onClick={() => setPreviewPage(p)} className={`w-8 h-8 rounded-full text-[10px] font-bold border-2 ${previewPage === p ? 'bg-orange-600 text-white border-orange-700' : 'bg-white text-gray-400 border-gray-200'}`}>{p+1}</button>
+                <button key={p} onClick={() => setPreviewPage(p)} className={`w-8 h-8 rounded-full text-[10px] font-bold border-2 transition-all ${previewPage === p ? 'bg-orange-600 text-white border-orange-700 shadow-lg' : 'bg-white text-gray-400 border-gray-200 hover:border-orange-200'}`}>{p+1}</button>
               ))}
             </div>
           </div>
-          <button 
-            onClick={handlePrint} 
-            disabled={isPrinting}
-            className={`bg-orange-600 text-white px-8 md:px-12 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70' : ''}`}
-          >
+          <button onClick={handlePrint} disabled={isPrinting} className={`bg-orange-600 text-white px-8 md:px-12 py-3 rounded-full shadow-xl hover:bg-orange-700 font-black text-sm transition-all border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 ${isPrinting ? 'opacity-70' : ''}`}>
             {isPrinting ? 'PDF生成中...' : 'PDF保存・印刷'}
           </button>
         </div>
 
-        {/* モバイル用ページ切り替え（プレビュー画面時のみ） */}
         <div className="md:hidden no-print flex justify-center gap-4 my-4">
            {[0, 1, 2, 3].map(p => (
-             <button 
-               key={p} 
-               onClick={() => setPreviewPage(p)}
-               className={`px-4 py-2 rounded-lg font-black text-xs transition-all ${previewPage === p ? 'bg-white text-orange-600 shadow-lg' : 'bg-gray-800 text-gray-500'}`}
-             >
-               P{p+1}
-             </button>
+             <button key={p} onClick={() => setPreviewPage(p)} className={`px-4 py-2 rounded-lg font-black text-xs transition-all ${previewPage === p ? 'bg-white text-orange-600 shadow-xl scale-110' : 'bg-gray-800 text-gray-500'}`}>P{p+1}</button>
            ))}
         </div>
 
         <div className="flex flex-col items-center justify-start p-4 md:p-8 print:p-0 print:block">
-          {/* PriceListRenderer自体を渡すが、CSSで制御 */}
           <div className={`mobile-preview-container page-index-${previewPage}`}>
             <PriceListRenderer data={data} />
           </div>
         </div>
         
-        <div className="md:hidden no-print text-center text-gray-500 text-[10px] font-bold py-8">
-          - ページ {previewPage + 1} / 4 -<br/>
-          ( 左右にスワイプはできません。上のボタンで切り替えてください )
-        </div>
+        <div className="md:hidden no-print text-center text-gray-500 text-[10px] font-bold py-8">- ページ {previewPage + 1} / 4 -<br/>( 上のボタンでページを切り替えて確認できます )</div>
       </div>
     </div>
   );
