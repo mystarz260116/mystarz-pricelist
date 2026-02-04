@@ -8,55 +8,67 @@
   }
 }
 
-/* A4ページ表示用の基本スタイル */
+/* 
+   A4の基本サイズ定義 (96dpi相当)
+   Width: 210mm ≒ 794px
+   Height: 297mm ≒ 1123px
+*/
+:root {
+  --a4-base-width: 794px;
+  --a4-base-height: 1123px;
+}
+
+/* プレビュー用コンテナ */
+.responsive-a4-wrapper {
+  position: relative;
+  width: var(--a4-base-width);
+  height: var(--a4-base-height);
+  margin-bottom: 2rem;
+  flex-shrink: 0;
+}
+
+/* A4ページ本体 */
 .a4-page {
-  width: 210mm;
-  height: 297mm;
+  width: var(--a4-base-width);
+  height: var(--a4-base-height);
   background: white;
   box-shadow: 0 0 30px rgba(0,0,0,0.15);
   position: relative;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
-/* レスポンシブ対応：スマホで見るときにA4を縮小してフィットさせる */
-.responsive-a4-wrapper {
-  width: 210mm;
-  height: 297mm;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-shrink: 0;
-}
-
-@media (max-width: 860px) { /* A4の幅約794px + 余白 */
+/* モバイル対応 (画面幅がA4サイズより小さい場合) */
+@media (max-width: 820px) {
   .responsive-a4-wrapper {
-    /* 画面幅に合わせてコンテナサイズを調整 */
-    width: calc(100vw - 2rem);
-    height: calc((100vw - 2rem) * (297 / 210));
+    /* 画面幅（左右16pxずつの余白）に合わせてコンテナを縮小 */
+    --current-width: calc(100vw - 2rem);
+    --scale-factor: calc(var(--current-width) / var(--a4-base-width));
+    
+    width: var(--current-width);
+    /* 高さをスケールに合わせて計算することで、下の要素との重なりを防ぐ */
+    height: calc(var(--a4-base-height) * var(--scale-factor));
     margin-bottom: 1rem;
-    overflow: hidden; /* はみ出しを隠す */
-    position: relative;
+    display: flex;
+    justify-content: center;
   }
   
   .a4-page {
-    /* 中央を起点にスケールさせる */
-    transform: scale(calc((100vw - 2rem) / 210mm));
-    transform-origin: top center;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    
-    /* 
-       A4(210mm)はスマホ幅より広いため、
-       flexのjustify-centerだけでは左端が画面外に行く場合があります。
-       そのため強制的に中央に配置します。
-    */
     position: absolute;
+    top: 0;
     left: 50%;
-    margin-left: -105mm; /* 210mmの半分 */
+    /* 
+       1. 起点を上端中央にする
+       2. absoluteのleft 50%で中央へ
+       3. transformのtranslateX -50%で自身の中心を合わせる
+       4. scaleで縮小
+    */
+    transform-origin: top center;
+    transform: translateX(-50%) scale(var(--scale-factor));
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
 }
 
+/* 印刷用設定：ブラウザの印刷機能ではスケールを無効化 */
 @media print {
   .responsive-a4-wrapper {
     width: 210mm !important;
@@ -64,14 +76,14 @@
     margin: 0 !important;
     padding: 0 !important;
     display: block !important;
-    overflow: visible !important;
   }
   .a4-page {
+    width: 210mm !important;
+    height: 297mm !important;
     position: static !important;
     transform: none !important;
     box-shadow: none !important;
     margin: 0 !important;
-    border: none !important;
     left: auto !important;
   }
 }
