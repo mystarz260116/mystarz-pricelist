@@ -1,9 +1,8 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
-import { PriceListData, PriceCategory } from './types.ts';
-import { INITIAL_PRICE_DATA } from './constants.ts';
-import PriceListRenderer from './components/PriceListRenderer.tsx';
-import { processMemoWithAI } from './services/geminiService.ts';
+import { PriceListData, PriceCategory } from './types';
+import { INITIAL_PRICE_DATA } from './constants';
+import PriceListRenderer from './components/PriceListRenderer';
+import { processMemoWithAI } from './services/geminiService';
 import * as XLSX from 'xlsx';
 
 const STORAGE_KEY = 'DENTAL_PRICE_LIST_STORE_V1';
