@@ -190,12 +190,8 @@ const App: React.FC = () => {
   const aiPlaceholderText = `【AIへの具体的な指示の見本】
 ・KATANAを20,000円、レイヤリングを28,000円に変更して
 ・保険冠の項目をすべて一律で200円値上げして
-・ジルコニア全般を現在の価格から5%値上げして
 ・担当者を「小山」に変更し、発行日を2月20日に設定して
-・医院名を「ひまわり歯科クリニック」にして
-・自費義歯のすべての項目名の末尾に「(材料代別)」と追記して
-・CAD/CAM冠の価格をすべて一律5,500円に書き換えて
-・ジルアドバンスド以外の項目をすべて500円引きにして`;
+・医院名を「ひまわり歯科クリニック」にして`;
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden bg-gray-100">
@@ -207,7 +203,7 @@ const App: React.FC = () => {
               <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
                 <span className="text-2xl">📖</span> 使い方ガイド
               </h2>
-              <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold transition-transform active:scale-90 hover:bg-gray-200">×</button>
+              <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-2xl font-bold hover:bg-gray-200">×</button>
             </div>
             
             <div className="p-8 space-y-10">
@@ -215,65 +211,58 @@ const App: React.FC = () => {
               <section className="relative">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-xl">🤖</div>
-                  <h3 className="text-lg font-black text-indigo-700">AIに丸投げして編集する</h3>
+                  <h3 className="text-lg font-black text-indigo-700">AIに指示して一括編集</h3>
                 </div>
                 <div className="ml-4 space-y-3">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    左側の紫色の枠に「メモ」を書いてボタンを押すだけで、AIが価格表を自動更新します。
+                    左側の紫色の枠に「医院名」や「変更したい価格」を箇条書きでメモしてボタンを押すだけで、AIが表を自動更新します。
                   </p>
-                  <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-xl shadow-sm">
-                    <p className="text-[11px] font-black text-indigo-900 mb-2 uppercase tracking-wider">指示の出し方のコツ：</p>
-                    <ul className="text-[12px] text-indigo-800 space-y-2 font-bold">
-                      <li className="flex gap-2"><span>✅</span>「ジルコニアをすべて1,000円値上げして」</li>
-                      <li className="flex gap-2"><span>✅</span>「医院名をマイ・スターズ歯科にして。担当は小山」</li>
-                      <li className="flex gap-2"><span>✅</span>「CAD/CAMの材料費をすべて500円安くして」</li>
-                    </ul>
+                  <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-xl shadow-sm text-[12px] text-indigo-800 space-y-2 font-bold leading-relaxed">
+                    <p className="font-black text-indigo-900 mb-1 tracking-wider text-[11px]">指示のコツ：</p>
+                    <p>「医院名を〇〇歯科にして。担当は小山。ジルコニアをすべて10%値上げ」</p>
                   </div>
                 </div>
               </section>
 
-              {/* 直接編集 */}
-              <section>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl">✏️</div>
-                  <h3 className="text-lg font-black text-blue-700">細かい部分は手動で直す</h3>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    各項目の右側にある価格の数字（例: 15,000）を直接クリックすると、キーボードで修正できます。「/」や「～」で区切られた金額も、それぞれ個別に変更可能です。
-                  </p>
-                </div>
-              </section>
-
-              {/* 印刷・保存 */}
+              {/* 印刷構成の詳細 */}
               <section>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-xl">🖨️</div>
-                  <h3 className="text-lg font-black text-orange-700">PDF保存・印刷（A4用紙2枚構成）</h3>
+                  <h3 className="text-lg font-black text-orange-700">A4用紙2枚（両面印刷）で作成</h3>
                 </div>
                 <div className="ml-4 space-y-4">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    「PDF保存・印刷」ボタンを押すとプレビューが表示されます。送信先を「PDFに保存」に設定して保存してください。
+                    このツールは「A4用紙2枚」の構成になっています。印刷設定で「両面印刷」を選ぶことで、手に取りやすい資料になります。
                   </p>
                   <div className="bg-orange-50 border border-orange-200 p-5 rounded-2xl shadow-sm">
-                    <p className="text-xs text-orange-900 font-black mb-3 border-b border-orange-200 pb-2 flex items-center gap-2">
-                      <span>📄</span> 用紙2枚（両面印刷）の仕上がりイメージ
+                    <p className="text-xs text-orange-900 font-black mb-4 border-b border-orange-200 pb-2 flex items-center gap-2 uppercase tracking-widest">
+                      📄 仕上がりイメージ（2枚 両面印刷時）
                     </p>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-white p-3 rounded-lg border border-orange-100 shadow-sm">
-                        <p className="text-[10px] font-black text-orange-800 mb-1">【1枚目】表・裏</p>
-                        <p className="text-[9px] text-gray-500 leading-tight">表紙・インプラント ／<br/>保険技工物 料金表</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
+                        <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【1枚目】</p>
+                        <ul className="text-[10px] text-gray-500 space-y-1 font-bold">
+                          <li className="flex justify-between"><span>(表) 表紙・インプラント</span></li>
+                          <li className="flex justify-between"><span>(裏) 保険技工物</span></li>
+                        </ul>
                       </div>
-                      <div className="bg-white p-3 rounded-lg border border-orange-100 shadow-sm">
-                        <p className="text-[10px] font-black text-orange-800 mb-1">【2枚目】表・裏</p>
-                        <p className="text-[9px] text-gray-500 leading-tight">自費義歯料金一覧 ／<br/>自費歯冠修復料金一覧</p>
+                      <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
+                        <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【2枚目】</p>
+                        <ul className="text-[10px] text-gray-500 space-y-1 font-bold">
+                          <li className="flex justify-between"><span>(表) 自費義歯</span></li>
+                          <li className="flex justify-between"><span>(裏) 自費歯冠修復</span></li>
+                        </ul>
                       </div>
                     </div>
+                  </div>
+                  <div className="flex items-start gap-2 text-[11px] text-gray-400 italic bg-gray-50 p-3 rounded-lg border border-gray-100">
+                    <span className="text-orange-500 font-black">※</span>
+                    <span>「PDF保存・印刷」ボタンからプレビューを確認し、プリンター設定で「両面印刷（長辺とじ）」を選択してください。</span>
                   </div>
                 </div>
               </section>
 
-              {/* 保存機能 */}
+              {/* 端末保存 */}
               <section>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-xl">💾</div>
@@ -281,24 +270,14 @@ const App: React.FC = () => {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    「内容を保存」を押すと、作成したデータがブラウザに保存されます。次回、左下の「保存済み医院リスト」からクリックするだけで瞬時に呼び出せます。
+                    「内容を保存」ボタンを押すと、入力したデータがこのブラウザに記憶されます。左下の「保存済み医院リスト」からいつでも呼び出して編集を再開できます。
                   </p>
                 </div>
               </section>
-
-              {/* 困ったときは */}
-              <div className="bg-gray-50 p-6 rounded-2xl border-2 border-dashed border-gray-200">
-                <p className="text-xs text-gray-500 font-black flex items-center gap-2 mb-2">
-                  <span>💡</span> 困ったときは...
-                </p>
-                <p className="text-[11px] text-gray-400 leading-relaxed">
-                  表示が崩れたり、AIの動きがおかしい場合は、ページを再読み込み（リフレッシュ）してください。保存済みのデータは消えませんのでご安心ください。
-                </p>
-              </div>
             </div>
 
             <div className="p-8 border-t bg-gray-50 rounded-b-3xl text-center">
-              <button onClick={() => setShowGuide(false)} className="w-full max-w-sm py-4 bg-gray-800 text-white rounded-xl font-black text-sm active:scale-95 transition-all shadow-xl hover:bg-gray-900">内容を理解しました！</button>
+              <button onClick={() => setShowGuide(false)} className="w-full max-w-sm py-4 bg-gray-800 text-white rounded-xl font-black text-sm active:scale-95 shadow-xl hover:bg-gray-900">内容を理解しました</button>
             </div>
           </div>
         </div>
@@ -307,10 +286,10 @@ const App: React.FC = () => {
       {/* モバイル用タブ切り替え（最下部固定） */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-[0_-4px_15px_rgba(0,0,0,0.1)] no-print">
         <button onClick={() => setMobileViewMode('edit')} className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}>
-          <span className="text-xl">✏️</span><span>編集</span>
+          <span className="text-xl">✏️</span><span>入力・編集</span>
         </button>
         <button onClick={() => setMobileViewMode('preview')} className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 transition-all ${mobileViewMode === 'preview' ? 'text-orange-600 bg-orange-50' : 'text-gray-400'}`}>
-          <span className="text-xl">📄</span><span>確認・出力</span>
+          <span className="text-xl">📄</span><span>仕上がり確認</span>
         </button>
       </div>
 
@@ -339,9 +318,9 @@ const App: React.FC = () => {
             <label className="text-[10px] font-black text-indigo-100 tracking-widest uppercase">AI アシスタント</label>
             <span className="text-[8px] bg-indigo-800 text-indigo-300 px-2 py-0.5 rounded font-bold">Gemini Flash</span>
           </div>
-          <textarea className="w-full bg-white/10 text-white border-2 border-indigo-500 rounded-lg p-3 text-[11px] h-48 mb-3 outline-none placeholder-indigo-300 leading-relaxed scrollbar-hide" placeholder={aiPlaceholderText} value={memo} onChange={(e) => setMemo(e.target.value)} />
+          <textarea className="w-full bg-white/10 text-white border-2 border-indigo-500 rounded-lg p-3 text-[11px] h-40 mb-3 outline-none placeholder-indigo-300 leading-relaxed scrollbar-hide" placeholder={aiPlaceholderText} value={memo} onChange={(e) => setMemo(e.target.value)} />
           <button onClick={handleUpdateMemo} disabled={isProcessing} className={`w-full py-3 rounded-lg text-xs font-black bg-white text-indigo-800 active:scale-95 transition-all shadow-lg hover:bg-gray-100 ${isProcessing ? 'opacity-50' : ''}`}>
-            {isProcessing ? 'AI解析中...' : 'AIで価格表を一括書き換え'}
+            {isProcessing ? 'AI解析中...' : 'AIで一括書き換え'}
           </button>
         </div>
 
@@ -376,7 +355,6 @@ const App: React.FC = () => {
         <div className="mt-12 pt-8 border-t-2 border-gray-200 pb-12">
           <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase flex items-center justify-between">
             保存済み医院リスト
-            <span className="text-[8px] bg-gray-100 px-2 py-0.5 rounded text-gray-400 font-bold">端末内保存</span>
           </h2>
           <div className="max-h-80 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white shadow-inner">
             {savedLists.length === 0 ? <div className="p-8 text-center text-[10px] text-gray-400 font-bold">履歴がありません</div> : (
@@ -392,7 +370,7 @@ const App: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex items-center">
-                      <button className="text-[9px] bg-emerald-600 text-white px-3 py-2 rounded font-black whitespace-nowrap shadow-sm group-hover:bg-emerald-500 transform group-active:scale-95 transition-all">編集読み込み</button>
+                      <button className="text-[9px] bg-emerald-600 text-white px-3 py-2 rounded font-black shadow-sm transform group-active:scale-95">読み込み</button>
                     </div>
                   </li>
                 ))}
@@ -406,7 +384,7 @@ const App: React.FC = () => {
       <div className={`flex-1 relative bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-32 md:pb-0`}>
         <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 border-gray-200 p-4 z-50 flex justify-between items-center shadow-lg">
           <div className="flex gap-2">
-            <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black shadow-sm active:scale-95">← 編集に戻る</button>
+            <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black shadow-sm active:scale-95">← 入力に戻る</button>
             <div className="hidden md:flex items-center px-4 bg-gray-50 rounded-lg border-2 border-gray-200">
               <span className="text-[10px] font-black text-gray-400">プレビュー（全4ページ）</span>
             </div>
@@ -417,14 +395,13 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex flex-col items-center justify-start p-4 md:p-8 print:p-0 print:block">
-          <div className="mobile-preview-container flex flex-col items-center gap-8 md:gap-12">
+          <div className="mobile-preview-container flex flex-col items-center">
             <PriceListRenderer data={data} />
           </div>
         </div>
         
         <div className="no-print text-center text-gray-400 text-[10px] font-bold py-12 border-t border-white/10 mt-8">
-          - 料金表の終端です -<br/>
-          ( 下に何もない場合は、すべてのページが表示されています )
+          - ここまで -
         </div>
       </div>
     </div>

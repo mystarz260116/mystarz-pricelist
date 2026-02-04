@@ -29,43 +29,57 @@
   width: var(--a4-base-width);
   height: var(--a4-base-height);
   background: white;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
   position: relative;
-  /* プレビュー時は内容が確認できるようにoverflowをhiddenにしない（印刷時のみ制御） */
   overflow: visible;
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
 
-/* スマホ表示時の改善：全ページ縦並び */
+/* スマホ表示時の改善：全ページが画面幅に合わせて縮小され、縦に並ぶ */
 @media (max-width: 820px) {
   .mobile-preview-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem; /* ページ間の隙間 */
+    padding: 0;
   }
 
-  /* すべてのページを表示 */
   .mobile-preview-container .responsive-a4-wrapper {
-    display: block;
-    --current-width: calc(100vw - 2.5rem);
-    --scale-factor: calc(var(--current-width) / var(--a4-base-width));
-    
-    width: var(--current-width);
-    height: calc(var(--a4-base-height) * var(--scale-factor));
-    transform: none;
-    margin-bottom: 1rem;
+    /* 親要素の幅100%に合わせてスケーリング */
+    width: 100% !important;
+    --current-width: 100%;
+    /* CSS変数を使用してスケール率を算出（親の幅 / A4基本幅） */
+    /* 実際にはJSを使わずとも、コンテナ幅を基準にページを収める */
+    height: auto !important;
+    min-height: 200px; /* プレースホルダー */
+    aspect-ratio: 794 / 1123;
+    margin-bottom: 24px !important;
+    display: block !important;
   }
 
+  /* aspect-ratioを使い、中身をスケールさせる */
   .mobile-preview-container .a4-page {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: scale(var(--scale-factor));
-    transform-origin: top left;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: var(--a4-base-width) !important;
+    height: var(--a4-base-height) !important;
+    transform-origin: top left !important;
+    /* スケール率は コンテナ幅 / 794px */
+    transform: scale(calc(100vw / 850)); /* 余裕を持たせた固定スケールではなく動的にしたいがCSSのみでは限界があるため調整 */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  
+  /* 正確なスケーリングのためのコンテナ調整 */
+  .responsive-a4-wrapper {
+    --scale: calc((100vw - 2rem) / 794);
+    width: calc(100vw - 2rem) !important;
+    height: calc(1123px * var(--scale)) !important;
+  }
+  .responsive-a4-wrapper .a4-page {
+    transform: scale(var(--scale)) !important;
   }
 }
 
@@ -81,7 +95,6 @@
     display: none !important;
   }
 
-  /* 印刷時は全てのページを順に表示 */
   .responsive-a4-wrapper {
     display: block !important;
     width: 210mm !important;
@@ -101,7 +114,7 @@
     margin: 0 !important;
     left: auto !important;
     border: none !important;
-    overflow: hidden !important; /* 印刷時は1枚に収めるためhiddenに戻す */
+    overflow: hidden !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }

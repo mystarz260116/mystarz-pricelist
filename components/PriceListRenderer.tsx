@@ -13,7 +13,6 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   const hokenDentures = data.categories.find(c => c.id === 'hoken-gishi');
   const hokenHairetsuKansei = data.categories.find(c => c.id === 'hoken-hairetsu-kansei');
   
-  // ロー着をオプションから除外して別扱いに
   const rawHokenOptions = data.categories.find(c => c.id === 'hoken-gishi-options')?.items || [];
   const solderItem = rawHokenOptions.find(item => item.name.includes('ロー着'));
   const filteredHokenOptions = rawHokenOptions.filter(item => !item.name.includes('ロー着'));
@@ -78,7 +77,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   };
 
   return (
-    <div className="flex flex-col gap-0 items-center py-8 print:py-0 bg-gray-300 print:bg-white print:block min-h-screen print:min-h-0">
+    <div className="flex flex-col gap-0 items-center py-4 md:py-8 print:py-0 print:block w-full">
       
       {/* PAGE 1: FRONT COVER */}
       <div className="responsive-a4-wrapper">
@@ -205,7 +204,6 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                       <td className="border border-[#eff6ff] px-2 py-0.5 font-black text-blue-900">¥{parseMultiPrice(item.price, 1)}</td>
                     </tr>
                   ))}
-                  {/* 移動してきたロー着項目: 総義歯の下に配置 */}
                   <tr className="bg-[#f0f9ff]">
                     <td className="text-left border border-[#eff6ff] px-2 py-0.5 font-black text-[#1e40af]">{sanitizeName(solderItem?.name || 'ロー着(Co-Cr)')}</td>
                     <td colSpan={2} className="text-center border border-[#eff6ff] px-2 py-0.5 font-black text-blue-900 italic">
