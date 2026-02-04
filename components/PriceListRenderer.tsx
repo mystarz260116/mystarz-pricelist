@@ -79,7 +79,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col gap-0 items-center py-0 print:block w-full">
       
-      {/* PAGE 1: FRONT COVER & IMPLANT - フッター再構築版 */}
+      {/* PAGE 1: FRONT COVER & IMPLANT */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-12 flex flex-col h-full bg-white relative">
           <div className="w-full text-right text-[11px] text-gray-400 mb-6 font-black">発行日：{formattedDate}</div>
@@ -129,13 +129,13 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                <span className="text-sm font-black tracking-widest text-blue-900">FAX 072-691-7108</span>
              </div>
              <div className="w-full border-t-[3px] border-gray-800 pt-2.5 text-center">
-               <div className="text-lg font-black text-gray-800 tracking-[0.5em]">株式会社マイ・スターズ 大阪</div>
+               <div className="text-xl font-black text-gray-800 tracking-tight">株式会社マイ・スターズ 大阪</div>
              </div>
           </div>
         </div>
       </div>
 
-      {/* PAGE 2: 保険料金表 - 変更なし */}
+      {/* PAGE 2: 保険料金表 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-6 flex flex-col text-gray-800">
           <h2 className="text-[#1e40af] border-b-[4px] border-[#1e40af] mb-2 font-black text-2xl italic pb-1 tracking-widest uppercase">保険技工物 料金表</h2>
@@ -243,12 +243,12 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 3: 自費義歯料金一覧 - 空白詰めバランス調整版 */}
+      {/* PAGE 3: 自費義歯料金一覧 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-10 flex flex-col text-gray-800 bg-white overflow-hidden">
-          <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-5 font-black text-2xl italic tracking-[0.3em] pb-2 uppercase">自費義歯料金一覧</h2>
+          <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-3 font-black text-2xl italic tracking-[0.3em] pb-2 uppercase">自費義歯料金一覧</h2>
           
-          <div className="flex flex-row gap-4 mb-4">
+          <div className="flex flex-row gap-4 mb-2">
             <div className="w-1/2">
               <div className="bg-[#ea580c] text-white px-4 py-1.5 text-[12px] font-black shadow-sm rounded-t">自費義歯排列料</div>
               <div className="border-[2px] border-[#ea580c] bg-white rounded-b overflow-hidden shadow-sm">
@@ -273,7 +273,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-2">
             <div className="bg-[#ea580c] text-white px-4 py-1.5 text-[12px] font-black shadow-sm rounded-t">{privateGishiNonclasp?.title}</div>
             <div className="flex flex-row gap-2 border-[2px] border-[#ea580c] bg-white p-3 rounded-b shadow-sm">
               <div className="w-1/2">
@@ -297,7 +297,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-2">
             <div className="bg-[#ea580c] text-white px-4 py-1.5 text-[12px] font-black shadow-sm rounded-t">金属床 (コバルト / チタン / 貴金属)</div>
             <div className="border-[2px] border-[#ea580c] bg-white rounded-b overflow-hidden shadow-sm">
                <table className="w-full text-[10px] border-collapse">
@@ -318,7 +318,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-2">
             <div className="bg-[#ea580c] text-white px-4 py-1.5 text-[12px] font-black shadow-sm rounded-t">{privateGishiOptions?.title}</div>
             <div className="border-[2px] border-[#ea580c] bg-white p-3 rounded-b shadow-sm">
               <div className="flex flex-row gap-4">
@@ -351,7 +351,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mt-0 pt-1">
+          <div className="mt-1">
             <div className="flex flex-row gap-6">
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1.5 text-[11px] font-black shadow-sm rounded-t">シリコン裏装加工</div>
@@ -366,7 +366,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                </div>
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1.5 text-[11px] font-black shadow-sm rounded-t">その他・特記事項</div>
-                 <div className="border-[2px] border-[#ea580c] bg-white p-3 rounded-b text-[10px] space-y-1.5 font-black shadow-sm flex flex-col min-h-[115px]">
+                 <div className="border-[2px] border-[#ea580c] bg-white p-3 rounded-b text-[10px] space-y-1.5 font-black shadow-sm flex flex-col min-h-[105px]">
                    {privateGishiOthers?.items.slice(4).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-1">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>
@@ -384,7 +384,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 4: 自費歯冠修復料金一覧 - 変更なし */}
+      {/* PAGE 4: 自費歯冠修復料金一覧 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-8 flex flex-col text-gray-800 h-full">
           <h2 className="text-[#065f46] border-b-[4px] border-[#065f46] mb-4 font-black text-2xl italic tracking-[0.2em] pb-2 uppercase">自費歯冠修復料金一覧</h2>
