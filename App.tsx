@@ -288,9 +288,14 @@ const App: React.FC = () => {
 
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen ${!showEditor ? 'hidden' : ''}`}>
         <div className="mb-6 border-b-2 border-gray-300 pb-4 flex justify-between items-start">
-          <div>
-            <h1 className="text-xl font-bold text-gray-800 mb-1 italic">料金表 作成依頼</h1>
-            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Sales Support System</p>
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz Logo" className="h-6 object-contain" />
+              <h1 className="text-[14px] font-black text-gray-800 italic leading-tight">
+                営業部用<br/>料金表 作成ツール
+              </h1>
+            </div>
+            <p className="text-[9px] text-gray-400 uppercase tracking-[0.2em] font-bold ml-8">Sales Support System</p>
           </div>
           <button 
             onClick={() => setShowGuide(true)} 
