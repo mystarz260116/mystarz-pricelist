@@ -131,7 +131,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 2: Insurance Prices (Relocated Solder Item specifically under Full Denture) */}
+      {/* PAGE 2: Insurance Prices */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-6 flex flex-col text-gray-800">
           <h2 className="text-[#1e40af] border-b-[4px] border-[#1e40af] mb-2 font-black text-2xl italic pb-1 tracking-widest uppercase">保険技工物 料金表</h2>
@@ -452,7 +452,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
           <div className="mt-auto pt-3 text-right text-[11px] text-gray-500 font-bold italic border-t border-gray-100">
-            ※材料代別の項目は、別途貴金属等の費用が発生します。
+            ※材料代別の項目は、別途材料代が発生します。
           </div>
         </div>
       </div>
