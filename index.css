@@ -51,15 +51,15 @@
 /* スマホ表示時（820px以下）の最適化 */
 @media (max-width: 820px) {
   .responsive-a4-wrapper {
-    /* 左右16pxずつの余白を引いた幅にスケール */
-    --mobile-scale: calc((100vw - 32px) / 794);
+    /* 単位なしの数値としてスケールを計算 (1pxで割ることで単位を消去) */
+    --mobile-scale: calc((100vw - 32px) / 794 / 1px);
     width: calc(var(--a4-base-width) * var(--mobile-scale)) !important;
     height: calc(var(--a4-base-height) * var(--mobile-scale)) !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 1.5rem !important;
   }
 
   .a4-page {
-    /* ページ内容を縮小 */
+    /* 正しい数値スケールを適用 */
     transform: scale(var(--mobile-scale)) !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }

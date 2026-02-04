@@ -267,7 +267,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* ヘルプガイドモーダル */}
+      {/* ヘルプガイドモーダル（指示通りの文言に修正版） */}
       {showGuide && (
         <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 no-print" onClick={() => setShowGuide(false)}>
           <div className="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
