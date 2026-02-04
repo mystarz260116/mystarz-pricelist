@@ -202,7 +202,7 @@ const App: React.FC = () => {
           <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-white/20">
             <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center z-10 rounded-t-3xl">
               <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
-                使い方ガイド <span className="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-400">Ver. 2.0</span>
+                使い方ガイド <span className="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-400 font-bold italic text-blue-500">Free Ver.</span>
               </h2>
               <button onClick={() => setShowGuide(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 text-2xl font-bold transition-transform active:scale-90">×</button>
             </div>
@@ -232,6 +232,7 @@ const App: React.FC = () => {
                     <li>「ジルコニアを全部2,000円値上げして」</li>
                     <li>「担当者を○○に変更して、日付は今日にして」</li>
                   </ul>
+                  <p className="mt-4 text-[10px] text-indigo-400 font-bold border-t border-indigo-200 pt-2 italic">※AI利用料は無料枠内（0円）ですので、安心して何度でもお使いください。</p>
                 </div>
               </section>
 
@@ -308,8 +309,8 @@ const App: React.FC = () => {
         {/* AI メモセクション */}
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl border-2 border-indigo-800">
           <div className="flex justify-between items-center mb-3">
-            <label className="text-[11px] font-black text-white uppercase tracking-widest block">AI メモ一括反映</label>
-            <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold">Gemini 2.5 Flash</span>
+            <label className="text-[11px] font-black text-white uppercase tracking-widest block">AI アシスタント</label>
+            <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold">無料枠内</span>
           </div>
           
           <textarea 
