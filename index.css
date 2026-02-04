@@ -71,12 +71,14 @@
   }
 }
 
+/* 印刷専用スタイル：最優先で適用 */
 @media print {
   html, body, #root {
     height: auto !important;
     overflow: visible !important;
     position: static !important;
     background: white !important;
+    width: 210mm !important;
   }
 
   .no-print {
@@ -85,15 +87,19 @@
 
   .responsive-a4-wrapper {
     display: block !important;
+    visibility: visible !important;
     width: 210mm !important;
     height: 297mm !important;
     margin: 0 !important;
     padding: 0 !important;
     transform: none !important;
     page-break-after: always;
+    position: relative !important;
   }
 
   .a4-page {
+    display: block !important;
+    visibility: visible !important;
     width: 210mm !important;
     height: 297mm !important;
     position: static !important;

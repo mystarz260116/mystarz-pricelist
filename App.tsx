@@ -99,10 +99,11 @@ const App: React.FC = () => {
 
   const handlePrint = () => {
     setIsPrinting(true);
+    // DOMの更新を待ってから印刷ダイアログを表示
     setTimeout(() => {
       window.print();
       setTimeout(() => setIsPrinting(false), 1000);
-    }, 200);
+    }, 300);
   };
 
   const renderPriceInputs = (catId: string, itemIdx: number, price: string, themeColor: string) => {
@@ -214,7 +215,7 @@ const App: React.FC = () => {
         <div className="grid grid-cols-3 gap-2 mb-6">
           <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-emerald-700 transition-all">内容保存</button>
           <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-gray-900 transition-all">Excel出力</button>
-          <button onClick={handlePrint} className="bg-orange-600 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-orange-700 transition-all">PDF出力</button>
+          <button onClick={handlePrint} className="bg-orange-600 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-orange-700 transition-all">PDF保存・印刷</button>
         </div>
 
         <div className="mb-8 bg-indigo-700 p-5 rounded-2xl shadow-xl text-white">
@@ -252,8 +253,8 @@ const App: React.FC = () => {
         {renderCategoryGroup("4. 自費義歯 料金一覧", privateDentureCategories, "orange")}
       </div>
 
-      {/* プレビューエリア */}
-      <div className={`flex-1 bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'}`}>
+      {/* プレビューエリア：印刷時に確実に表示されるよう print:!block を追加 */}
+      <div className={`flex-1 bg-gray-900 md:bg-gray-300 overflow-y-auto print:!block print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'}`}>
         <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 p-4 z-50 flex justify-between items-center shadow-lg">
            <div className="flex items-center gap-2">
              <button onClick={() => setMobileViewMode('edit')} className="md:hidden px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-[10px] font-black active:scale-95">← 戻る</button>
@@ -267,7 +268,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* ヘルプガイドモーダル（指示通りの文言に修正版） */}
+      {/* ヘルプガイドモーダル */}
       {showGuide && (
         <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 no-print" onClick={() => setShowGuide(false)}>
           <div className="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
