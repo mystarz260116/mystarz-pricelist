@@ -44,11 +44,11 @@ const App: React.FC = () => {
     }
   };
 
-  const handleManualPriceChange = (catId: string, itemIdx: number, newPrice: string) => {
+  const handleManualPriceChange = (catId: string, itemIdx: number, newFullPrice: string) => {
     const newData = { ...data };
     const cat = newData.categories.find(c => c.id === catId);
     if (cat) {
-      cat.items[itemIdx].price = newPrice;
+      cat.items[itemIdx].price = newFullPrice;
       setData(newData);
     }
   };
@@ -104,6 +104,50 @@ const App: React.FC = () => {
     window.print();
   };
 
+  const renderPriceInputs = (catId: string, itemIdx: number, price: string, themeColor: string) => {
+    // 1. " / " (スペースありスラッシュ) で分割して複数カラムに対応
+    const parts = price.split(' / ');
+    
+    const inputFocusClasses: {[key: string]: string} = {
+      blue: 'focus:ring-blue-500 border-blue-200',
+      green: 'focus:ring-emerald-500 border-emerald-200',
+      orange: 'focus:ring-orange-500 border-orange-200',
+    };
+
+    const updatePart = (partIndex: number, newValue: string, suffix: string) => {
+      const newParts = [...parts];
+      newParts[partIndex] = newValue + suffix;
+      handleManualPriceChange(catId, itemIdx, newParts.join(' / '));
+    };
+
+    return (
+      <div className="flex items-center gap-1.5 flex-wrap justify-end">
+        {parts.map((part, pIdx) => {
+          // 2. 各パート内の「価格数字」と「単位などの文字」を分離
+          // 数字、カンマ、～、- 以外の文字をサフィックス（単位）とみなす
+          const match = part.match(/^([\d,～\-]*)(.*)$/);
+          const value = match ? match[1] : part;
+          const suffix = match ? match[2] : "";
+
+          return (
+            <React.Fragment key={pIdx}>
+              <div className="flex items-center gap-0.5">
+                <input
+                  type="text"
+                  className={`w-20 border rounded px-1.5 py-1 text-[11px] text-right transition-all outline-none focus:ring-2 bg-gray-50/50 hover:bg-white focus:bg-white ${inputFocusClasses[themeColor]}`}
+                  value={value}
+                  onChange={(e) => updatePart(pIdx, e.target.value, suffix)}
+                />
+                {suffix && <span className="text-[9px] text-gray-400 font-bold whitespace-nowrap">{suffix}</span>}
+              </div>
+              {pIdx < parts.length - 1 && <span className="text-gray-300 font-bold text-[11px]">/</span>}
+            </React.Fragment>
+          );
+        })}
+      </div>
+    );
+  };
+
   const insuranceCategories = data.categories.filter(c => 
     ['hoken-kan', 'hoken-cadcam', 'hoken-model-etc', 'hoken-gishi', 'hoken-hairetsu-kansei', 'hoken-gishi-options'].includes(c.id)
   );
@@ -124,12 +168,6 @@ const App: React.FC = () => {
       orange: 'border-orange-600 text-orange-800 bg-orange-50',
     };
 
-    const inputFocusClasses: {[key: string]: string} = {
-      blue: 'focus:ring-blue-500 border-blue-200',
-      green: 'focus:ring-emerald-500 border-emerald-200',
-      orange: 'focus:ring-orange-500 border-orange-200',
-    };
-
     return (
       <div className="mb-6 bg-white shadow-sm rounded-lg border-2 border-gray-100 overflow-hidden">
         <div className={`flex items-center gap-2 py-3 px-4 border-l-8 ${colorClasses[themeColor]}`}>
@@ -141,19 +179,14 @@ const App: React.FC = () => {
               <h3 className="text-[10px] font-bold text-gray-500 mb-3 uppercase tracking-tighter border-b-2 border-gray-100 pb-1 flex justify-between">
                 <span className="bg-gray-100 px-2 rounded-t">{cat.title}</span>
               </h3>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {cat.items.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2 group">
-                    <span className="text-[10px] text-gray-600 flex-1 truncate group-hover:text-gray-900 transition-colors">
-                      {item.name}
-                    </span>
-                    <div className="flex items-center">
-                      <input
-                        type="text"
-                        className={`w-36 border rounded px-2 py-1.5 text-[11px] text-right transition-all outline-none focus:ring-2 bg-gray-50/50 hover:bg-white focus:bg-white ${inputFocusClasses[themeColor]}`}
-                        value={item.price}
-                        onChange={(e) => handleManualPriceChange(cat.id, idx, e.target.value)}
-                      />
+                  <div key={idx} className="flex flex-col gap-1 group">
+                    <div className="flex items-center gap-2">
+                       <span className="text-[10px] text-gray-600 flex-1 truncate group-hover:text-gray-900 transition-colors">
+                        {item.name}
+                      </span>
+                      {renderPriceInputs(cat.id, idx, item.price, themeColor)}
                     </div>
                   </div>
                 ))}

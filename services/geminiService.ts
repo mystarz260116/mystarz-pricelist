@@ -2,6 +2,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { PriceListData } from "../types";
 
 export async function processMemoWithAI(memo: string, currentData: PriceListData): Promise<PriceListData> {
+  // 注意: process.env.API_KEY は Vite によって注入されます
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
   
   const response = await ai.models.generateContent({
