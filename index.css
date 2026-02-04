@@ -21,7 +21,7 @@
   height: var(--a4-base-height);
   margin-bottom: 2rem;
   flex-shrink: 0;
-  background: white;
+  background: transparent;
   display: block;
 }
 
@@ -32,11 +32,12 @@
   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
   position: relative;
   overflow: hidden;
+  transform-origin: top left;
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
 
-/* スマホ表示時の改善：横幅ピッタリにフィットさせる */
+/* スマホ表示時の改善：横幅ピッタリにフィットさせ、縦に並べる */
 @media (max-width: 820px) {
   .mobile-preview-container {
     width: 100%;
@@ -44,25 +45,21 @@
     flex-direction: column;
     align-items: center;
     padding: 0.5rem 0;
-    gap: 0.5rem;
-    overflow-x: hidden; /* 横ハミ出し防止 */
+    gap: 1rem;
+    overflow-x: hidden;
   }
 
   .responsive-a4-wrapper {
-    /* 左右パディング(計1rem)を引いた幅にスケールさせる */
+    /* 画面幅（左右余白0.5remずつ計1rem）に合わせてスケール計算 */
     --scale-ratio: calc((100vw - 1rem) / 794);
     width: calc(100vw - 1rem) !important;
+    /* スケールされた後の実際の表示高さを確保（これで重ならなくなります） */
     height: calc(1123px * var(--scale-ratio)) !important;
     margin-bottom: 0.5rem !important;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .a4-page {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    transform-origin: top left !important;
+    /* ページ単体を縮小 */
     transform: scale(var(--scale-ratio)) !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }

@@ -287,9 +287,10 @@ const App: React.FC = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 mb-6">
-          <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95 hover:bg-emerald-700 transition-colors">内容を保存</button>
-          <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-lg text-[11px] font-bold shadow-md active:scale-95 hover:bg-gray-900 transition-colors">Excel出力</button>
+        <div className="grid grid-cols-3 gap-2 mb-6">
+          <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-lg text-[9px] font-bold shadow-md active:scale-95 hover:bg-emerald-700 transition-colors">内容保存</button>
+          <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-lg text-[9px] font-bold shadow-md active:scale-95 hover:bg-gray-900 transition-colors">Excel出力</button>
+          <button onClick={handlePrint} className="bg-orange-600 text-white py-3 rounded-lg text-[9px] font-bold shadow-md active:scale-95 hover:bg-orange-700 transition-colors">PDF出力</button>
         </div>
 
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl">
@@ -346,7 +347,7 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex flex-col items-center justify-start p-4 md:p-8 print:p-0 print:block">
-          <div className="mobile-preview-container flex flex-col items-center">
+          <div className="mobile-preview-container">
             <PriceListRenderer data={data} />
           </div>
         </div>
