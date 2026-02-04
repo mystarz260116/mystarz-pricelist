@@ -134,40 +134,40 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 2: 保険技工物 */}
+      {/* PAGE 2: 保険技工物 - 垂直方向を極限までコンパクトに調整 */}
       <div className="responsive-a4-wrapper">
-        <div className="a4-page p-8 flex flex-col text-gray-800 h-full">
-          <h2 className="text-[#1e40af] border-b-[4px] border-[#1e40af] mb-4 font-black text-2xl italic pb-1 tracking-widest uppercase">保険技工物 料金表</h2>
-          <div className="flex flex-row gap-5 mb-4">
+        <div className="a4-page p-6 flex flex-col text-gray-800 h-full">
+          <h2 className="text-[#1e40af] border-b-[4px] border-[#1e40af] mb-3 font-black text-2xl italic pb-1 tracking-widest uppercase">保険技工物 料金表</h2>
+          <div className="flex flex-row gap-5 mb-3">
             <div className="w-1/2">
-              <div className="bg-[#1e40af] text-white px-3 py-1 text-[13.5px] font-black mb-0.5 rounded-t shadow">保険冠</div>
-              <div className="border-2 border-[#1e40af] bg-white rounded-b">
+              <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">保険冠</div>
+              <div className="border-2 border-[#1e40af] bg-white rounded-b overflow-hidden">
                 {hokenCrowns?.items.map((item, idx) => (
-                  <div key={idx} className="flex justify-between px-3 py-1 text-[10.5px] border-b border-[#eff6ff] last:border-0 font-bold">
+                  <div key={idx} className="flex justify-between px-3 py-0.5 text-[10.2px] border-b border-[#eff6ff] last:border-0 font-bold leading-tight">
                     <span className="text-gray-800 truncate">{sanitizeName(item.name)}</span>
                     <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="w-1/2 flex flex-col gap-4">
+            <div className="w-1/2 flex flex-col gap-3">
               <div>
-                <div className="bg-[#1e40af] text-white px-3 py-1 text-[13.5px] font-black mb-0.5 rounded-t shadow">CAD/CAM冠</div>
-                <div className="border-2 border-[#1e40af] bg-white rounded-b">
+                <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">CAD/CAM冠</div>
+                <div className="border-2 border-[#1e40af] bg-white rounded-b overflow-hidden">
                   {hokenCadCam?.items.map((item, idx) => (
-                    <div key={idx} className="flex justify-between px-3 py-1 text-[10.5px] border-b border-[#eff6ff] last:border-0 font-bold">
+                    <div key={idx} className="flex justify-between px-3 py-0.5 text-[10.2px] border-b border-[#eff6ff] last:border-0 font-bold leading-tight">
                       <span className="text-gray-800 truncate">{sanitizeName(item.name)}</span>
                       <span className="font-black text-blue-900">¥{item.price}</span>
                     </div>
                   ))}
-                  <div className="px-3 py-1 bg-[#f0f9ff] text-[9px] text-[#1e40af] border-t border-[#eff6ff] italic font-bold">※CAD/CAMは、すべて材料込みです。</div>
+                  <div className="px-3 py-0.5 bg-[#f0f9ff] text-[8.5px] text-[#1e40af] border-t border-[#eff6ff] italic font-bold">※CAD/CAMは、すべて材料込みです。</div>
                 </div>
               </div>
               <div>
-                <div className="bg-[#1e40af] text-white px-3 py-1 text-[13.5px] font-black mb-0.5 rounded-t shadow">その他（保険）</div>
-                <div className="border-2 border-[#1e40af] bg-white rounded-b">
+                <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">その他（保険）</div>
+                <div className="border-2 border-[#1e40af] bg-white rounded-b overflow-hidden">
                   {hokenModelEtc?.items.map((item, idx) => (
-                    <div key={idx} className="flex justify-between px-3 py-1 text-[10.5px] border-b border-[#eff6ff] last:border-0 font-bold">
+                    <div key={idx} className="flex justify-between px-3 py-0.5 text-[10.2px] border-b border-[#eff6ff] last:border-0 font-bold leading-tight">
                       <span className="text-gray-800">{sanitizeName(item.name)}</span>
                       <span className="font-black text-blue-900">¥{item.price}</span>
                     </div>
@@ -176,12 +176,12 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-row gap-5 mb-4">
+          <div className="flex flex-row gap-5 mb-3">
             <div className="w-1/2">
-              <div className="bg-[#1e40af] text-white px-3 py-1 text-[13.5px] font-black mb-0.5 rounded-t shadow">保険義歯</div>
+              <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">保険義歯</div>
               <div className="border-2 border-[#1e40af] bg-white overflow-hidden rounded-b">
                 {hokenDentures?.items.map((item, idx) => (
-                  <div key={idx} className="flex justify-between px-3 py-1 text-[10.5px] border-b border-[#eff6ff] last:border-0 font-bold">
+                  <div key={idx} className="flex justify-between px-3 py-0.5 text-[10.2px] border-b border-[#eff6ff] last:border-0 font-bold leading-tight">
                     <span className="truncate pr-1 text-gray-800">{sanitizeName(item.name)}</span>
                     <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
                   </div>
@@ -189,21 +189,21 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
               </div>
             </div>
             <div className="w-1/2">
-              <div className="bg-[#1e40af] text-white px-3 py-1 text-[13.5px] font-black mb-0.5 rounded-t shadow">配列・完成 料金表</div>
-              <table className="w-full text-[10.5px] border-collapse border-2 border-[#1e40af]">
-                <thead className="bg-[#dbeafe] text-[9px]">
+              <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">配列・完成 料金表</div>
+              <table className="w-full text-[10px] border-collapse border-2 border-[#1e40af]">
+                <thead className="bg-[#dbeafe] text-[8.5px]">
                   <tr>
-                    <th className="border border-[#bfdbfe] p-1.5 text-left font-black">内容</th>
-                    <th className="border border-[#bfdbfe] p-1.5 w-20 text-center font-black">レジン床</th>
-                    <th className="border border-[#bfdbfe] p-1.5 w-20 text-center font-black">熱可塑</th>
+                    <th className="border border-[#bfdbfe] p-1 text-left font-black">内容</th>
+                    <th className="border border-[#bfdbfe] p-1 w-16 text-center font-black">レジン床</th>
+                    <th className="border border-[#bfdbfe] p-1 w-16 text-center font-black">熱可塑</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white text-right font-bold">
                   {hokenHairetsuKansei?.items.map((item, i) => (
                     <tr key={i}>
-                      <td className="text-left border border-[#eff6ff] px-2 py-1 bg-transparent text-gray-800">{sanitizeName(item.name)}</td>
-                      <td className="border border-[#eff6ff] px-2 py-1 font-black text-blue-900">¥{parseMultiPrice(item.price, 0)}</td>
-                      <td className="border border-[#eff6ff] px-2 py-1 font-black text-blue-900">¥{parseMultiPrice(item.price, 1)}</td>
+                      <td className="text-left border border-[#eff6ff] px-2 py-0.5 bg-transparent text-gray-800">{sanitizeName(item.name)}</td>
+                      <td className="border border-[#eff6ff] px-2 py-0.5 font-black text-blue-900">¥{parseMultiPrice(item.price, 0)}</td>
+                      <td className="border border-[#eff6ff] px-2 py-0.5 font-black text-blue-900">¥{parseMultiPrice(item.price, 1)}</td>
                     </tr>
                   ))}
                   <tr className="bg-[#f0f9ff]">
@@ -216,11 +216,11 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
               </table>
             </div>
           </div>
-          <div className="mb-0 flex-1">
-            <div className="bg-[#1e40af] text-white px-3 py-1 text-[13.5px] font-black mb-0.5 rounded-t shadow">義歯オプション・修理等</div>
+          <div className="mb-0">
+            <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">義歯オプション・修理等</div>
             <div className="border-2 border-[#1e40af] p-3 bg-white text-[10px] rounded-b shadow-inner">
                <div className="flex flex-row gap-8">
-                  <div className="w-1/2 space-y-1">
+                  <div className="w-1/2 space-y-0.5">
                      {filteredHokenOptions.slice(0, 7).map((item, idx) => (
                        <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-0.5">
                          <span className="text-gray-800 truncate pr-2">{sanitizeName(item.name)}</span>
@@ -228,7 +228,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                        </div>
                      ))}
                   </div>
-                  <div className="w-1/2 space-y-1">
+                  <div className="w-1/2 space-y-0.5">
                      {filteredHokenOptions.slice(7, 14).map((item, idx) => (
                        <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-0.5">
                          <span className="text-gray-800 truncate pr-2">{sanitizeName(item.name)}</span>
@@ -239,15 +239,18 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                </div>
             </div>
           </div>
+          <div className="mt-auto pt-4 text-center">
+             <div className="text-xl font-black text-gray-800 italic">株式会社マイ・スターズ 大阪</div>
+          </div>
         </div>
       </div>
 
-      {/* PAGE 3: 自費義歯 - 精密圧縮調整 */}
+      {/* PAGE 3: 自費義歯 - レイアウトを最適化（スペースの詰め） */}
       <div className="responsive-a4-wrapper">
-        <div className="a4-page px-10 py-6 flex flex-col text-gray-800 bg-white">
-          <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-2 font-black text-2xl italic tracking-[0.2em] pb-1 uppercase">自費義歯料金一覧</h2>
+        <div className="a4-page px-10 py-8 flex flex-col text-gray-800 bg-white">
+          <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-3 font-black text-2xl italic tracking-[0.2em] pb-1 uppercase">自費義歯料金一覧</h2>
           
-          <div className="flex flex-row gap-4 mb-2">
+          <div className="flex flex-row gap-4 mb-3">
             <div className="w-1/2">
               <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black rounded-t">自費義歯排列料</div>
               <div className="border-[2px] border-[#ea580c] bg-white rounded-b overflow-hidden shadow-sm">
@@ -272,11 +275,11 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-2">
+          <div className="mb-3">
             <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black rounded-t">{privateGishiNonclasp?.title}</div>
             <div className="flex flex-row gap-3 border-[2px] border-[#ea580c] bg-white px-3 py-2 rounded-b shadow-sm">
               <div className="w-1/2">
-                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30">エステショット / バイオプラスト</div>
+                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30 font-sans">エステショット / バイオプラスト</div>
                 {privateGishiNonclasp?.items.slice(0, 6).map((item, i) => (
                   <div key={i} className="flex justify-between px-1 py-0.5 text-[10px] font-bold border-b border-[#fff7ed] last:border-0">
                     <span>{sanitizeName(item.name)}</span>
@@ -285,7 +288,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                 ))}
               </div>
               <div className="w-1/2 border-l-2 border-orange-50 pl-3">
-                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30">TUM</div>
+                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30 font-sans">TUM</div>
                 {privateGishiNonclasp?.items.slice(6, 12).map((item, i) => (
                   <div key={i} className="flex justify-between px-1 py-0.5 text-[10px] font-bold border-b border-[#fff7ed] last:border-0">
                     <span>{sanitizeName(item.name)}</span>
@@ -296,7 +299,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-2">
+          <div className="mb-3">
             <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black rounded-t">金属床 (コバルト / チタン / 貴金属)</div>
             <div className="border-[2px] border-[#ea580c] bg-white rounded-b overflow-hidden shadow-sm">
                <table className="w-full text-[10.5px] border-collapse">
@@ -317,7 +320,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mb-2">
+          <div className="mb-3">
             <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black rounded-t">自費オプション</div>
             <div className="border-[2px] border-[#ea580c] bg-white px-3 py-2 rounded-b shadow-sm">
               <div className="flex flex-row gap-4">
@@ -342,7 +345,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                       {privateGishiOptions?.items.slice(6, 11).map((item, i) => (
                         <tr key={i} className="border-b border-[#fff7ed]"><td className="text-left px-1 py-1 truncate">{sanitizeName(item.name)}</td><td>{parseMultiPrice(item.price, 0)}</td><td>{parseMultiPrice(item.price, 1)}</td><td>{parseMultiPrice(item.price, 2)}</td></tr>
                       ))}
-                      <tr className="bg-[#fff7ed] text-orange-900"><td className="text-left px-1 py-1 font-black">自費トレー/咬合床</td><td colSpan={3} className="text-center font-black">各 ¥2,500</td></tr>
+                      <tr className="bg-[#fff7ed] text-orange-900 font-sans"><td className="text-left px-1 py-1 font-black">自費トレー/咬合床</td><td colSpan={3} className="text-center font-black">各 ¥2,500</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -350,7 +353,8 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          <div className="mt-auto">
+          {/* シリコン裏装・その他セクションを上に移動して空きスペースを削減 */}
+          <div className="mb-4">
             <div className="flex flex-row gap-6">
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">シリコン裏装加工</div>
@@ -377,10 +381,14 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                </div>
             </div>
           </div>
+
+          <div className="mt-auto border-t-[3px] border-gray-800 pt-4 text-center">
+             <div className="text-xl font-black text-gray-800 italic">株式会社マイ・スターズ 大阪</div>
+          </div>
         </div>
       </div>
 
-      {/* PAGE 4: 自費歯冠修復 */}
+      {/* PAGE 4: 自費歯冠修復 - 以前のまま維持 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-10 flex flex-col text-gray-800 h-full">
           <h2 className="text-[#065f46] border-b-[4px] border-[#065f46] mb-6 font-black text-2xl italic tracking-[0.2em] pb-2 uppercase">自費歯冠修復 料金一覧</h2>

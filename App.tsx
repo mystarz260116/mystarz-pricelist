@@ -6,7 +6,7 @@ import PriceListRenderer from './components/PriceListRenderer';
 import { processMemoWithAI } from './services/geminiService';
 import * as XLSX from 'xlsx';
 
-// 保存キーを以前のバージョン(V3)に戻してデータを復元
+// 保存キーは以前のデータを引き継ぐためV3を維持
 const STORAGE_KEY = 'DENTAL_PRICE_LIST_STORE_V3';
 
 const App: React.FC = () => {
@@ -19,7 +19,6 @@ const App: React.FC = () => {
   const [mobileViewMode, setMobileViewMode] = useState<'edit' | 'preview'>('edit');
 
   useEffect(() => {
-    // 複数のキーからデータを試行して、データ紛失を防ぐ
     const storedV3 = localStorage.getItem('DENTAL_PRICE_LIST_STORE_V3');
     const storedV4 = localStorage.getItem('DENTAL_PRICE_LIST_STORE_V4');
     const stored = storedV3 || storedV4;
@@ -184,11 +183,14 @@ const App: React.FC = () => {
   const implantCategories = data.categories.filter(c => c.id === 'implant');
   const privateDentureCategories = data.categories.filter(c => ['private-gishi-basic', 'private-gishi-nonclasp', 'private-gishi-metal', 'private-gishi-options', 'private-gishi-others'].includes(c.id));
 
-  // 担当者リスト（正しいお名前のみを維持。他にもお名前があれば教えてください）
-  const reps = ["寺町", "小山", "竹内", "今井", "松井"];
+  // 正確な営業マンリスト（北浜・高槻）
+  const reps = [
+    "寺町", "小山", "竹内", "中澤", "枡田", "藤丸", "中西", "片山", "山本",
+    "今井", "阪本", "熊懐", "川合", "山田", "松井", "平", "宮川"
+  ];
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 font-sans">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 font-sans relative">
       {/* モバイル用フッターナビ */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[60] flex shadow-[0_-4px_15px_rgba(0,0,0,0.1)] no-print">
         <button onClick={() => setMobileViewMode('edit')} className={`flex-1 py-3 text-sm font-black flex flex-col items-center gap-1 ${mobileViewMode === 'edit' ? 'text-blue-600 bg-blue-50' : 'text-gray-400'}`}>
@@ -203,10 +205,9 @@ const App: React.FC = () => {
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen md:block ${mobileViewMode === 'preview' ? 'hidden' : 'block'} pb-24 md:pb-6`}>
         <div className="mb-6 flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
           <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz" className="h-8 object-contain" />
-          <div className="text-[10px] font-black text-gray-400 italic">営業部専用ツール</div>
+          <button onClick={() => setShowGuide(true)} className="bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md hover:bg-black transition-all">？</button>
         </div>
 
-        {/* 3つのボタンを横並び */}
         <div className="grid grid-cols-3 gap-2 mb-6">
           <button onClick={handleSaveClinic} className="bg-emerald-600 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-emerald-700 transition-all">内容保存</button>
           <button onClick={handleExportExcel} className="bg-gray-800 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-gray-900 transition-all">Excel出力</button>
@@ -248,7 +249,7 @@ const App: React.FC = () => {
         {renderCategoryGroup("4. 自費義歯 料金一覧", privateDentureCategories, "orange")}
       </div>
 
-      {/* プレビュー表示エリア */}
+      {/* プレビューエリア */}
       <div className={`flex-1 bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'}`}>
         <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 p-4 z-50 flex justify-between items-center shadow-lg">
            <div className="flex items-center gap-2">
@@ -262,6 +263,38 @@ const App: React.FC = () => {
           <PriceListRenderer data={data} />
         </div>
       </div>
+
+      {/* ヘルプガイドモーダル */}
+      {showGuide && (
+        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 no-print" onClick={() => setShowGuide(false)}>
+          <div className="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-6 right-6 text-gray-400 hover:text-black font-black text-xl" onClick={() => setShowGuide(false)}>×</button>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-indigo-600 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black">?</div>
+              <h2 className="text-xl font-black">使い方ガイド</h2>
+            </div>
+            <div className="space-y-6 text-sm">
+              <div className="flex gap-4">
+                <div className="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black">1</div>
+                <div><p className="font-bold mb-1">基本情報の入力</p><p className="text-gray-600 leading-relaxed">医院名や担当者を選択してください。入力内容は即座にプレビューに反映されます。</p></div>
+              </div>
+              <div className="flex gap-4">
+                <div className="bg-emerald-100 text-emerald-700 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black">2</div>
+                <div><p className="font-bold mb-1">価格の個別修正</p><p className="text-gray-600 leading-relaxed">左側の各カテゴリー内にある入力欄から、手動で金額を変更できます。</p></div>
+              </div>
+              <div className="flex gap-4">
+                <div className="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black">3</div>
+                <div><p className="font-bold mb-1">AIで一括書き換え</p><p className="text-gray-600 leading-relaxed">「全ての自費を10%値上げして」などの指示を送ると、AIが自動で全項目を更新します。</p></div>
+              </div>
+              <div className="flex gap-4">
+                <div className="bg-orange-100 text-orange-700 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black">4</div>
+                <div><p className="font-bold mb-1">PDF出力・保存</p><p className="text-gray-600 leading-relaxed">「PDF出力」を押すと印刷画面が開きます。「送信先」を「PDFに保存」にすることで、そのまま送信可能なPDFファイルを作成できます。</p></div>
+              </div>
+            </div>
+            <button className="w-full mt-8 py-4 bg-gray-900 text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl" onClick={() => setShowGuide(false)}>閉じる</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
