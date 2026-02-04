@@ -97,7 +97,6 @@ const App: React.FC = () => {
   };
 
   const renderPriceInputs = (catId: string, itemIdx: number, price: string, themeColor: string) => {
-    // 「 / 」(スペース込) または 「～」 で分割（区切り文字自体も配列に残す）
     const segments = price.split(/(\s\/\s|～)/);
     
     const inputFocusClasses: {[key: string]: string} = {
@@ -115,7 +114,6 @@ const App: React.FC = () => {
     return (
       <div className="flex items-center gap-1 flex-wrap justify-end">
         {segments.map((seg, sIdx) => {
-          // 区切り文字（ / または ～）そのものの場合
           if (seg === ' / ' || seg === '～') {
             return (
               <span key={sIdx} className="text-gray-400 font-black text-[11px] px-0.5">
@@ -124,8 +122,6 @@ const App: React.FC = () => {
             );
           }
 
-          // 金額部分と単位（/歯 など）を分離
-          // 数字・カンマ・英字識別子(A:等)・スペースまでを「入力可能エリア」とし、それ以降を「単位」とする
           const match = seg.match(/^([^0-9]*[\d,]+)(.*)$/);
           const value = match ? match[1] : seg;
           const suffix = match ? match[2] : "";
@@ -217,11 +213,44 @@ const App: React.FC = () => {
           <div className="space-y-4">
             <div>
                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">歯科医院名</label>
-               <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 bg-gray-50/30" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
+               <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-sm font-bold border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <input type="text" className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 bg-gray-50/30" placeholder="担当者" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})} />
-              <input type="date" className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 bg-gray-50/30" value={data.clinic.publishDate} onChange={(e) => setData({...data, clinic: {...data.clinic, publishDate: e.target.value}})} />
+              <div>
+                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">担当者</label>
+                <select 
+                  className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
+                  value={data.clinic.representative}
+                  onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}
+                >
+                  <option value="">担当者を選択</option>
+                  <optgroup label="北浜営業">
+                    <option value="寺町">寺町</option>
+                    <option value="小山">小山</option>
+                    <option value="竹内">竹内</option>
+                    <option value="中澤">中澤</option>
+                    <option value="枡田">枡田</option>
+                    <option value="藤丸">藤丸</option>
+                    <option value="中西">中西</option>
+                    <option value="片山">片山</option>
+                    <option value="山本">山本</option>
+                  </optgroup>
+                  <optgroup label="高槻営業">
+                    <option value="今井">今井</option>
+                    <option value="阪本">阪本</option>
+                    <option value="熊懐">熊懐</option>
+                    <option value="川合">川合</option>
+                    <option value="山田">山田</option>
+                    <option value="松井">松井</option>
+                    <option value="平">平</option>
+                    <option value="宮川">宮川</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">発行日</label>
+                <input type="date" className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 bg-gray-50/30 outline-none focus:ring-2 focus:ring-blue-500" value={data.clinic.publishDate} onChange={(e) => setData({...data, clinic: {...data.clinic, publishDate: e.target.value}})} />
+              </div>
             </div>
           </div>
         </div>
