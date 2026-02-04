@@ -98,14 +98,15 @@ const App: React.FC = () => {
     XLSX.writeFile(wb, `歯科医院データ_${new Date().toISOString().slice(0,10)}.xlsx`);
   };
 
-  // Androidでの不具合回避用：わずかに遅延させて印刷をキックする
+  // Android/iPhoneでの不具合回避用：わずかに遅延させて印刷をキックする
   const handlePrint = () => {
     setIsPrinting(true);
-    // 状態が反映されるのを少し待ってから実行
+    // 状態が反映されるのを少し待ってから実行（UIスレッドを解放するため）
     setTimeout(() => {
       window.print();
-      setIsPrinting(false);
-    }, 150);
+      // ダイアログが閉じた頃にボタンを元に戻す
+      setTimeout(() => setIsPrinting(false), 1000);
+    }, 200);
   };
 
   const renderPriceInputs = (catId: string, itemIdx: number, price: string, themeColor: string) => {
@@ -277,17 +278,49 @@ const App: React.FC = () => {
                 </div>
               </section>
 
-              <section className="space-y-4">
+              <section className="space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold shadow-md">4</div>
-                  <h3 className="font-bold text-gray-800 text-lg">印刷と配布のステップ 📄</h3>
+                  <h3 className="font-bold text-gray-800 text-lg">PDF出力と送付のステップ 📄</h3>
                 </div>
                 <div className="pl-11 space-y-4">
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    スマホで<span className="font-bold text-orange-600">「PDF出力」</span>を行い、保存したPDFをそのまま医院様に送付するか、事務担当者に送って印刷を依頼してください。
-                  </p>
-                  <div className="bg-orange-50 p-4 rounded-xl text-[11px] text-orange-900 font-bold border border-orange-200">
-                    💡 Android/iPhoneでボタンが反応しない場合は、LINE等のアプリ内からではなく「Chrome」や「Safari」などのブラウザアプリで直接このURLを開いてみてください。
+                  <div className="bg-gray-50 border rounded-xl p-4 space-y-2">
+                    <div className="flex items-start gap-2">
+                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5">STEP1</span>
+                      <p className="text-xs text-gray-700 font-bold">「PDF出力・印刷」ボタンを押す</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5">STEP2</span>
+                      <p className="text-xs text-gray-700 font-bold">プリンター選択から「PDF形式で保存」を選択</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5">STEP3</span>
+                      <p className="text-xs text-gray-700 font-bold">保存したファイルを医院様にメール/LINE等で送る</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-red-50 p-6 rounded-2xl border-2 border-red-100 shadow-sm space-y-3">
+                    <h4 className="font-black text-red-600 flex items-center gap-2 text-sm uppercase">
+                      ⚠️ ボタンが反応しない・動かない場合
+                    </h4>
+                    <p className="text-xs text-red-900 leading-relaxed font-bold">
+                      LINEやメールのリンクから直接開くと、ブラウザの制限で印刷機能が動かないことがあります。
+                    </p>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                       <div className="bg-white p-2 rounded-lg border border-red-200 text-center">
+                         <p className="text-[9px] text-gray-400 font-bold mb-1">iPhoneの方</p>
+                         <p className="text-[10px] text-blue-600 font-black italic underline">Safari</p>
+                         <p className="text-[8px] text-gray-500">で開き直す</p>
+                       </div>
+                       <div className="bg-white p-2 rounded-lg border border-red-200 text-center">
+                         <p className="text-[9px] text-gray-400 font-bold mb-1">Androidの方</p>
+                         <p className="text-[10px] text-emerald-600 font-black italic underline">Chrome</p>
+                         <p className="text-[8px] text-gray-500">で開き直す</p>
+                       </div>
+                    </div>
+                    <p className="text-[9px] text-red-700 bg-white/50 p-2 rounded border border-red-100 italic">
+                      ※右上の「ブラウザで開く」メニューから切り替えてください。
+                    </p>
                   </div>
                 </div>
               </section>
