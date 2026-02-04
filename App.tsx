@@ -186,11 +186,12 @@ const App: React.FC = () => {
   const implantCategories = data.categories.filter(c => c.id === 'implant');
   const privateDentureCategories = data.categories.filter(c => ['private-gishi-basic', 'private-gishi-nonclasp', 'private-gishi-metal', 'private-gishi-options', 'private-gishi-others'].includes(c.id));
 
+  const reps = ["寺町", "小山", "竹内", "今井", "松井", "佐藤", "田中", "鈴木", "高橋", "渡辺", "伊藤", "山本", "中村", "小林", "加藤"];
+
   const aiPlaceholderText = `【AIへの指示の例】
 ・医院名を「マイ・スターズ歯科」にして
 ・担当者を「寺町」に変更
-・ジルコニア全項目を500円値上げ
-・CAD/CAMの材料費を100円安くして`;
+・ジルコニア全項目を500円値上げ`;
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen overflow-x-hidden bg-gray-100">
@@ -206,7 +207,6 @@ const App: React.FC = () => {
             </div>
             
             <div className="p-8 space-y-10">
-              {/* AIアシスタント */}
               <section className="relative">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-xl">🤖</div>
@@ -214,16 +214,11 @@ const App: React.FC = () => {
                 </div>
                 <div className="ml-4 space-y-3">
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    左側の紫色の枠に「変更したい内容」をメモしてボタンを押すだけで、AIが表を自動更新します。
+                    左側の紫色の枠に「医院名」や「変更したい価格」をメモしてボタンを押すだけで、AIが表を自動更新します。
                   </p>
-                  <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-xl shadow-sm text-[12px] text-indigo-800 space-y-2 font-bold leading-relaxed">
-                    <p className="font-black text-indigo-900 mb-1 tracking-wider text-[11px]">指示のコツ：</p>
-                    <p>「医院名を〇〇歯科にして。担当は小山。ジルコニアをすべて10%値上げ」</p>
-                  </div>
                 </div>
               </section>
 
-              {/* 印刷構成の詳細 */}
               <section>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-xl">🖨️</div>
@@ -241,32 +236,19 @@ const App: React.FC = () => {
                       <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
                         <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【1枚目】表・裏</p>
                         <ul className="text-[10px] text-gray-500 space-y-1 font-bold">
-                          <li className="flex justify-between"><span>(表) 表紙・インプラント</span></li>
-                          <li className="flex justify-between"><span>(裏) 保険技工物 料金表</span></li>
+                          <li>(表) 表紙・インプラント</li>
+                          <li>(裏) 保険技工物 料金表</li>
                         </ul>
                       </div>
                       <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
                         <p className="text-[11px] font-black text-orange-800 mb-2 border-b border-orange-50 pb-1">【2枚目】表・裏</p>
                         <ul className="text-[10px] text-gray-500 space-y-1 font-bold">
-                          <li className="flex justify-between"><span>(表) 自費義歯 料金一覧</span></li>
-                          <li className="flex justify-between"><span>(裏) 自費歯冠修復 料金一覧</span></li>
+                          <li>(表) 自費義歯 料金一覧</li>
+                          <li>(裏) 自費歯冠修復 料金一覧</li>
                         </ul>
                       </div>
                     </div>
                   </div>
-                </div>
-              </section>
-
-              {/* 端末保存 */}
-              <section>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-xl">💾</div>
-                  <h3 className="text-lg font-black text-emerald-700">医院ごとのデータを残す</h3>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    「内容を保存」ボタンを押すと、入力したデータがこのブラウザに記憶されます。左下の「保存済み医院リスト」からいつでも呼び出し可能です。
-                  </p>
                 </div>
               </section>
             </div>
@@ -331,16 +313,7 @@ const App: React.FC = () => {
                 <label className="block text-[10px] text-gray-500 font-bold mb-1 ml-1">担当者</label>
                 <select className="w-full border-2 rounded-lg px-3 py-2 text-xs border-gray-100 outline-none appearance-none" value={data.clinic.representative} onChange={(e) => setData({...data, clinic: {...data.clinic, representative: e.target.value}})}>
                   <option value="">選択</option>
-                  <option value="寺町">寺町</option>
-                  <option value="小山">小山</option>
-                  <option value="竹内">竹内</option>
-                  <option value="今井">今井</option>
-                  <option value="松井">松井</option>
-                  <option value="佐藤">佐藤</option>
-                  <option value="田中">田中</option>
-                  <option value="鈴木">鈴木</option>
-                  <option value="高橋">高橋</option>
-                  <option value="渡辺">渡辺</option>
+                  {reps.map(r => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
               <div>
@@ -357,9 +330,7 @@ const App: React.FC = () => {
         {renderCategoryGroup("4. 自費義歯料金一覧", privateDentureCategories, "orange")}
 
         <div className="mt-12 pt-8 border-t-2 border-gray-200 pb-12">
-          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase flex items-center justify-between">
-            保存済み医院リスト
-          </h2>
+          <h2 className="text-xs font-black text-gray-800 mb-4 tracking-widest uppercase">保存済み医院リスト</h2>
           <div className="max-h-80 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white shadow-inner">
             {savedLists.length === 0 ? <div className="p-8 text-center text-[10px] text-gray-400 font-bold">履歴がありません</div> : (
               <ul className="divide-y divide-gray-100">
@@ -384,7 +355,6 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* 右メインエリア（プレビュー） */}
       <div className={`flex-1 relative bg-gray-900 md:bg-gray-300 overflow-y-auto print:overflow-visible print:bg-white h-screen print:h-auto md:block ${mobileViewMode === 'edit' ? 'hidden' : 'block'} pb-32 md:pb-0`}>
         <div className="no-print sticky top-0 bg-white/95 backdrop-blur-md border-b-2 border-gray-200 p-4 z-50 flex justify-between items-center shadow-lg">
           <div className="flex gap-2">
@@ -402,10 +372,6 @@ const App: React.FC = () => {
           <div className="mobile-preview-container flex flex-col items-center">
             <PriceListRenderer data={data} />
           </div>
-        </div>
-        
-        <div className="no-print text-center text-gray-400 text-[10px] font-bold py-12 border-t border-white/10 mt-8">
-          - プレビューの終端 -
         </div>
       </div>
     </div>
