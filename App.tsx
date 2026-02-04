@@ -99,13 +99,10 @@ const App: React.FC = () => {
     XLSX.writeFile(wb, `歯科医院データ_${new Date().toISOString().slice(0,10)}.xlsx`);
   };
 
-  // Android/iPhoneでの不具合回避用：わずかに遅延させて印刷をキックする
   const handlePrint = () => {
     setIsPrinting(true);
-    // 状態が反映されるのを少し待ってから実行（UIスレッドを解放するため）
     setTimeout(() => {
       window.print();
-      // ダイアログが閉じた頃にボタンを元に戻す
       setTimeout(() => setIsPrinting(false), 1000);
     }, 200);
   };
@@ -254,51 +251,33 @@ const App: React.FC = () => {
                     <li>「ジルコニアを全部2,000円値上げして」</li>
                     <li>「担当者を○○に変更して、日付は今日にして」</li>
                   </ul>
-                  <div className="mt-4 border-t border-indigo-200 pt-3">
-                    <p className="text-[11px] text-indigo-800 font-bold mb-1">💡 コストについて</p>
-                    <p className="text-[10px] text-indigo-600 leading-relaxed">
-                      このAI（Gemini 2.5 Flash）は、Googleより**「1日1,500リクエストまで無料」**という非常に広い枠が提供されています。全社員が毎日使い込んでもコストは発生しませんので、遠慮なくご活用ください。
-                    </p>
-                  </div>
-                </div>
-              </section>
-
-              <section className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shadow-md">3</div>
-                  <h3 className="font-bold text-gray-800 text-lg">自分だけの「マイ・ツール」保存 📱</h3>
-                </div>
-                <div className="pl-11 space-y-3">
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    <span className="font-bold text-emerald-700 underline decoration-2">「編集内容を保存」</span>を押すと、データは<span className="font-bold">「あなた自身のスマホ内」</span>にのみ記録されます。
-                  </p>
-                  <div className="bg-emerald-50 border-l-4 border-emerald-400 p-4 rounded-r-lg text-xs text-emerald-900 shadow-sm">
-                    <p className="font-bold mb-1">✨ 事務に頼らなくてもOK！</p>
-                    <p>データはサーバーには送信されません。現場で即座に過去データを呼び出し、自分自身で修正して最新の料金表を提示できます。</p>
-                  </div>
                 </div>
               </section>
 
               <section className="space-y-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold shadow-md">4</div>
+                  <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold shadow-md">3</div>
                   <h3 className="font-bold text-gray-800 text-lg">PDF出力と送付のステップ 📄</h3>
                 </div>
                 <div className="pl-11 space-y-4">
-                  <div className="bg-gray-50 border rounded-xl p-4 space-y-2">
+                  <div className="bg-gray-50 border rounded-xl p-4 space-y-2 font-bold text-xs text-gray-700">
                     <div className="flex items-start gap-2">
-                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5">STEP1</span>
-                      <p className="text-xs text-gray-700 font-bold">「PDF出力・印刷」ボタンを押す</p>
+                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5 whitespace-nowrap">STEP 1</span>
+                      <p>「PDF出力・印刷」ボタンを押す</p>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5">STEP2</span>
-                      <p className="text-xs text-gray-700 font-bold">プリンター選択から「PDF形式で保存」を選択</p>
+                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5 whitespace-nowrap">STEP 2</span>
+                      <p className="text-orange-600">【最重要】設定（または詳細設定）を開き、「背景のグラフィック」にチェックを入れる ✅</p>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5">STEP3</span>
-                      <p className="text-xs text-gray-700 font-bold">保存したファイルを医院様にメール/LINE等で送る</p>
+                      <span className="bg-gray-800 text-white text-[10px] px-1.5 py-0.5 rounded font-bold mt-0.5 whitespace-nowrap">STEP 3</span>
+                      <p>プリンター選択から「PDF形式で保存」を選択して保存</p>
                     </div>
                   </div>
+                  
+                  <p className="text-[10px] text-gray-500 italic bg-gray-100 p-2 rounded">
+                    ※「背景のグラフィック」にチェックを入れないと、表の背景色やインプラントのオレンジ色が表示されません。
+                  </p>
 
                   <div className="bg-red-50 p-6 rounded-2xl border-2 border-red-100 shadow-sm space-y-3">
                     <h4 className="font-black text-red-600 flex items-center gap-2 text-sm uppercase">
@@ -311,17 +290,12 @@ const App: React.FC = () => {
                        <div className="bg-white p-2 rounded-lg border border-red-200 text-center">
                          <p className="text-[9px] text-gray-400 font-bold mb-1">iPhoneの方</p>
                          <p className="text-[10px] text-blue-600 font-black italic underline">Safari</p>
-                         <p className="text-[8px] text-gray-500">で開き直す</p>
                        </div>
                        <div className="bg-white p-2 rounded-lg border border-red-200 text-center">
                          <p className="text-[9px] text-gray-400 font-bold mb-1">Androidの方</p>
                          <p className="text-[10px] text-emerald-600 font-black italic underline">Chrome</p>
-                         <p className="text-[8px] text-gray-500">で開き直す</p>
                        </div>
                     </div>
-                    <p className="text-[9px] text-red-700 bg-white/50 p-2 rounded border border-red-100 italic">
-                      ※右上の「ブラウザで開く」メニューから切り替えてください。
-                    </p>
                   </div>
                 </div>
               </section>
@@ -360,7 +334,6 @@ const App: React.FC = () => {
           <button onClick={handleExportExcel} className="bg-gray-800 hover:bg-black text-white py-3 px-2 rounded-lg text-[11px] font-bold shadow-lg transition-all flex items-center justify-center gap-1.5 transform active:scale-95">Excel一括出力</button>
         </div>
 
-        {/* AI メモセクション */}
         <div className="mb-8 bg-indigo-700 p-5 rounded-xl shadow-xl border-2 border-indigo-800">
           <div className="flex justify-between items-end mb-3">
             <label className="text-[11px] font-black text-white uppercase tracking-widest block">AI アシスタント</label>
@@ -372,7 +345,7 @@ const App: React.FC = () => {
           
           <textarea 
             className="w-full border-indigo-500 bg-white/10 text-white border-2 rounded-lg p-3 text-xs h-32 mb-3 focus:ring-2 focus:ring-white outline-none placeholder-indigo-200 shadow-inner" 
-            placeholder={"【入力例】\n・KATANAを20,000円、レイヤリングを28,000円にして\n・保険冠をすべて一律で100円値上げして\n・担当者を寺町さんに変えて、発行日を2月10日にして\n・自費義歯の基本料を10%安くして"} 
+            placeholder={"【入力例】\n・KATANAを20,000円、レイヤリングを28,000円にして\n・保険冠をすべて一律で100円値上げして\n・担当者を寺町さんに変えて、発行日を2月10日にして"} 
             value={memo} 
             onChange={(e) => setMemo(e.target.value)} 
           />
