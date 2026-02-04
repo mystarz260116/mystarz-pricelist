@@ -220,7 +220,7 @@ const App: React.FC = () => {
 
         <div className="mb-8 bg-indigo-700 p-5 rounded-2xl shadow-xl text-white">
           <label className="text-[10px] font-black mb-2 block text-indigo-200 uppercase tracking-widest">AI アシスタント</label>
-          <textarea className="w-full bg-white/10 border-2 border-indigo-500 rounded-xl p-3 text-[11px] h-32 mb-3 outline-none placeholder-indigo-300" placeholder="医院名を〇〇に変更して...等の指示を入力" value={memo} onChange={(e) => setMemo(e.target.value)} />
+          <textarea className="w-full bg-white/10 border-2 border-indigo-500 rounded-xl p-3 text-[11px] h-32 mb-3 outline-none placeholder-indigo-300" placeholder="医院名を〇〇に変更して、保険冠の料金を全部200円引きにして、メタルボンド前歯臼歯１８０００円にして...等の指示を入力" value={memo} onChange={(e) => setMemo(e.target.value)} />
           <button onClick={handleUpdateMemo} disabled={isProcessing} className="w-full py-3 rounded-xl text-xs font-black bg-white text-indigo-800 active:scale-95 hover:bg-gray-100 transition-all shadow-lg">{isProcessing ? '解析中...' : 'AIで一括書き換え'}</button>
         </div>
 
