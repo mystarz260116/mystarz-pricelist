@@ -26,21 +26,34 @@
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   flex-shrink: 0;
 }
 
 @media (max-width: 860px) { /* A4の幅約794px + 余白 */
   .responsive-a4-wrapper {
-    /* 画面幅（左右1remずつの余白を引いたもの）に合わせて高さを算出 */
+    /* 画面幅に合わせてコンテナサイズを調整 */
     width: calc(100vw - 2rem);
     height: calc((100vw - 2rem) * (297 / 210));
     margin-bottom: 1rem;
+    overflow: hidden; /* はみ出しを隠す */
+    position: relative;
   }
+  
   .a4-page {
-    /* 210mmを画面幅に合わせてスケーリング */
+    /* 中央を起点にスケールさせる */
     transform: scale(calc((100vw - 2rem) / 210mm));
-    transform-origin: top left;
+    transform-origin: top center;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    
+    /* 
+       A4(210mm)はスマホ幅より広いため、
+       flexのjustify-centerだけでは左端が画面外に行く場合があります。
+       そのため強制的に中央に配置します。
+    */
+    position: absolute;
+    left: 50%;
+    margin-left: -105mm; /* 210mmの半分 */
   }
 }
 
@@ -51,11 +64,14 @@
     margin: 0 !important;
     padding: 0 !important;
     display: block !important;
+    overflow: visible !important;
   }
   .a4-page {
+    position: static !important;
     transform: none !important;
     box-shadow: none !important;
     margin: 0 !important;
     border: none !important;
+    left: auto !important;
   }
 }
