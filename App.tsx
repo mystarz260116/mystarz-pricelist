@@ -296,7 +296,7 @@ const App: React.FC = () => {
               <section>
                 <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ1：情報の入力</h3>
                 <div className="text-sm">
-                  <p className="text-gray-600">設定パネルで「歯科医院名」を入力し「担当者」を選択します。入力内容は即座に下記へ反映されます。</p>
+                  <p className="text-gray-600">設定パネルで「歯科医院名」（「様」は自動で付きますので入力不要です）を入力し「担当者」を選択します。入力内容は即座に下記へ反映されます。</p>
                   <p className="mt-2 p-2 bg-indigo-50 rounded-lg border border-indigo-100 text-[11px] font-bold text-indigo-800">
                     💡 プレビュー（右側）へ反映（PC）<br/>
                     💡 プレビュー（スクロールして下）へ反映（スマホ）
