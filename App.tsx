@@ -190,7 +190,7 @@ const App: React.FC = () => {
     "今井", "阪本", "熊懐", "川合", "山田", "松井", "平", "宮川"
   ];
 
-  const aiPlaceholder = "「医院名を〇〇に変更して」\n「保険冠の料金を全部200円引きにして」\n「メタルボンド前歯臼歯１８０００円にして」\n...等の指示を入力";
+  const aiPlaceholder = "「医院名を〇〇に変更して」\n「保険冠の料金を全部200円引きにして」\n「メタルボンド前歯臼歯18,000円にして」\n...等の指示を入力";
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 font-sans relative">
@@ -221,7 +221,10 @@ const App: React.FC = () => {
         </div>
 
         <div className="mb-8 bg-indigo-700 p-5 rounded-2xl shadow-xl text-white">
-          <label className="text-[10px] font-black mb-2 block text-indigo-200 uppercase tracking-widest">AI アシスタント</label>
+          <label className="text-[10px] font-black mb-2 flex justify-between items-center text-indigo-200 uppercase tracking-widest">
+            <span>AI アシスタント</span>
+            <span className="text-[8px] opacity-70 font-bold">Gemini 3 Flash</span>
+          </label>
           <textarea 
             className="w-full bg-white/10 border-2 border-indigo-500 rounded-xl p-3 text-[11px] h-32 mb-3 outline-none placeholder-indigo-300 leading-relaxed" 
             placeholder={aiPlaceholder}
@@ -286,7 +289,7 @@ const App: React.FC = () => {
             </div>
             
             <p className="mb-6 p-4 bg-orange-50 border-2 border-orange-200 rounded-2xl text-[12px] font-bold text-orange-900 leading-relaxed italic">
-              ＜PCでの作成を想定しています。スマホでもできますが、小さいため、見づらいです。できるだけ拠点のPCでおつくり下さい。＞
+              ＜PC/タブレットでの作成を想定しています。スマホではレビューが見切れます。できるだけ拠点のPC/タブレットでご利用ください。＞
             </p>
 
             <div className="space-y-8">
@@ -335,7 +338,7 @@ const App: React.FC = () => {
                       ※スマホから直接印刷はできません。
                     </p>
                     <p className="text-gray-700">
-                      印刷が必要な場合は、保存したPDFをLINEWORKSなどで事務に送って依頼してください。
+                      印刷が必要な場合は、営業用PCから印刷するか、保存したPDFをLINEWORKSなどで事務に送って依頼してください。
                     </p>
                   </div>
                 </div>
