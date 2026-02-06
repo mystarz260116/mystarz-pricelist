@@ -223,7 +223,7 @@ const App: React.FC = () => {
         <div className="mb-8 bg-indigo-700 p-5 rounded-2xl shadow-xl text-white">
           <label className="text-[10px] font-black mb-2 flex justify-between items-center text-indigo-200 uppercase tracking-widest">
             <span>AI アシスタント</span>
-            <span className="text-[8px] opacity-70 font-bold">Gemini 3 Flash</span>
+            <span className="text-[8px] opacity-70 font-bold">Gemini Flash Lite</span>
           </label>
           <textarea 
             className="w-full bg-white/10 border-2 border-indigo-500 rounded-xl p-3 text-[11px] h-32 mb-3 outline-none placeholder-indigo-300 leading-relaxed" 

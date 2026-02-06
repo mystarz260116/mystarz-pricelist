@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { PriceListData } from "../types";
 
@@ -6,7 +7,7 @@ export async function processMemoWithAI(memo: string, currentData: PriceListData
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
   
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-flash-lite-latest",
     contents: [
       {
         text: `あなたは歯科医院の料金表管理エキスパートです。
