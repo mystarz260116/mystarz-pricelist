@@ -312,9 +312,14 @@ const App: React.FC = () => {
               </section>
 
               <section>
-                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ3：作成データの保存</h3>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ3：作成データの保存（重要）</h3>
                 <div className="text-sm">
-                  <p className="text-gray-600">PDFを作成、保存する前に、内容保存ボタンを押して必ず作成データを保存してください。</p>
+                  <p className="text-gray-600 mb-2">作業の途中で緑色の「内容保存」ボタンを押すと、現在の入力内容がブラウザに一時保存されます。これにより、ページを閉じたりリロードしたりしても続きから再開できます。</p>
+                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-[11px] font-bold text-emerald-800 space-y-1">
+                    <p>💡 同じ医院名で保存：既存のデータが最新の内容に上書きされます。</p>
+                    <p>💡 別の医院名で保存：複数の医院のデータをブラウザにストックして管理できます。</p>
+                    <p>⚠️ PDFを作成する直前にも、念のためこのボタンを押すことをお勧めします。</p>
+                  </div>
                 </div>
               </section>
 
