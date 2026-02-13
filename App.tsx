@@ -83,6 +83,14 @@ const App: React.FC = () => {
     }
   };
 
+  const handleDeleteSavedData = (index: number) => {
+    const targetName = savedLists[index].clinic.name;
+    if (window.confirm(`${targetName} の保存データを完全に削除しますか？`)) {
+      const newSavedLists = savedLists.filter((_, i) => i !== index);
+      setSavedLists(newSavedLists);
+    }
+  };
+
   const handleExportExcel = () => {
     if (savedLists.length === 0) {
       alert("先に保存を行ってください。");
@@ -226,23 +234,28 @@ const App: React.FC = () => {
           <button onClick={handlePrint} className="bg-orange-600 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-orange-700 transition-all">PDF保存・印刷</button>
         </div>
 
-        {/* 保存データ読み込みメニュー */}
+        {/* 保存データ読み込みメニュー（リスト形式に改良） */}
         {savedLists.length > 0 && (
           <div className="bg-emerald-50 p-4 rounded-2xl border-2 border-emerald-100 shadow-sm mb-6">
-            <h2 className="text-[10px] font-black text-emerald-700 mb-2 tracking-widest uppercase">保存データから読込</h2>
-            <select
-              className="w-full border-2 rounded-xl px-3 py-2 text-xs font-bold border-white outline-none focus:ring-2 focus:ring-emerald-300"
-              onChange={(e) => {
-                const idx = parseInt(e.target.value);
-                if (!isNaN(idx)) handleLoadSavedData(idx);
-              }}
-              value=""
-            >
-              <option value="">過去のデータを選択...</option>
+            <h2 className="text-[10px] font-black text-emerald-700 mb-3 tracking-widest uppercase">保存済みデータ管理</h2>
+            <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
               {savedLists.map((l, i) => (
-                <option key={i} value={i}>{l.clinic.name} ({l.clinic.publishDate})</option>
+                <div key={i} className="flex items-center justify-between bg-white p-2 rounded-xl border border-emerald-100 gap-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[10px] font-black text-gray-800 truncate">{l.clinic.name}</p>
+                    <p className="text-[8px] text-gray-400">{l.clinic.publishDate}</p>
+                  </div>
+                  <div className="flex gap-1">
+                    <button onClick={() => handleLoadSavedData(i)} className="p-1.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all shadow-sm">
+                      <span className="text-[9px] font-black">呼出</span>
+                    </button>
+                    <button onClick={() => handleDeleteSavedData(i)} className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all border border-red-100">
+                      <span className="text-[9px] font-black">消去</span>
+                    </button>
+                  </div>
+                </div>
               ))}
-            </select>
+            </div>
           </div>
         )}
 
@@ -338,13 +351,13 @@ const App: React.FC = () => {
               </section>
 
               <section>
-                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ3：作成データの保存と呼び出し（重要）</h3>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ3：作成データの保存と管理（重要）</h3>
                 <div className="text-sm">
                   <p className="text-gray-600 mb-2">作業の途中で緑色の「内容保存」ボタンを押すと、現在の入力内容がブラウザに一時保存されます。PDFを作成する前には必ず押してください。</p>
                   <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-[11px] font-bold text-emerald-800 space-y-2">
-                    <p>💡 一度作った料金表は、サイドバーにある「保存データから読込」メニューより、いつでも呼び出すことができます。再編集や、過去の価格を確認したい時に便利です。</p>
-                    <p>💡 同じ医院名で保存：最新の内容に上書きされます。</p>
-                    <p>💡 別の医院名で保存：別のデータとしてストックされます。</p>
+                    <p>💡 **呼び出し**: 一度作った料金表は、サイドバーにある「保存済みデータ管理」リストからいつでも呼び出せます。</p>
+                    <p>💡 **上書き**: 同じ医院名で保存すると、最新の内容に更新されます。</p>
+                    <p>💡 **消去**: 不要になったデータはリストの「消去」ボタンで削除して整理できます。</p>
                   </div>
                 </div>
               </section>
