@@ -77,6 +77,12 @@ const App: React.FC = () => {
     setSavedLists(newSavedLists);
   };
 
+  const handleLoadSavedData = (index: number) => {
+    if (window.confirm(`${savedLists[index].clinic.name} のデータを読み込みますか？ 現在入力中の内容は上書きされます。`)) {
+      setData(savedLists[index]);
+    }
+  };
+
   const handleExportExcel = () => {
     if (savedLists.length === 0) {
       alert("先に保存を行ってください。");
@@ -220,6 +226,26 @@ const App: React.FC = () => {
           <button onClick={handlePrint} className="bg-orange-600 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-orange-700 transition-all">PDF保存・印刷</button>
         </div>
 
+        {/* 保存データ読み込みメニュー */}
+        {savedLists.length > 0 && (
+          <div className="bg-emerald-50 p-4 rounded-2xl border-2 border-emerald-100 shadow-sm mb-6">
+            <h2 className="text-[10px] font-black text-emerald-700 mb-2 tracking-widest uppercase">保存データから読込</h2>
+            <select
+              className="w-full border-2 rounded-xl px-3 py-2 text-xs font-bold border-white outline-none focus:ring-2 focus:ring-emerald-300"
+              onChange={(e) => {
+                const idx = parseInt(e.target.value);
+                if (!isNaN(idx)) handleLoadSavedData(idx);
+              }}
+              value=""
+            >
+              <option value="">過去のデータを選択...</option>
+              {savedLists.map((l, i) => (
+                <option key={i} value={i}>{l.clinic.name} ({l.clinic.publishDate})</option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <div className="mb-8 bg-indigo-700 p-5 rounded-2xl shadow-xl text-white">
           <label className="text-[10px] font-black mb-2 flex justify-between items-center text-indigo-200 uppercase tracking-widest">
             <span>AI アシスタント</span>
@@ -312,13 +338,13 @@ const App: React.FC = () => {
               </section>
 
               <section>
-                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ3：作成データの保存（重要）</h3>
+                <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ3：作成データの保存と呼び出し（重要）</h3>
                 <div className="text-sm">
-                  <p className="text-gray-600 mb-2">作業の途中で緑色の「内容保存」ボタンを押すと、現在の入力内容がブラウザに一時保存されます。これにより、ページを閉じたりリロードしたりしても続きから再開できます。</p>
-                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-[11px] font-bold text-emerald-800 space-y-1">
-                    <p>💡 同じ医院名で保存：既存のデータが最新の内容に上書きされます。</p>
-                    <p>💡 別の医院名で保存：複数の医院のデータをブラウザにストックして管理できます。</p>
-                    <p>⚠️ PDFを作成する直前にも、念のためこのボタンを押すことをお勧めします。</p>
+                  <p className="text-gray-600 mb-2">作業の途中で緑色の「内容保存」ボタンを押すと、現在の入力内容がブラウザに一時保存されます。PDFを作成する前には必ず押してください。</p>
+                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-[11px] font-bold text-emerald-800 space-y-2">
+                    <p>💡 一度作った料金表は、サイドバーにある「保存データから読込」メニューより、いつでも呼び出すことができます。再編集や、過去の価格を確認したい時に便利です。</p>
+                    <p>💡 同じ医院名で保存：最新の内容に上書きされます。</p>
+                    <p>💡 別の医院名で保存：別のデータとしてストックされます。</p>
                   </div>
                 </div>
               </section>
