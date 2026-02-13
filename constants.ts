@@ -49,6 +49,7 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: '小臼歯(Ⅰ)', price: '5,700' },
         { name: '小臼歯(Ⅱ)', price: '6,600' },
         { name: '大臼歯(Ⅲ)', price: '7,700' },
+        { name: 'エンドクラウン(Ⅲ)', price: '13,000' },
         { name: '前歯(Ⅳ)', price: '5,700' },
         { name: 'PEEK冠(Ⅴ)', price: '15,000' },
         { name: 'CAD/CAMインレー(Ⅰ)', price: '5,700' },
