@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { PriceListData, PriceCategory } from './types';
 import { INITIAL_PRICE_DATA } from './constants';
 import PriceListRenderer from './components/PriceListRenderer';
@@ -12,6 +12,7 @@ const STORAGE_KEY = 'DENTAL_PRICE_LIST_STORE_V3';
 const App: React.FC = () => {
   const [data, setData] = useState<PriceListData>(INITIAL_PRICE_DATA);
   const [memo, setMemo] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
@@ -35,6 +36,20 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(savedLists));
   }, [savedLists]);
+
+  // 検索とソートを適用したリスト
+  const filteredSavedLists = useMemo(() => {
+    let list = [...savedLists];
+    // 日付順にソート（新しいものが上）
+    list.sort((a, b) => b.clinic.publishDate.localeCompare(a.clinic.publishDate));
+    
+    if (!searchTerm.trim()) return list;
+    
+    return list.filter(l => 
+      l.clinic.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      l.clinic.representative.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [savedLists, searchTerm]);
 
   const handleUpdateMemo = async () => {
     if (!memo.trim()) return;
@@ -77,17 +92,18 @@ const App: React.FC = () => {
     setSavedLists(newSavedLists);
   };
 
-  const handleLoadSavedData = (index: number) => {
-    if (window.confirm(`${savedLists[index].clinic.name} のデータを読み込みますか？ 現在入力中の内容は上書きされます。`)) {
-      setData(savedLists[index]);
+  const handleLoadSavedData = (clinicName: string) => {
+    const target = savedLists.find(l => l.clinic.name === clinicName);
+    if (target && window.confirm(`${clinicName} のデータを読み込みますか？`)) {
+      setData(target);
+      // スマホの場合は自動でプレビューに切り替えるなどUXを考慮
+      if (window.innerWidth < 768) setMobileViewMode('preview');
     }
   };
 
-  const handleDeleteSavedData = (index: number) => {
-    const targetName = savedLists[index].clinic.name;
-    if (window.confirm(`${targetName} の保存データを完全に削除しますか？`)) {
-      const newSavedLists = savedLists.filter((_, i) => i !== index);
-      setSavedLists(newSavedLists);
+  const handleDeleteSavedData = (clinicName: string) => {
+    if (window.confirm(`${clinicName} の保存データを完全に削除しますか？`)) {
+      setSavedLists(prev => prev.filter(l => l.clinic.name !== clinicName));
     }
   };
 
@@ -113,7 +129,6 @@ const App: React.FC = () => {
 
   const handlePrint = () => {
     setIsPrinting(true);
-    // DOMの状態を確定させるために少し待機してから実行
     setTimeout(() => {
       window.print();
       setTimeout(() => setIsPrinting(false), 1000);
@@ -234,27 +249,53 @@ const App: React.FC = () => {
           <button onClick={handlePrint} className="bg-orange-600 text-white py-3 rounded-xl text-[10px] font-black active:scale-95 shadow-md hover:bg-orange-700 transition-all">PDF保存・印刷</button>
         </div>
 
-        {/* 保存データ読み込みメニュー（リスト形式に改良） */}
+        {/* 保存データ管理（検索機能付きプロ仕様） */}
         {savedLists.length > 0 && (
           <div className="bg-emerald-50 p-4 rounded-2xl border-2 border-emerald-100 shadow-sm mb-6">
-            <h2 className="text-[10px] font-black text-emerald-700 mb-3 tracking-widest uppercase">保存済みデータ管理</h2>
-            <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-              {savedLists.map((l, i) => (
-                <div key={i} className="flex items-center justify-between bg-white p-2 rounded-xl border border-emerald-100 gap-2">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[10px] font-black text-gray-800 truncate">{l.clinic.name}</p>
-                    <p className="text-[8px] text-gray-400">{l.clinic.publishDate}</p>
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-[10px] font-black text-emerald-700 tracking-widest uppercase">保存済みデータ管理</h2>
+              <span className="text-[9px] font-black bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-full">{savedLists.length}件</span>
+            </div>
+            
+            {/* 検索窓 */}
+            <div className="relative mb-3">
+              <input 
+                type="text" 
+                placeholder="医院名で絞り込み..." 
+                className="w-full pl-8 pr-3 py-2 bg-white border border-emerald-200 rounded-xl text-xs outline-none focus:ring-2 focus:ring-emerald-400 font-bold"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <span className="absolute left-2.5 top-2.5 opacity-30 text-xs">🔍</span>
+              {searchTerm && (
+                <button onClick={() => setSearchTerm('')} className="absolute right-2 top-2.5 text-xs text-gray-400 hover:text-gray-600">✕</button>
+              )}
+            </div>
+
+            <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+              {filteredSavedLists.length > 0 ? (
+                filteredSavedLists.map((l, i) => (
+                  <div key={l.clinic.name} className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-emerald-100 gap-2 hover:border-emerald-300 transition-colors shadow-sm">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-black text-gray-800 truncate">{l.clinic.name}</p>
+                      <p className="text-[8px] text-gray-400 font-bold flex items-center gap-2">
+                        <span>📅 {l.clinic.publishDate}</span>
+                        <span>👤 {l.clinic.representative}</span>
+                      </p>
+                    </div>
+                    <div className="flex gap-1">
+                      <button onClick={() => handleLoadSavedData(l.clinic.name)} className="px-3 py-1.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all shadow-sm">
+                        <span className="text-[10px] font-black">呼出</span>
+                      </button>
+                      <button onClick={() => handleDeleteSavedData(l.clinic.name)} className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all border border-red-100" title="削除">
+                        <span className="text-[10px] font-black px-1">消去</span>
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex gap-1">
-                    <button onClick={() => handleLoadSavedData(i)} className="p-1.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all shadow-sm">
-                      <span className="text-[9px] font-black">呼出</span>
-                    </button>
-                    <button onClick={() => handleDeleteSavedData(i)} className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all border border-red-100">
-                      <span className="text-[9px] font-black">消去</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-center py-4 text-[10px] font-bold text-emerald-600/50">該当するデータがありません</p>
+              )}
             </div>
           </div>
         )}
@@ -355,8 +396,8 @@ const App: React.FC = () => {
                 <div className="text-sm">
                   <p className="text-gray-600 mb-2">作業の途中で緑色の「内容保存」ボタンを押すと、現在の入力内容がブラウザに一時保存されます。PDFを作成する前には必ず押してください。</p>
                   <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-[11px] font-bold text-emerald-800 space-y-2">
+                    <p>💡 **検索**: 医院名が増えても、検索窓からすぐに目的のデータを見つけられます。</p>
                     <p>💡 **呼び出し**: 一度作った料金表は、サイドバーにある「保存済みデータ管理」リストからいつでも呼び出せます。</p>
-                    <p>💡 **上書き**: 同じ医院名で保存すると、最新の内容に更新されます。</p>
                     <p>💡 **消去**: 不要になったデータはリストの「消去」ボタンで削除して整理できます。</p>
                   </div>
                 </div>
