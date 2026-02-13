@@ -239,7 +239,7 @@ const App: React.FC = () => {
           <div className="space-y-4">
             <div>
                <label className="block text-[9px] text-gray-400 font-black mb-1">歯科医院名</label>
-               <input type="text" className="w-full border-2 rounded-xl px-4 py-3 text-sm font-black border-gray-100 outline-none focus:ring-2 focus:ring-blue-500" placeholder="歯科医院名を入力" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
+               <input type="text" className="w-full border-2 rounded-xl px-4 py-3 text-sm font-black border-gray-100 outline-none focus:ring-2 focus:ring-blue-500" placeholder="歯科医院名を入力（「様」は自動で入ります）" value={data.clinic.name} onChange={(e) => setData({...data, clinic: {...data.clinic, name: e.target.value}})} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
