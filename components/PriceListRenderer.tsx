@@ -119,8 +119,10 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
           </div>
           
           <div className="w-full mt-auto pt-6 pb-2">
-             <div className="flex justify-center mb-6">
+             {/* ロゴと社名を並べて配置 */}
+             <div className="flex justify-center items-center gap-4 mb-6">
                <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="Logo" className="h-8 object-contain" />
+               <div className="text-xl font-black text-gray-800 tracking-tight">株式会社マイ・スターズ</div>
              </div>
              
              {/* 東京・大阪 2拠点併記エリア */}

@@ -236,7 +236,10 @@ const App: React.FC = () => {
       {/* サイドバー */}
       <div className={`no-print w-full md:w-1/3 bg-gray-100 border-r p-6 overflow-y-auto h-screen md:block ${mobileViewMode === 'preview' ? 'hidden' : 'block'} pb-24 md:pb-6`}>
         <div className="mb-6 flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
-          <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz" className="h-8 object-contain" />
+          <div className="flex items-center gap-3">
+            <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="MyStarz" className="h-8 object-contain" />
+            <span className="text-[12px] font-black text-gray-800 tracking-tighter">株式会社マイ・スターズ</span>
+          </div>
           <button onClick={() => setShowGuide(true)} className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-xl text-[11px] font-black shadow-lg hover:bg-indigo-700 transition-all active:scale-95">
             <span className="text-base">?</span>
             <span>使い方ガイド</span>
