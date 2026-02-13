@@ -79,7 +79,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col gap-0 items-center py-0 print:block w-full">
       
-      {/* PAGE 1: FRONT COVER & IMPLANT - 表紙のみフッターあり */}
+      {/* PAGE 1: FRONT COVER & IMPLANT - 表紙フッター 2拠点併記Ver */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-12 flex flex-col h-full bg-white relative">
           <div className="w-full text-right text-[11px] text-gray-400 mb-6 font-black">発行日：{formattedDate}</div>
@@ -118,23 +118,37 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
              )}
           </div>
           
-          <div className="w-full mt-auto pt-8 pb-4">
-             <div className="flex items-center justify-center gap-8 mb-2">
-               <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="Logo" className="h-7 object-contain" />
-               <div className="text-blue-900 font-black text-xl tracking-tighter whitespace-nowrap">TEL 072-691-7107</div>
+          <div className="w-full mt-auto pt-6 pb-2">
+             <div className="flex justify-center mb-6">
+               <img src="https://www.mystarz.co.jp/Mystarz%2dlogo.png" alt="Logo" className="h-8 object-contain" />
              </div>
-             <div className="text-center text-[9px] text-gray-500 font-bold mb-4 leading-relaxed">
-               〒569-0806 高槻市明田町4-38 太陽ファルマテック株式会社内<br/>
-               <span className="text-sm font-black tracking-widest text-blue-900">FAX 072-691-7108</span>
+             
+             {/* 東京・大阪 2拠点併記エリア */}
+             <div className="grid grid-cols-2 gap-8 mb-8">
+                <div className="text-center border-r border-gray-100 pr-4">
+                   <div className="text-[10px] font-black text-gray-400 mb-1 uppercase tracking-widest">Tokyo Office</div>
+                   <div className="text-blue-900 font-black text-lg tracking-tighter mb-1">TEL 03-5408-1572</div>
+                   <div className="text-[8.5px] text-gray-500 font-bold leading-tight">
+                     〒105-0001<br/>東京都港区虎ノ門3-19-13<br/>スピリットビル5F
+                   </div>
+                </div>
+                <div className="text-center pl-4">
+                   <div className="text-[10px] font-black text-gray-400 mb-1 uppercase tracking-widest">Osaka Office</div>
+                   <div className="text-blue-900 font-black text-lg tracking-tighter mb-1">TEL 072-691-7107</div>
+                   <div className="text-[8.5px] text-gray-500 font-bold leading-tight">
+                     〒569-0806<br/>高槻市明田町4-38<br/>太陽ファルマテック株式会社内
+                   </div>
+                </div>
              </div>
-             <div className="w-full border-t-[3px] border-gray-800 pt-2.5 text-center">
-               <div className="text-xl font-black text-gray-800 tracking-tight">株式会社マイ・スターズ 大阪</div>
+
+             <div className="w-full border-t-[3px] border-gray-800 pt-3 text-center">
+               <div className="text-2xl font-black text-gray-800 tracking-[0.25em]">株式会社マイ・スターズ</div>
              </div>
           </div>
         </div>
       </div>
 
-      {/* PAGE 2: 保険技工物 - フッター削除 */}
+      {/* PAGE 2: 保険技工物 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-6 flex flex-col text-gray-800 h-full">
           <h2 className="text-[#1e40af] border-b-[4px] border-[#1e40af] mb-3 font-black text-2xl italic pb-1 tracking-widest uppercase">保険技工物 料金表</h2>
@@ -242,7 +256,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 3: 自費義歯 - 下部セクション再編 & フッター削除 */}
+      {/* PAGE 3: 自費義歯 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page px-10 py-8 flex flex-col text-gray-800 bg-white">
           <h2 className="text-[#ea580c] border-b-[5px] border-[#ea580c] mb-3 font-black text-2xl italic tracking-[0.2em] pb-1 uppercase">自費義歯料金一覧</h2>
@@ -350,13 +364,11 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             </div>
           </div>
 
-          {/* シリコン裏装・その他セクションの再編 (左右配置) */}
           <div className="mb-0">
             <div className="flex flex-row gap-6">
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">シリコン裏装</div>
                  <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] font-bold space-y-1 shadow-inner min-h-[110px]">
-                   {/* 基本加工料、完成料、リベース×2 */}
                    {privateGishiOthers?.items.slice(0, 4).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-0.5">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>
@@ -368,7 +380,6 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                <div className="w-1/2">
                  <div className="bg-[#ea580c] text-white px-4 py-1 text-[11px] font-black rounded-t">その他</div>
                  <div className="border-[2px] border-[#ea580c] bg-white p-2 rounded-b text-[10px] font-bold space-y-1 shadow-inner min-h-[110px]">
-                   {/* スポーツマウスガード、副模型 */}
                    {privateGishiOthers?.items.slice(4, 6).map((item, idx) => (
                      <div key={idx} className="flex justify-between border-b border-[#fff7ed] last:border-0 py-0.5">
                        <span className="text-gray-700">{sanitizeName(item.name)}</span>
@@ -382,7 +393,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      {/* PAGE 4: 自費歯冠修復 - フッター削除 */}
+      {/* PAGE 4: 自費歯冠修復 */}
       <div className="responsive-a4-wrapper">
         <div className="a4-page p-10 flex flex-col text-gray-800 h-full">
           <h2 className="text-[#065f46] border-b-[4px] border-[#065f46] mb-6 font-black text-2xl italic tracking-[0.2em] pb-2 uppercase">自費歯冠修復 料金一覧</h2>
