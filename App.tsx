@@ -3,7 +3,6 @@ import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { PriceListData, PriceCategory } from './types';
 import { INITIAL_PRICE_DATA } from './constants';
 import PriceListRenderer from './components/PriceListRenderer';
-import { processMemoWithAI } from './services/geminiService';
 import * as XLSX from 'xlsx';
 
 // 保存キーは以前のデータを引き継ぐためV3を維持
@@ -11,9 +10,7 @@ const STORAGE_KEY = 'DENTAL_PRICE_LIST_STORE_V3';
 
 const App: React.FC = () => {
   const [data, setData] = useState<PriceListData>(INITIAL_PRICE_DATA);
-  const [memo, setMemo] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
   const [savedLists, setSavedLists] = useState<PriceListData[]>([]);
@@ -50,21 +47,6 @@ const App: React.FC = () => {
       l.clinic.representative.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [savedLists, searchTerm]);
-
-  const handleUpdateMemo = async () => {
-    if (!memo.trim()) return;
-    setIsProcessing(true);
-    try {
-      const updated = await processMemoWithAI(memo, data);
-      setData(updated);
-      setMemo('');
-      alert('AIが価格表を更新しました！');
-    } catch (e) {
-      alert('AI処理中にエラーが発生しました。');
-    } finally {
-      setIsProcessing(false);
-    }
-  };
 
   const handleManualPriceChange = (catId: string, itemIdx: number, newFullPrice: string) => {
     const newData = { ...data };
@@ -219,8 +201,6 @@ const App: React.FC = () => {
     "今井", "阪本", "熊懐", "川合", "山田", "松井", "平", "宮川"
   ];
 
-  const aiPlaceholder = "「医院名を〇〇に変更して」\n「保険冠の料金を全部200円引きにして」\n「メタルボンド前歯臼歯18,000円にして」\n...等の指示を入力。";
-
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 font-sans relative">
       {/* モバイル用フッターナビ */}
@@ -303,20 +283,6 @@ const App: React.FC = () => {
           </div>
         )}
 
-        <div className="mb-8 bg-indigo-700 p-5 rounded-2xl shadow-xl text-white">
-          <label className="text-[10px] font-black mb-2 flex justify-between items-center text-indigo-200 uppercase tracking-widest">
-            <span>AI アシスタント　※契約情報・機密情報・医院名は、ここには入力しないでください。</span>
-            <span className="text-[8px] opacity-70 font-bold">Gemini Flash Lite</span>
-          </label>
-          <textarea 
-            className="w-full bg-white/10 border-2 border-indigo-500 rounded-xl p-3 text-[11px] h-32 mb-3 outline-none placeholder-indigo-300 leading-relaxed" 
-            placeholder={aiPlaceholder}
-            value={memo} 
-            onChange={(e) => setMemo(e.target.value)} 
-          />
-          <button onClick={handleUpdateMemo} disabled={isProcessing} className="w-full py-3 rounded-xl text-xs font-black bg-white text-indigo-800 active:scale-95 hover:bg-gray-100 transition-all shadow-lg">{isProcessing ? '解析中...' : 'AIで一括書き換え'}</button>
-        </div>
-
         <div className="bg-white p-5 rounded-2xl border-2 border-gray-200 shadow-sm mb-6">
           <h2 className="text-[10px] font-black text-gray-400 mb-4 tracking-widest border-b pb-1 uppercase">基本情報設定</h2>
           <div className="space-y-4">
@@ -390,7 +356,7 @@ const App: React.FC = () => {
               <section>
                 <h3 className="text-sm font-black text-indigo-600 mb-3 uppercase tracking-widest border-b pb-1">ステップ2：価格の微調整</h3>
                 <div className="text-sm">
-                  <p className="text-gray-600">各カテゴリー毎に、直接フォームへ金額を入力します。AIアシスタントにまとめて「全体を1割増しにして」のように指示することも可能です。AIアシスタント操作がポンコツ（細かい指示は時間がかかります）でうまくいかない場合は、各フォームから入力してください。</p>
+                  <p className="text-gray-600">各カテゴリー毎に、直接フォームへ金額を入力します。</p>
                 </div>
               </section>
 
