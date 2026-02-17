@@ -305,7 +305,7 @@ const App: React.FC = () => {
 
         <div className="mb-8 bg-indigo-700 p-5 rounded-2xl shadow-xl text-white">
           <label className="text-[10px] font-black mb-2 flex justify-between items-center text-indigo-200 uppercase tracking-widest">
-            <span>AI アシスタント　※！注意！契約情報・機密情報は入力しないでください。</span>
+            <span>AI アシスタント　※契約情報・機密情報・医院名は、ここには入力しないでください。</span>
             <span className="text-[8px] opacity-70 font-bold">Gemini Flash Lite</span>
           </label>
           <textarea 
