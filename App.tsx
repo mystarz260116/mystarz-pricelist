@@ -219,7 +219,7 @@ const App: React.FC = () => {
     "今井", "阪本", "熊懐", "川合", "山田", "松井", "平", "宮川"
   ];
 
-  const aiPlaceholder = "「医院名を〇〇に変更して」\n「保険冠の料金を全部200円引きにして」\n「メタルボンド前歯臼歯18,000円にして」\n...等の指示を入力";
+  const aiPlaceholder = "「医院名を〇〇に変更して」\n「保険冠の料金を全部200円引きにして」\n「メタルボンド前歯臼歯18,000円にして」\n...等の指示を入力。";
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 font-sans relative">
@@ -305,7 +305,7 @@ const App: React.FC = () => {
 
         <div className="mb-8 bg-indigo-700 p-5 rounded-2xl shadow-xl text-white">
           <label className="text-[10px] font-black mb-2 flex justify-between items-center text-indigo-200 uppercase tracking-widest">
-            <span>AI アシスタント</span>
+            <span>AI アシスタント　※！注意！契約情報・機密情報は入力しないでください。</span>
             <span className="text-[8px] opacity-70 font-bold">Gemini Flash Lite</span>
           </label>
           <textarea 
