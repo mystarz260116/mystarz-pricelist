@@ -149,14 +149,13 @@ export const INITIAL_PRICE_DATA: PriceListData = {
     },
     {
       id: 'emax-p4',
-      title: 'e.max(材料代別)',
+      title: 'e.max(材料代込み)',
       color: 'green',
       items: [
-        { name: 'インレー（単）', price: '7,000' },
-        { name: 'インレー（複）', price: '8,000' },
-        { name: 'ベニヤ・アンレー', price: '9,000' },
-        { name: 'フルクラウン', price: '12,000' },
-        { name: 'インゴッド（１歯）', price: '3,000' },
+        { name: 'インレー（単）', price: '10,000' },
+        { name: 'インレー（複）', price: '11,000' },
+        { name: 'ベニヤ・アンレー', price: '12,000' },
+        { name: 'フルクラウン', price: '15,000' },
       ]
     },
     {
