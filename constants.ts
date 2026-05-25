@@ -36,6 +36,7 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: 'レジン前装金属ポンティック（小臼歯）', price: '3,800' },
         { name: 'レジン前装金属ポンティック（大臼歯）', price: '3,800' },
         { name: 'HJC（前歯／臼歯）', price: '4,500' },
+        { name: 'チタンクラウン', price: '7,500' },
         { name: 'TEK', price: '1,000' },
         { name: 'ファイバーポスト', price: '4,000' },
         { name: 'ポスト追加', price: '890' },
