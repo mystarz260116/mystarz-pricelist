@@ -87,6 +87,7 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: '線造双子鉤', price: '2,000' },
         { name: '線造単鉤', price: '1,100' },
         { name: 'コンビネーション鉤', price: '2,200' },
+        { name: '３次元有床プリント義歯', price: '28,000' },
       ]
     },
     {
@@ -130,7 +131,6 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: 'スリープスプリント（プレス）', price: '14,000' },
         { name: 'スリープスプリント（レジン）', price: '21,000' },
         { name: 'ロー着(Co-Cr)', price: '2,500/１箇所' },
-        { name: '３次元有床プリント義歯', price: '28,000' },
       ]
     },
 
