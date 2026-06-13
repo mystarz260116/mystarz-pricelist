@@ -104,7 +104,6 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: '完成 9~11歯 (レジン/熱可塑)', price: '6,600 / 6,840' },
         { name: '完成 12~14歯 (レジン/熱可塑)', price: '9,000 / 9,600' },
         { name: '完成 総義歯 (レジン/熱可塑)', price: '11,600 / 15,000' },
-        { name: '３次元有床プリント義歯', price: '28,000' },
       ]
     },
     {
@@ -131,6 +130,7 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: 'スリープスプリント（プレス）', price: '14,000' },
         { name: 'スリープスプリント（レジン）', price: '21,000' },
         { name: 'ロー着(Co-Cr)', price: '2,500/１箇所' },
+        { name: '３次元有床プリント義歯', price: '28,000' },
       ]
     },
 
