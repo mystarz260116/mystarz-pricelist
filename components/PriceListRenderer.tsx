@@ -237,7 +237,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
             <div className="border-2 border-[#1e40af] p-3 bg-white text-[10px] rounded-b shadow-inner">
                <div className="flex flex-row gap-8">
                   <div className="w-1/2 space-y-0.5">
-                     {filteredHokenOptions.slice(0, 7).map((item, idx) => (
+                     {filteredHokenOptions.slice(0, Math.ceil(filteredHokenOptions.length / 2)).map((item, idx) => (
                        <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-0.5">
                          <span className="text-gray-800 truncate pr-2">{sanitizeName(item.name)}</span>
                          <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
@@ -245,7 +245,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
                      ))}
                   </div>
                   <div className="w-1/2 space-y-0.5">
-                     {filteredHokenOptions.slice(7, 14).map((item, idx) => (
+                     {filteredHokenOptions.slice(Math.ceil(filteredHokenOptions.length / 2)).map((item, idx) => (
                        <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-0.5">
                          <span className="text-gray-800 truncate pr-2">{sanitizeName(item.name)}</span>
                          <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
