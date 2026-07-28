@@ -290,24 +290,47 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
 
           <div className="mb-3">
             <div className="bg-[#ea580c] text-white px-4 py-1 text-[12px] font-black rounded-t">{privateGishiNonclasp?.title}</div>
-            <div className="flex flex-row gap-3 border-[2px] border-[#ea580c] bg-white px-3 py-2 rounded-b shadow-sm">
-              <div className="w-1/2">
-                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30 font-sans">エステショット / バイオプラスト</div>
-                {privateGishiNonclasp?.items.slice(0, 6).map((item, i) => (
-                  <div key={i} className="flex justify-between px-1 py-0.5 text-[10px] font-bold border-b border-[#fff7ed] last:border-0">
-                    <span>{sanitizeName(item.name)}</span>
-                    <span className="text-orange-900">¥{item.price}</span>
-                  </div>
-                ))}
+            <div className="flex flex-col gap-2 border-[2px] border-[#ea580c] bg-white px-3 py-2 rounded-b shadow-sm">
+              <div className="flex flex-row gap-3">
+                <div className="w-1/2">
+                  <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30 font-sans">エステショット / バイオプラスト</div>
+                  {privateGishiNonclasp?.items.slice(0, 6).map((item, i) => (
+                    <div key={i} className="flex justify-between px-1 py-0.5 text-[10px] font-bold border-b border-[#fff7ed] last:border-0">
+                      <span>{sanitizeName(item.name)}</span>
+                      <span className="text-orange-900">¥{item.price}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="w-1/2 border-l-2 border-orange-50 pl-3">
+                  <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30 font-sans">TUM</div>
+                  {privateGishiNonclasp?.items.slice(6, 12).map((item, i) => (
+                    <div key={i} className="flex justify-between px-1 py-0.5 text-[10px] font-bold border-b border-[#fff7ed] last:border-0">
+                      <span>{sanitizeName(item.name)}</span>
+                      <span className="text-orange-900">¥{item.price}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="w-1/2 border-l-2 border-orange-50 pl-3">
-                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30 font-sans">TUM</div>
-                {privateGishiNonclasp?.items.slice(6, 12).map((item, i) => (
-                  <div key={i} className="flex justify-between px-1 py-0.5 text-[10px] font-bold border-b border-[#fff7ed] last:border-0">
-                    <span>{sanitizeName(item.name)}</span>
-                    <span className="text-orange-900">¥{item.price}</span>
+              <div className="border-t border-orange-100 pt-1">
+                <div className="text-[9px] font-black text-orange-800 border-b border-orange-100 mb-1 px-1 bg-orange-50/30 font-sans">アルティメットデンチャー</div>
+                <div className="flex flex-row gap-3">
+                  <div className="w-1/2">
+                    {privateGishiNonclasp?.items.slice(12, 17).map((item, i) => (
+                      <div key={i} className="flex justify-between px-1 py-0.5 text-[10px] font-bold border-b border-[#fff7ed] last:border-0">
+                        <span>{sanitizeName(item.name)}</span>
+                        <span className="text-orange-900">¥{item.price}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                  <div className="w-1/2 border-l-2 border-orange-50 pl-3">
+                    {privateGishiNonclasp?.items.slice(17, 19).map((item, i) => (
+                      <div key={i} className="flex justify-between px-1 py-0.5 text-[10px] font-bold border-b border-[#fff7ed] last:border-0">
+                        <span>{sanitizeName(item.name)}</span>
+                        <span className="text-orange-900">¥{item.price}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -290,6 +290,13 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: '【TUM】 2類床材料費', price: '4,000' },
         { name: '【TUM】 3類完成', price: '35,000' },
         { name: '【TUM】 3類床材料費', price: '5,000' },
+        { name: 'アルティメットD1〜3完成(片側)', price: '36,000' },
+        { name: 'アルティメットD1〜3完成', price: '38,000' },
+        { name: 'アルティメットD4〜7完成', price: '39,000' },
+        { name: 'アルティメットD8〜13完成', price: '40,000' },
+        { name: 'アルティメットD総義歯完成', price: '43,000' },
+        { name: 'クリアアーム(1箇所)', price: '3,500' },
+        { name: 'ジルコニアレスト', price: '7,500' },
       ]
     },
     {
