@@ -35,8 +35,10 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: 'HRポンティック', price: '5,600' },
         { name: 'レジン前装金属ポンティック（小臼歯）', price: '3,800' },
         { name: 'レジン前装金属ポンティック（大臼歯）', price: '3,800' },
+        { name: 'レジン前装加算(1歯)', price: '2,000' },
         { name: 'HJC（前歯／臼歯）', price: '4,500' },
         { name: 'チタンクラウン', price: '7,500' },
+        { name: 'チタンブリッジ基本料', price: '21,000' },
         { name: 'TEK', price: '1,000' },
         { name: 'ファイバーポスト', price: '4,000' },
         { name: 'ポスト追加', price: '890' },
@@ -56,6 +58,8 @@ export const INITIAL_PRICE_DATA: PriceListData = {
         { name: 'CAD/CAMインレー(Ⅰ)', price: '5,700' },
         { name: 'CAD/CAMインレー(Ⅱ)', price: '6,600' },
         { name: 'CAD/CAMインレー(Ⅲ)', price: '7,700' },
+        { name: 'CAD/CAMブリッジ', price: '21,000' },
+        { name: 'CAD/CAM材料（YAMAKIN）シンボー(SHIN-BOW)', price: '11,700' },
       ]
     },
     {
