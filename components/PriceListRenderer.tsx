@@ -177,15 +177,11 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
           <div className="flex flex-row gap-5 mb-3">
             <div className="w-1/2">
               <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">保険冠</div>
-              <div className="flex border-2 border-[#1e40af] bg-white rounded-b overflow-hidden">
-                {[hokenCrowns?.items.slice(0, Math.ceil((hokenCrowns?.items.length || 0) / 2)) || [], hokenCrowns?.items.slice(Math.ceil((hokenCrowns?.items.length || 0) / 2)) || []].map((col, colIdx) => (
-                  <div key={colIdx} className={`w-1/2 ${colIdx === 0 ? 'border-r border-[#1e40af]/30' : ''}`}>
-                    {col.map((item, idx) => (
-                      <div key={idx} className="flex justify-between gap-1 px-2 py-0.5 text-[9.3px] border-b border-[#eff6ff] last:border-0 font-bold leading-tight">
-                        <span className="text-gray-800">{sanitizeName(item.name)}</span>
-                        <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
-                      </div>
-                    ))}
+              <div className="border-2 border-[#1e40af] bg-white rounded-b overflow-hidden">
+                {hokenCrowns?.items.map((item, idx) => (
+                  <div key={idx} className={`flex justify-between px-3 py-px text-[10.2px] font-bold leading-tight ${idx % 2 === 0 ? 'bg-white' : 'bg-[#eff6ff]'}`}>
+                    <span className="text-gray-800 truncate">{sanitizeName(item.name)}</span>
+                    <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
                   </div>
                 ))}
               </div>
@@ -258,19 +254,19 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
           </div>
           <div className="mb-0">
             <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">義歯オプション・修理等</div>
-            <div className="border-2 border-[#1e40af] p-3 bg-white text-[10px] rounded-b shadow-inner">
+            <div className="border-2 border-[#1e40af] p-2 bg-white text-[10px] rounded-b shadow-inner">
                <div className="flex flex-row gap-8">
-                  <div className="w-1/2 space-y-0.5">
+                  <div className="w-1/2">
                      {filteredHokenOptions.slice(0, Math.ceil(filteredHokenOptions.length / 2)).map((item, idx) => (
-                       <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-0.5">
+                       <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-px">
                          <span className="text-gray-800 truncate pr-2">{sanitizeName(item.name)}</span>
                          <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
                        </div>
                      ))}
                   </div>
-                  <div className="w-1/2 space-y-0.5">
+                  <div className="w-1/2">
                      {filteredHokenOptions.slice(Math.ceil(filteredHokenOptions.length / 2)).map((item, idx) => (
-                       <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-0.5">
+                       <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-px">
                          <span className="text-gray-800 truncate pr-2">{sanitizeName(item.name)}</span>
                          <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
                        </div>
