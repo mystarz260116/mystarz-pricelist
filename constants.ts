@@ -155,20 +155,18 @@ export const INITIAL_PRICE_DATA: PriceListData = {
       color: 'green',
       items: [
         { name: 'KATANA', price: '18,000' },
+        { name: 'KATANA キャラクタライズ', price: '21,000' },
         { name: 'KATANA（レイヤリング）', price: '25,000' },
+        { name: 'KATANA（レイヤリング） キャラクタライズ', price: '30,000' },
         { name: 'KATANA　インレー', price: '15,000' },
         { name: 'サクラ ストローマン', price: '18,000' },
+        { name: 'サクラ ストローマン キャラクタライズ', price: '21,000' },
         { name: 'サクラ ストローマン（レイヤリング）', price: '25,000' },
-        { name: 'キャラクタライズ', price: '15,000' },
-        { name: 'キャラクタライズ（レイヤリング）', price: '22,000' },
-        { name: 'キャラクタライズ　インレー', price: '15,000' },
-        { name: 'ジルコンライト', price: '15,000' },
-        { name: 'ジルコンライト（レイヤリング）', price: '22,000' },
+        { name: 'サクラ ストローマン（レイヤリング） キャラクタライズ', price: '30,000' },
+        { name: 'ジルコンライト', price: '8,000' },
         { name: 'ジルコンライト　インレー', price: '15,000' },
-        { name: 'ジルアドバンスド', price: '15,000' },
-        { name: 'ジルアドバンスド（レイヤリング）', price: '22,000' },
+        { name: 'ジルアドバンスド', price: '12,000' },
         { name: 'ジルアドバンスド　インレー', price: '15,000' },
-
       ]
     },
     {
