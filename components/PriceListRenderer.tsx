@@ -56,9 +56,9 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
     if (!category) return null;
 
     const renderRows = (items: PriceCategory['items']) => items.map((item, idx) => (
-      <div key={idx} className={`flex justify-between px-3 py-1 border-b border-[#f0fdf4] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#f0fdf4]'}`}>
-        <span className="flex-1 font-bold text-gray-800 truncate text-[11.2px] leading-tight">{sanitizeName(item.name)}</span>
-        <span className="w-28 text-right font-black text-[#064e3b] whitespace-nowrap text-[11.2px] leading-tight">¥ {item.price}</span>
+      <div key={idx} className={`flex justify-between items-center gap-1 px-3 py-1 border-b border-[#f0fdf4] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#f0fdf4]'}`}>
+        <span className="flex-1 font-bold text-gray-800 text-[11.2px] leading-tight">{sanitizeName(item.name)}</span>
+        <span className="w-28 flex-shrink-0 text-right font-black text-[#064e3b] whitespace-nowrap text-[11.2px] leading-tight">¥ {item.price}</span>
       </div>
     ));
 
