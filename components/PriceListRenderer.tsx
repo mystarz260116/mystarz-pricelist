@@ -52,20 +52,40 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
     return result;
   };
 
-  const CompactTable = ({ category, className = "" }: { category?: PriceCategory, className?: string }) => {
+  const CompactTable = ({ category, className = "", columns = 1 }: { category?: PriceCategory, className?: string, columns?: 1 | 2 }) => {
     if (!category) return null;
+
+    const renderRows = (items: PriceCategory['items']) => items.map((item, idx) => (
+      <div key={idx} className={`flex justify-between items-center gap-1 px-3 py-1 border-b border-[#f0fdf4] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#f0fdf4]'}`}>
+        <span className="flex-1 font-bold text-gray-800 text-[11.2px] leading-tight">{sanitizeName(item.name)}</span>
+        <span className="w-28 flex-shrink-0 text-right font-black text-[#064e3b] whitespace-nowrap text-[11.2px] leading-tight">¥ {item.price}</span>
+      </div>
+    ));
+
+    if (columns === 2) {
+      const half = Math.ceil(category.items.length / 2);
+      const col1 = category.items.slice(0, half);
+      const col2 = category.items.slice(half);
+      return (
+        <div className={`mb-3 ${className}`}>
+          <div className="bg-[#047857] text-white px-3 py-1 text-[13px] font-black rounded-t shadow-sm flex justify-between items-center">
+            {renderHeaderWithRedNote(category.title)}
+          </div>
+          <div className="flex border-[2px] border-[#047857] bg-white overflow-hidden rounded-b shadow-sm">
+            <div className="w-1/2 border-r border-[#047857]/30">{renderRows(col1)}</div>
+            <div className="w-1/2">{renderRows(col2)}</div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className={`mb-3 ${className}`}>
         <div className="bg-[#047857] text-white px-3 py-1 text-[13px] font-black rounded-t shadow-sm flex justify-between items-center">
           {renderHeaderWithRedNote(category.title)}
         </div>
         <div className="border-[2px] border-[#047857] bg-white overflow-hidden rounded-b shadow-sm">
-          {category.items.map((item, idx) => (
-            <div key={idx} className={`flex justify-between px-3 py-1 border-b border-[#f0fdf4] last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#f0fdf4]'}`}>
-              <span className="flex-1 font-bold text-gray-800 truncate text-[11.2px] leading-tight">{sanitizeName(item.name)}</span>
-              <span className="w-32 text-right font-black text-[#064e3b] whitespace-nowrap text-[11.2px] leading-tight">¥ {item.price}</span>
-            </div>
-          ))}
+          {renderRows(category.items)}
         </div>
       </div>
     );
@@ -159,7 +179,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
               <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">保険冠</div>
               <div className="border-2 border-[#1e40af] bg-white rounded-b overflow-hidden">
                 {hokenCrowns?.items.map((item, idx) => (
-                  <div key={idx} className="flex justify-between px-3 py-0.5 text-[10.2px] border-b border-[#eff6ff] last:border-0 font-bold leading-tight">
+                  <div key={idx} className={`flex justify-between px-3 py-px text-[10.2px] font-bold leading-tight ${idx % 2 === 0 ? 'bg-white' : 'bg-[#eff6ff]'}`}>
                     <span className="text-gray-800 truncate">{sanitizeName(item.name)}</span>
                     <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
                   </div>
@@ -234,19 +254,19 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
           </div>
           <div className="mb-0">
             <div className="bg-[#1e40af] text-white px-3 py-1 text-[13px] font-black mb-0.5 rounded-t shadow">義歯オプション・修理等</div>
-            <div className="border-2 border-[#1e40af] p-3 bg-white text-[10px] rounded-b shadow-inner">
+            <div className="border-2 border-[#1e40af] p-2 bg-white text-[10px] rounded-b shadow-inner">
                <div className="flex flex-row gap-8">
-                  <div className="w-1/2 space-y-0.5">
+                  <div className="w-1/2">
                      {filteredHokenOptions.slice(0, Math.ceil(filteredHokenOptions.length / 2)).map((item, idx) => (
-                       <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-0.5">
+                       <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-px">
                          <span className="text-gray-800 truncate pr-2">{sanitizeName(item.name)}</span>
                          <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
                        </div>
                      ))}
                   </div>
-                  <div className="w-1/2 space-y-0.5">
+                  <div className="w-1/2">
                      {filteredHokenOptions.slice(Math.ceil(filteredHokenOptions.length / 2)).map((item, idx) => (
-                       <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-0.5">
+                       <div key={idx} className="flex justify-between border-b border-[#eff6ff] font-bold py-px">
                          <span className="text-gray-800 truncate pr-2">{sanitizeName(item.name)}</span>
                          <span className="font-black text-blue-900 whitespace-nowrap">¥{item.price}</span>
                        </div>
@@ -423,7 +443,7 @@ const PriceListRenderer: React.FC<Props> = ({ data }) => {
         <div className="a4-page p-10 flex flex-col text-gray-800 h-full">
           <h2 className="text-[#065f46] border-b-[4px] border-[#065f46] mb-6 font-black text-2xl italic tracking-[0.2em] pb-2 uppercase">自費歯冠修復 料金一覧</h2>
           <div className="flex flex-col flex-1">
-            <CompactTable category={zirconia} />
+            <CompactTable category={zirconia} columns={2} />
             <CompactTable category={emax} />
             <CompactTable category={mb} />
             <div className="flex gap-8">
